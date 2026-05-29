@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package "main" <<folder>> {
+    class "main"{
+        - belum ada
+    }
+}
+
+'Legenda
+legend bottom center
+      <b>Legend Visibilitas:</b>
+      <color:red>🟥</color>  <b> - </b>  Private
+      <color:blue>🔷</color>  <b> ~ </b>  Package Private
+      <color:orange>🔶</color>  <b> # </b>  Protected
+      <color:green>🟢</color>  <b> + </b>  Public
+endlegend
+
+@enduml

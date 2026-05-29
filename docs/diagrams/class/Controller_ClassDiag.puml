@@ -1,0 +1,93 @@
+@startuml
+
+package "ekspedisi" <<Folder>> {
+    package "controller" <<Folder>>  {
+        class LoginController {
+            - static final Logger log
+            - view : LoginView
+            - userDAO : UserDAO
+            + initController() : void
+            - handleLoginEvent() : void
+            - routeByRole(role : String) : void
+        }
+
+        class LoketController {
+            - static final Logger log
+            - view : InputPaketView
+            - packageDAO : PaketDAO
+            + initController() : void
+            - handleSavePaketEvent() : void
+            - calculateShippingCost() : double
+        }
+
+        class GudangController {
+            - static final Logger log
+            - view : GudangDashboardView
+            - trackingDAO : TrackingDAO
+            + initController() : void
+            - handleManifestCreation() : void
+            - handleMassTransitUpdate() : void
+        }
+
+        class KurirController {
+            - static final Logger log
+            - view : KurirAppView
+            - trackingDAO : TrackingDAO
+            + initController() : void
+            - handleDeliveryUpdate(resiId: String, status: String) : void
+        }
+
+        class ClientController {
+            - static final Logger log
+            - view : TrackingResultView
+            - trackingDAO : TrackingDAO
+            + initController() : void
+            - handleSearchResi() : void
+        }
+    }
+
+    package "model.dao" <<Folder>> {
+        class UserDAO
+        class PaketDAO
+        class TrackingDAO
+    }
+
+    package "view" <<Folder>> {
+        class LoginView
+        class InputPaketView
+        class GudangDashboardView
+        class KurirAppView
+        class TrackingResultView
+    }
+}
+
+' Relasi Login (Sang Gerbang Utama)
+LoginController --> LoginView : <<updates>>
+LoginController --> UserDAO : <<executes>>
+
+' Relasi Loket
+LoketController --> InputPaketView : <<updates>>
+LoketController --> PaketDAO : <<executes>>
+
+' Relasi Gudang
+GudangController --> GudangDashboardView : <<updates>>
+GudangController --> TrackingDAO : <<executes>>
+
+' Relasi Kurir
+KurirController --> KurirAppView : <<updates>>
+KurirController --> TrackingDAO : <<executes>>
+
+' Relasi Client (Read-Only)
+ClientController --> TrackingResultView : <<updates>>
+ClientController --> TrackingDAO : <<read-only>>
+
+'Legenda
+legend bottom center
+      <b>Legend Visibilitas:</b>
+      <color:red>🟥</color>  <b> - </b>  Private
+      <color:blue>🔷</color>  <b> ~ </b>  Package Private
+      <color:orange>🔶</color>  <b> # </b>  Protected
+      <color:green>🟢</color>  <b> + </b>  Public
+endlegend
+
+@enduml

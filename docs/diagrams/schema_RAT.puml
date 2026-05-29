@@ -1,0 +1,35 @@
+@startuml
+
+' Definisi Tabel
+entity "users" as users {
+  * user_id : varchar (PK)
+  --
+  * username : varchar
+  * password_hash : varchar
+  * role : enum('admin', 'kurir', 'gudang', 'loket')
+}
+
+entity "paket" as paket {
+  * resi_id : varchar (PK)
+  --
+  * sender_name : varchar
+  * receiver_name : varchar
+  * weight : decimal
+  * volume : decimal
+}
+
+entity "tracking_logs" as logs {
+  * log_id : int (PK)
+  --
+  * resi_id : varchar (FK)
+  * courier_id : varchar (FK)
+  * status : varchar
+  * location : varchar
+  * timestamp : datetime
+}
+
+' Relasi
+paket ||--o{ logs : "1 paket punya banyak log >"
+users ||--o{ logs : "1 user input banyak log >"
+
+@enduml

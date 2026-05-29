@@ -1,0 +1,86 @@
+@startuml
+
+package "ekspedisi.model" <<Folder>> {
+
+    package "entity" <<Folder>> {
+        class User {
+            - id : String
+            - username : String
+            - passwordHash : String
+            - role : String
+            + getId() : String
+            + getRole() : String
+        }
+
+        class Paket {
+            - resiId : String
+            - senderName : String
+            - receiverName : String
+            - weight : double
+            - typePaket : String
+            + calculateVolumetricWeight() : double
+        }
+
+        class ShipmentLog {
+            - logId : int
+            - resiId : String
+            - location : String
+            - status : String
+            - timestamp : LocalDateTime
+            - courierId : String
+        }
+    }
+
+    package "dao" <<Folder>> {
+        class DatabaseConfig {
+            - url : String
+            - username : String
+            - password : String
+            + getConnection() : Connection
+            note : Load dari application.yml & .env\nKoneksi murni MySQL Port 3306
+        }
+
+        class PaketDAO {
+            - conn : Connection
+            + insertPaket(pkg : Paket) : boolean
+            + updateStatus(resiId : String, status : String) : boolean
+            + getPaketByResi(resiId : String) : Paket
+        }
+
+        class TrackingDAO {
+            - conn : Connection
+            + insertLog(log : ShipmentLog) : boolean
+            + getHistoryByResi(resiId : String) : List<ShipmentLog>
+        }
+
+        class UserDAO {
+            - conn : Connection
+            + authenticate(username : String, pass : String) : User
+            + getRoleById(id : String) : String
+        }
+    }
+}
+
+' Relasi Database Config ke DAO (depedency)
+DatabaseConfig <.. PaketDAO : <<uses>>
+DatabaseConfig <.. TrackingDAO : <<uses>>
+DatabaseConfig <.. UserDAO : <<uses>>
+
+' Relasi DAO ke Entity (dependency)
+PaketDAO ..> Paket : <<manage>>
+TrackingDAO ..> ShipmentLog : <<manage>>
+UserDAO ..> User : <<manage>>
+
+' Relasi antar Entity (Komposisi)
+Paket "1" *-- "0..*" ShipmentLog : memiliki riwayat log >
+
+'Legenda
+legend bottom center
+      <b>Legend Visibilitas:</b>
+      <color:red>🟥</color>  <b> - </b>  Private
+      <color:blue>🔷</color>  <b> ~ </b>  Package Private
+      <color:orange>🔶</color>  <b> # </b>  Protected
+      <color:green>🟢</color>  <b> + </b>  Public
+endlegend
+
+@enduml
