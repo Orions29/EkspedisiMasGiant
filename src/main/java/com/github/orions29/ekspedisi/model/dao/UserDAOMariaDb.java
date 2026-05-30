@@ -91,7 +91,6 @@ public class UserDAOMariaDb implements UserDAO {
 
     @Override
     public boolean insertUser(User user) {
-        // 🛠️ FIX: Tambahkan location di INSERT (5 parameter)
         String sql = "INSERT INTO users (id, username, password_hash, role, location) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();

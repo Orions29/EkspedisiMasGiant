@@ -1,8 +1,9 @@
 package com.github.orions29.ekspedisi.utils;
 
-import com.github.orions29.ekspedisi.model.dao.UserDAO;
-import com.github.orions29.ekspedisi.model.dao.UserDAOMariaDb;
-import com.github.orions29.ekspedisi.model.entity.User;
+import com.github.orions29.ekspedisi.model.dao.*;
+import com.github.orions29.ekspedisi.model.entity.*;
+
+import java.util.List;
 
 /**
  * Project: EkspedisiMasGiant
@@ -20,32 +21,68 @@ import com.github.orions29.ekspedisi.model.entity.User;
  * <hr>
  *
  * @author Orions29
- * @since 1.0
+ * @since 1.1
  */
 public class DAOtester {
-    public static void main() {
+    public static void main(String[] args) {
         System.out.println("\n==>> TEST DAO <<==\n");
 
-//Testing UserDAO
-
-        System.out.println(">> Test USER DAO <<");
         UserDAO userDao = new UserDAOMariaDb();
+        PaketDAO paketDao = new PaketDAOMariaDb();
+        TrackingDAO trackingDao = new TrackingDAOMariaDb();
+
+//        Testing UserDAO
+        System.out.println(">> TEST 1: USER DAO <<");
 
 //        Akses DAO User
-        System.out.println(">> TEST 1: Tarik Data Berdasarkan ID");
-        User testUser1 = userDao.getUserById("G-2001");
-        System.out.println("Hasil (Harus Budi Gudang) : " + testUser1);
-
-        User testUser2 = userDao.getUserById("X-9999");
-        System.out.println("Hasil (Harus null)        : " + testUser2);
-        System.out.println(">>");
+        System.out.println("Tarik User (G-2001) : " + userDao.getUserById("G-2001"));
 
 //        Auth User
-        System.out.println(">> TEST 2: Tes Gerbang Autentikasi");
-        System.out.println("Hasil Login (Harus null)  : " + userDao.authenticate("loket_rani", "password_salah_nih"));
-        System.out.println("Hasil Login (Correcto)  : " + userDao.authenticate("kurir_anto", "bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca3"));
+        System.out.println("Auth Gagal          : " + userDao.authenticate("loket_rani", "salah_password"));
+        System.out.println("Auth Sukses         : " + userDao.authenticate("kurir_anto", "bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca3"));
+
+//        Insert & Update User
+        String dummyUserId = GeneratorId.generateUserId("kurir");
+        User userBaru = new User(dummyUserId, "kurir_tester", "dummyhash123", "kurir", "Mobile");
+        boolean isUserInserted = userDao.insertUser(userBaru);
+        System.out.println("Insert User Baru    : " + isUserInserted);
+
+        if (isUserInserted) {
+            userBaru.setLocation("Gudang Pusat Jakarta");
+            userBaru.setRole("gudang");
+            System.out.println("Update User         : " + userDao.updateUser(userBaru));
+            System.out.println("Cek Hasil Update    : " + userDao.getUserById(dummyUserId));
+        }
         System.out.println(">>\n");
 
+//        Testing PaketDAO
+        System.out.println(">> TEST 2: PAKET DAO <<");
+        String dummyResi = GeneratorId.generateResi();
+        Paket paketBaru = new Paket(dummyResi, "Bapak A", "Yogyakarta", "Ibu B", "Jakarta", "Jl. Sudirman 1", 2.5, 1000.0, "Reguler");
+
+//        Akses DAO Paket
+        boolean isPaketInserted = paketDao.insertPaket(paketBaru);
+        System.out.println("Insert Resi Baru    : " + isPaketInserted);
+        System.out.println("Tarik Data Paket    : " + paketDao.getPaketByResi(dummyResi));
+        System.out.println(">>\n");
+
+//        Testing TrackingDAO
+        System.out.println(">> TEST 3: TRACKING DAO <<");
+        if (isPaketInserted) {
+            trackingDao.insertLog(new ShipmentLog(dummyResi, "Loket Pusat Godean", "Diterima di Loket", "L-1001"));
+            trackingDao.insertLog(new ShipmentLog(dummyResi, "Gudang Sortir Godean", "Sedang Disortir", "G-2001"));
+
+//        Akses DAO Tracking
+            List<ShipmentLog> riwayat = trackingDao.getShipmentLogByResi(dummyResi);
+            System.out.println("Total Riwayat Ditemukan : " + riwayat.size());
+
+            for (ShipmentLog jejak : riwayat) {
+                System.out.println(" -> [" + jejak.getTimestamp() + "] " + jejak.getStatus() + " @ " + jejak.getLocation());
+            }
+        } else {
+            System.out.println("X FASE 3 DILEWATI: Gagal insert paket ke database.");
+        }
+        System.out.println(">>\n");
 
         System.out.println(">> Test DAO Selesai");
     }

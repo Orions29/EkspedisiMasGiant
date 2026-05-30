@@ -1,5 +1,6 @@
 package com.github.orions29.ekspedisi;
 
+import com.github.orions29.ekspedisi.utils.DAOtester;
 import com.github.orions29.ekspedisi.utils.ProjectInit;
 import com.github.orions29.ekspedisi.views.GudangViews;
 import com.github.orions29.ekspedisi.views.KurirViews;
@@ -33,10 +34,10 @@ public class Main {
         Logger logger = LoggerFactory.getLogger(Main.class);
 //        logger.info("Dummy Info Test");
 //        logger.error("Dummy Error Test");
-//        ProjectInit.projectCheck();
+        ProjectInit.projectCheck();
 
 //        Ngetest DAO
-//        DAOtester.main();
+        DAOtester.main(args);
 
 //        Buat UI
 //        LoginView.main(args);

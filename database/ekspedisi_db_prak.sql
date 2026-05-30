@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Bulan Mei 2026 pada 03.52
+-- Waktu pembuatan: 30 Bulan Mei 2026 pada 14.49
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.4.14
 
@@ -66,8 +66,20 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
   `role` enum('admin','kurir','gudang','loket') NOT NULL,
+  `location` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password_hash`, `role`, `location`, `created_at`) VALUES
+('G-2001', 'gudang_budi', 'bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca2', 'gudang', 'Gudang Sortir Godean', '2026-05-30 04:58:18'),
+('K-3001', 'kurir_anto', 'bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca3', 'kurir', NULL, '2026-05-30 04:58:18'),
+('K-3002', 'kurir_siti', 'bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca2', 'kurir', NULL, '2026-05-30 04:58:18'),
+('K-C9CD', 'kurir_tester', 'dummyhash123', 'gudang', 'Gudang Pusat Jakarta', '2026-05-30 14:48:41'),
+('L-1001', 'loket_rani', 'bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca2', 'loket', 'Loket Pusat Godean', '2026-05-30 04:58:18');
 
 --
 -- Indexes for dumped tables

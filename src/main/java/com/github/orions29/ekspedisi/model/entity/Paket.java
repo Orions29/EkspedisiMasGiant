@@ -48,6 +48,21 @@ public class Paket {
         this.createdAt = createdAt;
     }
 
+    public Paket(String resiId, String senderName, String originCity, String receiverName,
+                 String destinationCity, String destinationAddress, double weight,
+                 double volume, String typePaket) {
+        this.resiId = resiId;
+        this.senderName = senderName;
+        this.originCity = originCity;
+        this.receiverName = receiverName;
+        this.destinationCity = destinationCity;
+        this.destinationAddress = destinationAddress;
+        this.weight = weight;
+        this.volume = volume;
+        this.typePaket = typePaket;
+        // createdAt dibiarkan null karena nanti diisi otomatis oleh MariaDB
+    }
+
     public String getResiId() {
         return resiId;
     }
