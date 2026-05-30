@@ -53,7 +53,7 @@ public class ProjectInit {
 //            System.err.println(e.getMessage());
             isDbConnected = false;
         }
-        System.out.println(isDbConnected ? "DB  : PASS" : "DB  : FAILED");
+        System.out.println(isDbConnected ? "DB CONN  : PASS" : "DB CONN  : FAILED");
 
 //      TODO - Database Integrity (Kelengkapan Table)
         boolean isDbGood = false;
