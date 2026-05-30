@@ -23,15 +23,25 @@ public class User {
     private String username;
     private String passwordHash;
     private String role;
+    private String location;
 
     public User() {
     }
 
-    public User(String id, String username, String passwordHash, String role) {
+    public User(String id, String username, String passwordHash, String role, String location) {
         this.id = id;
         this.username = username;
         this.passwordHash = passwordHash;
         this.role = role;
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getId() {
@@ -68,6 +78,7 @@ public class User {
 
     /**
      * Biar gampang di debug
+     *
      * @return
      */
     @Override
@@ -76,6 +87,7 @@ public class User {
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", role='" + role + '\'' +
+                ", location='" + (location != null ? location : "Mobile/Kurir") + '\'' +
                 '}';
     }
 }
