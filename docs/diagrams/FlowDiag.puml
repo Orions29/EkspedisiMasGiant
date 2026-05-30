@@ -1,0 +1,71 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+|System Init|
+start
+:Jalankan ProjectInit.projectCheck();
+if (ENV & DB Terkoneksi?) then (Gagal)
+  :Log Fatal Error;
+  :System.exit(1);
+  stop
+else (Josjis ini / sakses)
+endif
+
+|Auth Layer|
+:Buka LoginView;
+repeat
+  :Input Username & Password;
+  :LoginController memanggil UserDAO;
+repeat while (Kredensial Valid?) is (Tidak valid)
+-> Valid;
+
+:Cek Role User;
+if (Role?) then (loket)
+
+  |Loket|
+  :Buka InputPaketView;
+  :Input Data Paket & Alamat (Origin dan Destination);
+  :PaketDAO.insertPaket();
+  :TrackingDAO.insertLog() (Status: Diterima Loket);
+  :Cetak Resi Fisik;
+
+else if (gudang)
+
+  |Gudang|
+  :Buka GudangDashboardView;
+  :Scan Barcode Resi / Pilih Data;
+  :Pilih Status (Transit/Disortir);
+  :TrackingDAO.insertLog(userId Gudang);
+  :Perbarui Tampilan Manifest;
+
+else if (kurir)
+
+  |Kurir|
+  :Buka KurirAppView;
+  :Lihat Daftar Paket Bawaan;
+  :Update Status (Terkirim / Gagal Alamat);
+  :TrackingDAO.insertLog(userId Kurir);
+
+endif
+
+|System Init|
+stop
+
+' --- ALUR TERPISAH UNTUK CLIENT ---
+
+|Client (Pelanggan)|
+start
+:Buka TrackingResultView;
+note right: Tidak butuh Login!\nAkses Read-Only
+:Input Nomor Resi;
+if (Resi Ditemukan?) then (Ya)
+  :TrackingDAO.getHistoryByResi();
+  :Render Timeline Perjalanan Paket;
+else (Tidak)
+  :Tampilkan "Resi Tidak Valid";
+endif
+stop
+
+@enduml

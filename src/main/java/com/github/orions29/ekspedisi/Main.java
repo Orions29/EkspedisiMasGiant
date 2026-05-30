@@ -1,6 +1,9 @@
 package com.github.orions29.ekspedisi;
 
 import com.github.orions29.ekspedisi.model.DatabaseConfig;
+import com.github.orions29.ekspedisi.model.dao.UserDAO;
+import com.github.orions29.ekspedisi.model.dao.UserDAOMariaDb;
+import com.github.orions29.ekspedisi.utils.DAOtester;
 import com.github.orions29.ekspedisi.utils.ProjectInit;
 
 import org.slf4j.Logger;
@@ -30,8 +33,9 @@ public class Main {
         Logger logger = LoggerFactory.getLogger(Main.class);
 //        logger.info("Dummy Info Test");
 //        logger.error("Dummy Error Test");
-        System.out.println("Erlan, Roi, dan Giant Membuat Sebuah Ekspedisi Yang Paling Well");
         ProjectInit.projectCheck();
+
+        DAOtester.main();
 
     }
 }

@@ -2,27 +2,31 @@
 
 ' Definisi Tabel
 entity "users" as users {
-  * user_id : varchar (PK)
+  * id : varchar (PK)
   --
   * username : varchar
   * password_hash : varchar
-  * role : enum('admin', 'kurir', 'gudang', 'loket')
+  * role : enum('kurir', 'gudang', 'loket')
 }
 
 entity "paket" as paket {
   * resi_id : varchar (PK)
   --
   * sender_name : varchar
+  * origin_city : varchar
   * receiver_name : varchar
-  * weight : decimal
-  * volume : decimal
+  * destination_city : varchar
+  * destination_address : text
+  * weight : decimal(8,2)
+  * volume : decimal(8,2)
+  * type_paket : varchar
 }
 
 entity "tracking_logs" as logs {
   * log_id : int (PK)
   --
   * resi_id : varchar (FK)
-  * courier_id : varchar (FK)
+  * user_id : varchar (FK)
   * status : varchar
   * location : varchar
   * timestamp : datetime
