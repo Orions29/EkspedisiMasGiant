@@ -14,7 +14,6 @@ import java.sql.SQLException;
  * Package: com.github.orions29.ekspedisi.model
  * <p>
  * Konfigurasi koneksi database MariaDB dengan pola Singleton murni
- * untuk performa bare-metal.
  * </p>
  *
  * <hr>
@@ -29,6 +28,7 @@ import java.sql.SQLException;
  * @since 1.0
  */
 public class DatabaseConfig {
+    //    Logger
     private static final Logger logger = LoggerFactory.getLogger(DatabaseConfig.class);
 
     private static Connection conn;
@@ -41,34 +41,83 @@ public class DatabaseConfig {
 
     private static final String DB_URL = "jdbc:mariadb://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
 
-    public static Connection getConnection() throws RuntimeException {
+    //    biar gaada yang ngenew
+    private DatabaseConfig() {
+    }
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                    logger.info("Database connection closed safely via JVM Shutdown Hook");
+                }
+            } catch (SQLException e) {
+                logger.warn("[WARN] - Error closing database connection during shutdown", e);
+            }
+        }));
+    }
+
+    /**
+     *
+     * <h3>Membuat Koneksi SQL</h3>
+     * <p> Membuat Koneksi ke Database MariaDB dengan safe net </p>
+     *
+     * @return {@link Connection} - Ngembaliin Objek Koneksi
+     * @throws RuntimeException Kalau misal something wong maka langsung ngeluarin sesuatu
+     * @author Orions29
+     * @since 30 May 2026
+     *
+     */
+    public static synchronized Connection getConnection() throws RuntimeException {
         try {
             if (conn == null || conn.isClosed()) {
                 conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-                logger.info("Database Connection Josjis");
+//                logger.info("Database Connection Josjis");
             }
         } catch (SQLException e) {
-            logger.error("DB Connection Failed: {}", e.getMessage());
-
-            throw new RuntimeException("Error saat membuka koneksi database", e);
+            logger.error("[FATAL ERROR] - DB Connection Failed: {}", e.getMessage());
+//            Ngethrow Error Fatal Ke Terminal
+            throw new RuntimeException("[FATAL ERROR] - Error saat membuka koneksi database", e);
         }
         return conn;
     }
 
-    public static boolean testConnection() {
-        try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
-            return c != null && !c.isClosed();
-        } catch (SQLException e) {
-            return false;
-        }
-    }
-
-
+    /**
+     *
+     * <h3>Cek Koneksi Database</h3>
+     * <p> </p>
+     *
+     * @return {@link boolean} - True Artinya masih terkoneksi False Artinya dia no no
+     * @author Orions29
+     * @since 30 May 2026
+     *
+     */
     public static boolean isConnected() {
         try {
             return conn != null && !conn.isClosed();
         } catch (SQLException e) {
             return false;
+        }
+    }
+
+    /**
+     *
+     * <h3> Force Close koneksi</h3>
+     * <p> kalau mau manual ngeclose connection buat testing BUAT TESTING</p>
+     *
+     *
+     * @author Orions29
+     * @since 30 May 2026
+     *     */
+    public static synchronized void forceCloseConn() {
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                logger.info("Database connection closed manually via forceCloseConn");
+            }
+        } catch (SQLException e) {
+            logger.warn("Error closing database connection", e);
         }
     }
 

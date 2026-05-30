@@ -38,7 +38,7 @@ public class SecretLoader {
         try {
             tempEnv = Dotenv.configure().directory("./").load();
         } catch (Exception e) {
-            logger.error(".env Ga Ke Load"+e.getMessage());
+            logger.error("[FATAL ERROR] - .env Ga Ke Load"+e.getMessage());
         }
         env = tempEnv;
     }

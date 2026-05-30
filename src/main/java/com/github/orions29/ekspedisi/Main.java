@@ -6,11 +6,9 @@ import com.github.orions29.ekspedisi.utils.ProjectInit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
- * Project: Default (Template) Project
+ * Project: Ekspedisi Mas Giannt
  * Package: com.github.orions29.eskpedisi
  * <p>
  * Deskripsi fungsional dari file ini.
@@ -34,16 +32,6 @@ public class Main {
 //        logger.error("Dummy Error Test");
         System.out.println("Erlan, Roi, dan Giant Membuat Sebuah Ekspedisi Yang Paling Well");
         ProjectInit.projectCheck();
-
-        Connection conn = DatabaseConfig.getConnection();
-
-        System.out.println("Is Connected Now: "+ DatabaseConfig.isConnected());
-        try{
-            conn.close();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        System.out.println("Is Connected Now: "+ DatabaseConfig.isConnected());
 
     }
 }
