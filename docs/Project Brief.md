@@ -32,6 +32,7 @@ belum dibuat
 2. Buat Tampilan Tracking Paket
 3. Buat Tampilan Outlet
 4. Buat Tampilan Kurir
+5. Buat tampilan gudang
 
 
 

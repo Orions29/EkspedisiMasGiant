@@ -31,6 +31,13 @@ public class ShipmentLog {
     public ShipmentLog() {
     }
 
+    public ShipmentLog(String resiId, String location, String status, String userId) {
+        this.resiId = resiId;
+        this.location = location;
+        this.status = status;
+        this.userId = userId;
+    }
+
     public ShipmentLog(int logId, String resiId, String location, String status, LocalDateTime timestamp, String userId) {
         this.logId = logId;
         this.resiId = resiId;
