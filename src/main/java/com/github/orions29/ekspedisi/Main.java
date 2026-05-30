@@ -1,8 +1,18 @@
 package com.github.orions29.ekspedisi;
 
+import com.github.orions29.ekspedisi.model.DatabaseConfig;
+import com.github.orions29.ekspedisi.model.dao.UserDAO;
+import com.github.orions29.ekspedisi.model.dao.UserDAOMariaDb;
+import com.github.orions29.ekspedisi.utils.DAOtester;
+import com.github.orions29.ekspedisi.utils.ProjectInit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
- * Project: Default (Template) Project
- * Package: com.github.orions29
+ * Project: Ekspedisi Mas Giannt
+ * Package: com.github.orions29.eskpedisi
  * <p>
  * Deskripsi fungsional dari file ini.
  * </p>
@@ -20,6 +30,12 @@ package com.github.orions29.ekspedisi;
  */
 public class Main {
     static void main() {
-        System.out.println("Erlan, Roi, dan Giant Membuat Sebuah Ekspedisi Yang Paling Well");
+        Logger logger = LoggerFactory.getLogger(Main.class);
+//        logger.info("Dummy Info Test");
+//        logger.error("Dummy Error Test");
+        ProjectInit.projectCheck();
+
+        DAOtester.main();
+
     }
 }
