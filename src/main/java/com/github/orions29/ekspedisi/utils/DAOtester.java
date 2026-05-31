@@ -24,7 +24,7 @@ import java.util.List;
  * @since 1.1
  */
 public class DAOtester {
-    public static void main(String[] args) {
+    public static void main() {
         System.out.println("\n==>> TEST DAO <<==\n");
 
         UserDAO userDao = new UserDAOMariaDb();

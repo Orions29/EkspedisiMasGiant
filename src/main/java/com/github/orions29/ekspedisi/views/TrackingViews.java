@@ -1,0 +1,292 @@
+package com.github.orions29.ekspedisi.views;
+
+import com.github.orions29.ekspedisi.model.dao.PaketDAO;
+import com.github.orions29.ekspedisi.model.dao.PaketDAOMariaDb;
+import com.github.orions29.ekspedisi.model.dao.TrackingDAO;
+import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
+import com.github.orions29.ekspedisi.model.entity.Paket;
+import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
+
+import javax.swing.*;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.List;
+
+/**
+ * Project: EkspedisiMasGiant
+ * Package: com.github.orions29.ekspedisi.views
+ * <p>
+ * Halaman pelacakan resi untuk publik/pelanggan.
+ * </p>
+ *
+ * <hr>
+ * <table border="0">
+ * <tr><td><b>Author</b></td><td>: Orions29</td></tr>
+ * <tr><td><b>Date</b></td><td>: 31 May 2026</td></tr>
+ * </table>
+ * <hr>
+ */
+public class TrackingViews extends javax.swing.JFrame {
+
+    private final PaketDAO paketDao;
+    private final TrackingDAO trackingDao;
+
+    public TrackingViews() {
+        paketDao = new PaketDAOMariaDb();
+        trackingDao = new TrackingDAOMariaDb();
+
+        initComponents();
+        setupEnterListener();
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        panelSearch = new javax.swing.JPanel();
+        txtResi = new javax.swing.JTextField();
+        btnTrack = new javax.swing.JButton();
+        panelInfo = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        lblPengirim = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblPenerima = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lblTujuan = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        lblTypePaket = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtRiwayat = new javax.swing.JTextArea();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("EMG Tracking System - Lacak Paket");
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Lacak Paket Anda");
+
+        panelSearch.setBorder(javax.swing.BorderFactory.createTitledBorder("Masukkan Nomor Resi"));
+
+        txtResi.setFont(new java.awt.Font("Segoe UI", 1, 14));
+
+        btnTrack.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        btnTrack.setText("Cari Paket");
+        btnTrack.addActionListener(this::btnTrackActionPerformed);
+
+        javax.swing.GroupLayout panelSearchLayout = new javax.swing.GroupLayout(panelSearch);
+        panelSearch.setLayout(panelSearchLayout);
+        panelSearchLayout.setHorizontalGroup(
+                panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelSearchLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(txtResi)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnTrack, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+        );
+        panelSearchLayout.setVerticalGroup(
+                panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelSearchLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtResi, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                        .addComponent(btnTrack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelInfo.setBorder(javax.swing.BorderFactory.createTitledBorder("Informasi Pengiriman"));
+
+        jLabel2.setText("Pengirim:");
+        lblPengirim.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        lblPengirim.setText("-");
+
+        jLabel4.setText("Penerima:");
+        lblPenerima.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        lblPenerima.setText("-");
+
+        jLabel6.setText("Tujuan:");
+        lblTujuan.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        lblTujuan.setText("-");
+
+        jLabel8.setText("Tipe Paket:");
+        lblTypePaket.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        lblTypePaket.setText("-");
+
+        javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
+        panelInfo.setLayout(panelInfoLayout);
+        panelInfoLayout.setHorizontalGroup(
+                panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelInfoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel8))
+                                .addGap(28, 28, 28)
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblTypePaket, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                                        .addComponent(lblTujuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblPenerima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblPengirim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap())
+        );
+        panelInfoLayout.setVerticalGroup(
+                panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelInfoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel2)
+                                        .addComponent(lblPengirim))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(lblPenerima))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel6)
+                                        .addComponent(lblTujuan))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel8)
+                                        .addComponent(lblTypePaket))
+                                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        txtRiwayat.setEditable(false);
+        txtRiwayat.setColumns(20);
+        txtRiwayat.setFont(new java.awt.Font("Consolas", 0, 13));
+        txtRiwayat.setRows(5);
+        jScrollPane1.setViewportView(txtRiwayat);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(panelSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane1))
+                                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(panelSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                .addContainerGap())
+        );
+
+        pack();
+    }
+
+    private void setupEnterListener() {
+        txtResi.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    btnTrack.doClick();
+                }
+            }
+        });
+    }
+
+    private void btnTrackActionPerformed(java.awt.event.ActionEvent evt) {
+        String resiId = txtResi.getText().trim();
+
+        if (resiId.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Masukkan nomor resi terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Reset UI
+        txtRiwayat.setText("Mencari data...\n");
+
+        // Tarik data induk
+        Paket paket = paketDao.getPaketByResi(resiId);
+
+        if (paket == null) {
+            lblPengirim.setText("-");
+            lblPenerima.setText("-");
+            lblTujuan.setText("-");
+            lblTypePaket.setText("-");
+            txtRiwayat.setText("Resi tidak ditemukan di sistem kami.");
+            return;
+        }
+
+        // Update informasi paket
+        lblPengirim.setText(paket.getSenderName() + " (" + paket.getOriginCity() + ")");
+        lblPenerima.setText(paket.getReceiverName());
+        lblTujuan.setText(paket.getDestinationAddress() + ", " + paket.getDestinationCity());
+        lblTypePaket.setText(paket.getTypePaket() + " | " + paket.getWeight() + " Kg");
+
+        // Tarik riwayat
+        List<ShipmentLog> riwayat = trackingDao.getShipmentLogByResi(resiId);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(">> KRONOLOGI PENGIRIMAN <<\n\n");
+
+        if (riwayat.isEmpty()) {
+            sb.append("Belum ada riwayat pergerakan untuk paket ini.");
+        } else {
+            // Cetak riwayat dari yang paling baru ke yang paling lama (reverse order)
+            for (int i = riwayat.size() - 1; i >= 0; i--) {
+                ShipmentLog log = riwayat.get(i);
+
+                java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm");
+                String waktu = log.getTimestamp().format(fmt);
+
+                sb.append("[").append(waktu).append("]\n");
+                sb.append("Status : ").append(log.getStatus()).append("\n");
+                sb.append("Lokasi : ").append(log.getLocation()).append("\n");
+                sb.append("------------------------------------------>>>\n");
+            }
+        }
+
+        txtRiwayat.setText(sb.toString());
+        txtRiwayat.setCaretPosition(0);
+    }
+
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrackingViews.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            TrackingViews frame = new TrackingViews();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+
+    // Variables declaration
+    private javax.swing.JButton btnTrack;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTypePaket;
+    private javax.swing.JLabel lblPenerima;
+    private javax.swing.JLabel lblPengirim;
+    private javax.swing.JLabel lblTujuan;
+    private javax.swing.JPanel panelInfo;
+    private javax.swing.JPanel panelSearch;
+    private javax.swing.JTextField txtResi;
+    private javax.swing.JTextArea txtRiwayat;
+    // End of variables declaration
+}
