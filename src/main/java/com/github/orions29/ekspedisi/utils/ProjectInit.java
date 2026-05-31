@@ -40,6 +40,8 @@ public class ProjectInit {
     public static void projectCheck() {
         logger.info("Project Check Init Start");
         System.out.println(">> ProjectInit CheckList: ");
+
+
 //        Checklist ENV
         boolean isEnvLoaded = SecretLoader.isLoad();
         System.out.println(isEnvLoaded ? "ENV : PASS" : "ENV : FAILED");
@@ -66,5 +68,18 @@ public class ProjectInit {
             logger.error("[FATAL ERROR] - Project init Checklist Failed");
             System.exit(1);
         }
+    }
+
+    /**
+     *
+     * <h3>Buat Ngetest DAO</h3>
+     * <p> </p>
+     *
+     * @author Orions29
+     * @since 31 May 2026
+     *
+     */
+    public static void DAOTest() {
+        DAOtester.main();
     }
 }

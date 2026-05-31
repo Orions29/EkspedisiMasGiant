@@ -2,10 +2,7 @@ package com.github.orions29.ekspedisi;
 
 import com.github.orions29.ekspedisi.utils.DAOtester;
 import com.github.orions29.ekspedisi.utils.ProjectInit;
-import com.github.orions29.ekspedisi.views.GudangViews;
-import com.github.orions29.ekspedisi.views.KurirViews;
-import com.github.orions29.ekspedisi.views.LoginView;
-import com.github.orions29.ekspedisi.views.OutletViews;
+import com.github.orions29.ekspedisi.views.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,18 +28,14 @@ import org.slf4j.LoggerFactory;
  */
 public class Main {
     static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Main.class);
-//        logger.info("Dummy Info Test");
-//        logger.error("Dummy Error Test");
-        ProjectInit.projectCheck();
-
-//        Ngetest DAO
-        DAOtester.main(args);
+//        Project Checklist
+//        ProjectInit.projectCheck();
 
 //        Buat UI
 //        LoginView.main(args);
 //        OutletViews.main(args);
 //        KurirViews.main(args);
 //        GudangViews.main(args);
+        TrackingViews.main(args);
     }
 }
