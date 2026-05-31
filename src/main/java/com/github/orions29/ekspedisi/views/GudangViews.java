@@ -277,6 +277,22 @@ public class GudangViews extends javax.swing.JFrame {
         });
     }
 
+    public javax.swing.JButton getBtnUpdate() {
+        return btnUpdate;
+    }
+
+    public javax.swing.JTextField getTxtResi() {
+        return txtResi;
+    }
+
+    public javax.swing.JComboBox<String> getComboStatus() {
+        return comboStatus;
+    }
+
+    public javax.swing.JTextArea getTxtConsole() {
+        return txtConsole;
+    }
+
     // Variables declaration
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnUpdate;

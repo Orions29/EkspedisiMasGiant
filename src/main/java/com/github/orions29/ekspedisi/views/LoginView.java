@@ -31,7 +31,7 @@ public class LoginView extends javax.swing.JPanel {
         passwordInput.setText("");
 
         // 2. Ambil gambar dari folder assets di root project secara aman
-        java.io.File fileGambar = new java.io.File("assets/img/logo_asli_250.png");
+        java.io.File fileGambar = new java.io.File("assets/img/logo_asli.png");
 
         if (fileGambar.exists()) {
             javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(fileGambar.getAbsolutePath());
@@ -179,6 +179,22 @@ public class LoginView extends javax.swing.JPanel {
                 frame.setVisible(true);
             }
         });
+    }
+
+    public javax.swing.JButton getLoginButton() {
+        return loginButton;
+    }
+
+    public javax.swing.JButton getTrackButton() {
+        return trackButton;
+    }
+
+    public javax.swing.JTextField getUsernameInput() {
+        return usernameInput;
+    }
+
+    public javax.swing.JPasswordField getPasswordInput() {
+        return passwordInput;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

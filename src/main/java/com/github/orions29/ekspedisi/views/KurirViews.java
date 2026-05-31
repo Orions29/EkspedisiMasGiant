@@ -145,6 +145,14 @@ public class KurirViews extends javax.swing.JFrame {
         });
     }
 
+    public javax.swing.JButton getSubmitPaket() {
+        return submitPaket;
+    }
+
+    public javax.swing.JTextField getResiPaketIn() {
+        return resiPaketIn;
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

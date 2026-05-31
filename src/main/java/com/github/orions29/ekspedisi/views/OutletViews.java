@@ -386,6 +386,38 @@ public class OutletViews extends javax.swing.JFrame {
         });
     }
 
+    public javax.swing.JButton getInputPaketButton() {
+        return inputPaketButton;
+    }
+
+    public javax.swing.JTextField getNamaPengirimInput() {
+        return namaPengirimInput;
+    }
+
+    public javax.swing.JTextField getNamaPenerimaInput() {
+        return namaPenerimaInput;
+    }
+
+    public javax.swing.JTextField getDestinasiPaketInput() {
+        return destinasiPaketInput;
+    }
+
+    public javax.swing.JTextArea getAlamatTujuanInput() {
+        return alamatTujuanInput;
+    }
+
+    public javax.swing.JTextField getTipePaketInput() {
+        return tipePaketInput;
+    }
+
+    public javax.swing.JSpinner getBeratInput() {
+        return beratInput;
+    }
+
+    public javax.swing.JSpinner getVolumeInput() {
+        return volumeInput;
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JTextArea alamatTujuanInput;
     private javax.swing.JSpinner beratInput;
