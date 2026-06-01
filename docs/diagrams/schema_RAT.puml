@@ -33,7 +33,9 @@ entity "tracking_logs" as logs {
 }
 
 ' Relasi
-paket ||--o{ logs : "1 paket punya banyak log >"
+' Satu paket boleh punya banyak log tp wajib punya 1 (Pas Diinput)
+paket ||--{ logs : "1 paket punya banyak log >"
+' User boleh punya banyak log dengan minimal 0 / Boleh kosongan / Ndak kerja ini
 users ||--o{ logs : "1 user input banyak log >"
 
 @enduml
