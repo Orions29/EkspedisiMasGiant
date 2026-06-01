@@ -26,7 +26,7 @@ public class GeneratorId {
     /**
      *
      * <h3>Generate Resi ID</h3>
-     * <p> </p>
+     * <p> Membuat Resi </p>
      *
      * @return {@link String} - hasil Resi ID
      * @author Orions29
@@ -34,14 +34,15 @@ public class GeneratorId {
      *
      */
     public static String generateResi() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmm");
-        String timePart = now.format(formatter);
+        LocalDateTime nowTime = LocalDateTime.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmm");
+        String waktuSlice = nowTime.format(dateFormatter);
 
         // Ambil 4 karakter acak dari UUID untuk mencegah bentrok di detik yang sama
-        String randomPart = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+        String uuidSlice = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
 
-        return "RESI-" + timePart + "-" + randomPart;
+//        Dikembalikan dengan utuh
+        return "RESI-" + waktuSlice + "-" + uuidSlice;
     }
 
     /**
@@ -60,25 +61,28 @@ public class GeneratorId {
      *
      */
     public static String generateUserId(String role) {
-        String prefix = "U";
+//        Semisal dia Null rolenya langsung dikasi U INI SAFETY NET YA HARUSNYA GAADA NANTINYA TITIK.
+        String kodeRole = "U";
+//        kalau Role ada maka berikan kode role
         if (role != null) {
             switch (role.toLowerCase()) {
                 case "kurir":
-                    prefix = "K";
+                    kodeRole = "K";
                     break;
                 case "loket":
-                    prefix = "L";
+                    kodeRole = "L";
                     break;
                 case "gudang":
-                    prefix = "G";
+                    kodeRole = "G";
                     break;
                 case "admin":
-                    prefix = "A";
+                    kodeRole = "A";
                     break;
             }
         }
 
-        String randomPart = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
-        return prefix + "-" + randomPart;
+//        Buat 4 buat string untuk akhiran UserID (nek perhitungan mas gemini bener ini 1jt kombinasi)
+        String akhiranUserId = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+        return kodeRole + "-" + akhiranUserId;
     }
 }
