@@ -8,6 +8,7 @@ import com.github.orions29.ekspedisi.model.entity.Paket;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.utils.GeneratorId;
+import com.github.orions29.ekspedisi.utils.PricingUtil;
 import com.github.orions29.ekspedisi.views.OutletViews;
 import javax.swing.*;
 
@@ -44,7 +45,21 @@ public class OutletController {
 
                     handleInputPaket();
                 });
+
+        view.getBeratInput()
+                .addChangeListener(e -> {
+
+                    updateEstimasiHarga();
+                });
+
+        view.getVolumeInput()
+                .addChangeListener(e -> {
+
+                    updateEstimasiHarga();
+                });
     }
+
+
 
     private void handleInputPaket(){
 
@@ -141,7 +156,6 @@ public class OutletController {
 
                 return;
             }
-
             // Tracking awal
             ShipmentLog log =
                     new ShipmentLog(
@@ -152,15 +166,8 @@ public class OutletController {
                     );
 
             // Insert tracking log
-            // Insert tracking log
-            boolean trackingInserted =
-                    trackingDAO.insertLog(log);
+            trackingDAO.insertLog(log);
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "TRACKING INSERTED = "
-                            + trackingInserted
-            );
 
             JOptionPane.showMessageDialog(
                     null,
@@ -176,6 +183,11 @@ public class OutletController {
             view.getAlamatTujuanInput().setText("");
             view.getTipePaketInput().setText("");
 
+            view.getBeratInput().setValue(0.0d);
+            view.getVolumeInput().setValue(0.0d);
+
+            view.getHargaLabel().setText("0,00");
+
         } catch (Exception ex) {
 
             ex.printStackTrace();
@@ -187,4 +199,26 @@ public class OutletController {
             );
         }
     }
+
+    private void updateEstimasiHarga() {
+
+        double weight =
+                (Double) view.getBeratInput()
+                        .getValue();
+
+        double volume =
+                (Double) view.getVolumeInput()
+                        .getValue();
+
+        double harga =
+                PricingUtil.hitungHarga(
+                        weight,
+                        volume
+                );
+
+        view.getHargaLabel().setText(
+                PricingUtil.formatRupiah(harga)
+        );
+    }
+
 }

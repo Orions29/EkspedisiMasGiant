@@ -182,8 +182,6 @@ public class LoginView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO: Tambahkan logika autentikasi login Anda di sini
-        System.out.println("Tombol login ditekan!");
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed

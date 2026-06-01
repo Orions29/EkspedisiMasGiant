@@ -2,25 +2,25 @@ package com.github.orions29.ekspedisi.controller;
 
 import com.github.orions29.ekspedisi.model.dao.TrackingDAO;
 import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
-
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
-
+import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.views.GudangViews;
 
 import javax.swing.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class GudangController {
 
     private GudangViews view;
-
     private TrackingDAO trackingDAO;
+    private User loggedInUser;
 
-    public GudangController(GudangViews view){
+    public GudangController(
+            GudangViews view,
+            User loggedInUser
+    ) {
 
         this.view = view;
+        this.loggedInUser = loggedInUser;
 
         this.trackingDAO =
                 new TrackingDAOMariaDb();
@@ -28,7 +28,7 @@ public class GudangController {
         initController();
     }
 
-    private void initController(){
+    private void initController() {
 
         view.getBtnUpdate()
                 .addActionListener(e -> {
@@ -37,56 +37,62 @@ public class GudangController {
                 });
     }
 
-    private void handleMassTransitUpdate(){
+    public void handleMassTransitUpdate() {
 
-        String resi =
+        String resiId =
                 view.getTxtResi()
                         .getText()
                         .trim();
 
-        String status =
-                (String) view.getComboStatus()
-                        .getSelectedItem();
+        String selectedStatus =
+                view.getComboStatus()
+                        .getSelectedItem()
+                        .toString();
 
-        if (resi.isEmpty()){
+        if(resiId.isEmpty()) {
 
             JOptionPane.showMessageDialog(
                     null,
-                    "Nomor resi wajib diisi!"
+                    "Tembak barcode atau masukkan nomor resi dulu!"
             );
 
             return;
         }
 
-        try {
+        ShipmentLog logBaru =
+                new ShipmentLog(
+                        resiId,
+                        loggedInUser.getLocation(),
+                        selectedStatus,
+                        loggedInUser.getId()
+                );
 
-            // Insert tracking log ke database
-            ShipmentLog log =
-                    new ShipmentLog(
-                            resi,
-                            "Gudang Pusat",
-                            status,
-                            "system-gudang"
-                    );
+        boolean success =
+                trackingDAO.insertLog(logBaru);
 
-            trackingDAO.insertLog(log);
+        if(success) {
 
-            // Console visual
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Status paket berhasil diperbarui!"
+            );
+
+            // Console realtime
             String timestamp =
-                    LocalDateTime.now()
+                    java.time.LocalDateTime.now()
                             .format(
-                                    DateTimeFormatter.ofPattern(
-                                            "HH:mm:ss"
-                                    )
+                                    java.time.format.DateTimeFormatter
+                                            .ofPattern("HH:mm:ss")
                             );
 
             String logMessage =
-                    "[" + timestamp + "] "
-                            + "SUCCESS : "
-                            + resi
-                            + " -> "
-                            + status
-                            + "\n";
+                    String.format(
+                            "[%s] SUCCESS: Resi %s -> [%s] @ %s\n",
+                            timestamp,
+                            resiId,
+                            selectedStatus,
+                            loggedInUser.getLocation()
+                    );
 
             view.getTxtConsole()
                     .append(logMessage);
@@ -98,24 +104,17 @@ public class GudangController {
                                     .getLength()
                     );
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Status gudang berhasil diperbarui!"
-            );
-
-            view.getTxtResi().setText("");
+            view.getTxtResi()
+                    .setText("");
 
             view.getTxtResi()
                     .requestFocus();
 
-        } catch (Exception ex) {
-
-            ex.printStackTrace();
+        } else {
 
             JOptionPane.showMessageDialog(
                     null,
-                    "Gagal update tracking!\n"
-                            + ex.getMessage()
+                    "Gagal memperbarui status paket!"
             );
         }
     }

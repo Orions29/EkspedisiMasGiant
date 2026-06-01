@@ -1,6 +1,7 @@
 package com.github.orions29.ekspedisi.views;
-
+import com.github.orions29.ekspedisi.controller.GudangController;
 import com.github.orions29.ekspedisi.controller.LoginController;
+import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 
 import javax.swing.*;
@@ -255,31 +256,44 @@ public class GudangViews extends javax.swing.JFrame {
         this.dispose();
     }
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {
-        String resiId = txtResi.getText().trim();
-        String selectedStatus = (String) comboStatus.getSelectedItem();
+    private void btnUpdateActionPerformed(
+            java.awt.event.ActionEvent evt
+    ) {
 
-        // 🚀 THE MAGIC: Ambil lokasi otomatis dari DNA User!
-        String lokasiOtomatis = loggedInUser.getLocation();
+        String resiId =
+                txtResi.getText().trim();
+
+        String selectedStatus =
+                (String) comboStatus.getSelectedItem();
+
+        String lokasiOtomatis =
+                loggedInUser.getLocation();
 
         if (resiId.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tembak barcode atau masukkan nomor resi dulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            txtResi.requestFocus();
             return;
         }
 
-        /* TODO: PANGGIL TRACKING DAO DI SINI
-           ShipmentLog logBaru = new ShipmentLog(resiId, loggedInUser.getId(), selectedStatus, lokasiOtomatis);
-           boolean success = trackingDao.insertLog(logBaru);
-        */
+        // Simulasi Console
+        String timestamp =
+                java.time.LocalDateTime.now()
+                        .format(
+                                java.time.format.DateTimeFormatter
+                                        .ofPattern("HH:mm:ss")
+                        );
 
-        // Simulasi Console yang diperbarui dengan lokasi otomatis
-        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
-        String logMessage = String.format("[%s] SUCCESS: Resi %s -> [%s] @ %s\n",
-                timestamp, resiId, selectedStatus, lokasiOtomatis);
+        String logMessage =
+                String.format(
+                        "[%s] SUCCESS: Resi %s -> [%s] @ %s\n",
+                        timestamp,
+                        resiId,
+                        selectedStatus,
+                        lokasiOtomatis
+                );
 
         txtConsole.append(logMessage);
-        txtConsole.setCaretPosition(txtConsole.getDocument().getLength());
+        txtConsole.setCaretPosition(
+                txtConsole.getDocument().getLength()
+        );
 
         txtResi.setText("");
         txtResi.requestFocus();

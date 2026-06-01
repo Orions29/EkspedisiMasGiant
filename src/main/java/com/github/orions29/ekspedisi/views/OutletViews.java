@@ -2,6 +2,8 @@ package com.github.orions29.ekspedisi.views;
 import com.github.orions29.ekspedisi.controller.LoginController;
 import com.github.orions29.ekspedisi.model.entity.User;
 
+import javax.swing.*;
+
 /**
  * Project: EkspedisiMasGiant
  * Package: com.github.orions29.ekspedisi.views
@@ -393,13 +395,14 @@ public class OutletViews extends javax.swing.JFrame {
            4. Bikin Entity ShipmentLog (Status "Diterima di Loket") dan lempar ke trackingDao.insertLog()
         */
 
+
         String pesanSukses = String.format("Data Paket berhasil disiapkan untuk dikirim ke database!\n\n"
                         + "Pengirim: %s (%s)\n"
                         + "Penerima: %s (%s)\n"
                         + "Berat: %.2f kg\n"
                         + "Volume: %.2f cm3\n"
                         + "Tipe: %s\n\n"
-                        + "📍 Lokasi Input: %s",
+                        + "Lokasi Input: %s",
                 senderName, originCity, receiverName, destinationCity, weight, volume, typePaket, loggedInUser.getLocation());
 
         javax.swing.JOptionPane.showMessageDialog(this, pesanSukses, "Sukses Menyimpan Data", javax.swing.JOptionPane.INFORMATION_MESSAGE);
@@ -457,6 +460,8 @@ public class OutletViews extends javax.swing.JFrame {
     public javax.swing.JSpinner getVolumeInput() {
         return volumeInput;
     }
+
+    public javax.swing.JLabel getHargaLabel() { return jLabel17; }
 
     // Variables declaration - do not modify
     private javax.swing.JTextArea alamatTujuanInput;

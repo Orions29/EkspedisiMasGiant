@@ -115,7 +115,10 @@ public class LoginController {
                 GudangViews gudangViews =
                         new GudangViews(user);
 
-                new GudangController(gudangViews);
+                new GudangController(
+                        gudangViews,
+                        user
+                );
 
                 gudangViews.setLocationRelativeTo(null);
                 gudangViews.setVisible(true);
@@ -131,7 +134,10 @@ public class LoginController {
                 KurirViews kurirViews =
                         new KurirViews(user);
 
-                new KurirController(kurirViews);
+                new KurirController(
+                        kurirViews,
+                        user
+                );
 
                 kurirViews.setLocationRelativeTo(null);
                 kurirViews.setVisible(true);
