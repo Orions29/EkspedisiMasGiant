@@ -54,7 +54,7 @@ public class GeneratorId {
      * </p>
      *
      * @param role - Role user
-     * @return {@link String} - Penjelasan mengenai data yang dikembalikan
+     * @return {@link String} - UserId yang sudah dibuat
      * @author Orions29
      * @since 30 May 2026
      *
@@ -71,6 +71,9 @@ public class GeneratorId {
                     break;
                 case "gudang":
                     prefix = "G";
+                    break;
+                case "admin":
+                    prefix = "A";
                     break;
             }
         }

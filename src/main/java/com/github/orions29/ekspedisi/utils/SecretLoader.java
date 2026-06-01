@@ -29,7 +29,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class SecretLoader {
     //    Nyimpen Objek isi File .env disini
     private final static Dotenv env;
-//Objek Logger
+    //Objek Logger
     private static final Logger logger = LoggerFactory.getLogger(SecretLoader.class);
 
     //    Error handling untuk loading
@@ -38,7 +38,7 @@ public class SecretLoader {
         try {
             tempEnv = Dotenv.configure().directory("./").load();
         } catch (Exception e) {
-            logger.error("[FATAL ERROR] - .env Ga Ke Load"+e.getMessage());
+            logger.error("[FATAL ERROR] - .env Ga Ke Load" + e.getMessage());
         }
         env = tempEnv;
     }
@@ -69,7 +69,7 @@ public class SecretLoader {
      *
      */
     public static boolean isContain(String key) {
-        if (env==null || env.get(key) == null) {
+        if (env == null || env.get(key) == null) {
             return false;
         }
         return true;
@@ -88,7 +88,7 @@ public class SecretLoader {
      */
     public static String isContainDisplay(String key) {
         String display;
-        if (env== null) {
+        if (env == null) {
             return "false";
         }
         display = env.get(key);

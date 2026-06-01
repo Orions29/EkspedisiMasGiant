@@ -2,23 +2,34 @@
 
 package "ekspedisi.model" <<Folder>> {
 
+    class DatabaseConfig {
+        + getConnection() : Connection
+        note : Load dari application.yml & .env\nKoneksi murni MariaDB Port 3306
+    }
+
     package "entity" <<Folder>> {
         class User {
             - id : String
             - username : String
             - passwordHash : String
             - role : String
+            - location : String
             + getId() : String
             + getRole() : String
+            + getLocation() : String
         }
 
         class Paket {
             - resiId : String
             - senderName : String
+            - originCity : String
             - receiverName : String
+            - destinationCity : String
+            - destinationAddress : String
             - weight : double
+            - volume : double
             - typePaket : String
-            + calculateVolumetricWeight() : double
+            - createdAt : LocalDateTime
         }
 
         class ShipmentLog {
@@ -27,52 +38,63 @@ package "ekspedisi.model" <<Folder>> {
             - location : String
             - status : String
             - timestamp : LocalDateTime
-            - courierId : String
+            - userId : String
         }
     }
 
     package "dao" <<Folder>> {
-        class DatabaseConfig {
-            - url : String
-            - username : String
-            - password : String
-            + getConnection() : Connection
-            note : Load dari application.yml & .env\nKoneksi murni MySQL Port 3306
+
+        interface UserDAO <<Interface>> {
+            + authenticate(username : String, pass : String) : User
+            + getUserById(id : String) : User
+            + insertUser(user : User) : boolean
+            + updateUser(user : User) : boolean
+            + deleteUser(userId : String) : boolean
         }
 
-        class PaketDAO {
-            - conn : Connection
-            + insertPaket(pkg : Paket) : boolean
-            + updateStatus(resiId : String, status : String) : boolean
+        interface PaketDAO <<Interface>> {
+            + insertPaket(paket : Paket) : boolean
             + getPaketByResi(resiId : String) : Paket
         }
 
-        class TrackingDAO {
-            - conn : Connection
+        interface TrackingDAO <<Interface>> {
             + insertLog(log : ShipmentLog) : boolean
-            + getHistoryByResi(resiId : String) : List<ShipmentLog>
+            + getShipmentLogByResi(resiId : String) : List<ShipmentLog>
         }
 
-        class UserDAO {
-            - conn : Connection
-            + authenticate(username : String, pass : String) : User
-            + getRoleById(id : String) : String
+        ' --- IMPLEMENTASI MARIA DB ---
+        class UserDAOMariaDb {
+            - logger : Logger
+        }
+
+        class PaketDAOMariaDb {
+            - logger : Logger
+        }
+
+        class TrackingDAOMariaDb {
+            - logger : Logger
         }
     }
 }
 
-' Relasi Database Config ke DAO (depedency)
-DatabaseConfig <.. PaketDAO : <<uses>>
-DatabaseConfig <.. TrackingDAO : <<uses>>
-DatabaseConfig <.. UserDAO : <<uses>>
+' Relasi Implementasi (Realization)
+UserDAO <|.. UserDAOMariaDb
+PaketDAO <|.. PaketDAOMariaDb
+TrackingDAO <|.. TrackingDAOMariaDb
 
-' Relasi DAO ke Entity (dependency)
+' Relasi Database Config ke Implementasi DAO (Dependency)
+DatabaseConfig <.. UserDAOMariaDb : <<uses>>
+DatabaseConfig <.. PaketDAOMariaDb : <<uses>>
+DatabaseConfig <.. TrackingDAOMariaDb : <<uses>>
+
+' Relasi Interface DAO ke Entity (Dependency)
 PaketDAO ..> Paket : <<manage>>
 TrackingDAO ..> ShipmentLog : <<manage>>
 UserDAO ..> User : <<manage>>
 
-' Relasi antar Entity (Komposisi)
+' Relasi antar Entity / Table
 Paket "1" *-- "0..*" ShipmentLog : memiliki riwayat log >
+User "1" -- "0..*" ShipmentLog : mencatat >
 
 'Legenda
 legend bottom center
