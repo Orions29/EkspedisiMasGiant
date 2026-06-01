@@ -1,6 +1,7 @@
 package com.github.orions29.ekspedisi;
 
 import com.github.orions29.ekspedisi.utils.DAOtester;
+import com.github.orions29.ekspedisi.utils.HashUtil;
 import com.github.orions29.ekspedisi.utils.ProjectInit;
 import com.github.orions29.ekspedisi.views.*;
 
@@ -36,6 +37,10 @@ public class Main {
 //        OutletViews.main(args);
 //        KurirViews.main(args);
 //        GudangViews.main(args);
-        TrackingViews.main(args);
+//        TrackingViews.main(args);
+//        AdminViews.main(args);
+
+//        System.out.println(HashUtil.hashSHA256("123"));
+//        System.out.println(HashUtil.hashSHA256("123"));
     }
 }

@@ -144,4 +144,23 @@ public class UserDAOMariaDb implements UserDAO {
         }
         return false;
     }
+
+    @Override
+    public boolean deleteUser(String userId) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, userId);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                logger.info("Sukses menghapus pekerja dengan ID [{}]", userId);
+                return true;
+            }
+        } catch (SQLException e) {
+            logger.error("[QUERY ERROR] - Gagal menghapus UserID [{}]: {}", userId, e.getMessage());
+        }
+        return false;
+    }
 }
