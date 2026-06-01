@@ -1,4 +1,6 @@
 package com.github.orions29.ekspedisi.views;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Project: EkspedisiMasGiant
@@ -25,6 +27,7 @@ public class LoginView extends javax.swing.JPanel {
      */
     public LoginView() {
         initComponents();
+        startClock();
 
         // 1. Bersihkan teks bawaan input agar kosong saat pertama kali dibuka
         usernameInput.setText("");
@@ -52,6 +55,27 @@ public class LoginView extends javax.swing.JPanel {
             parentWindow.pack();
             parentWindow.setLocationRelativeTo(null); // Jendela otomatis di tengah layar
         }
+    }
+
+    private void startClock() {
+
+        javax.swing.Timer timer =
+                new javax.swing.Timer(
+                        1000,
+                        e -> {
+
+                            SimpleDateFormat sdf =
+                                    new SimpleDateFormat(
+                                            "dd-MM-yyyy , HH:mm:ss"
+                                    );
+
+                            systemTime.setText(
+                                    sdf.format(new Date())
+                            );
+                        }
+                );
+
+        timer.start();
     }
 
     /**
@@ -100,7 +124,6 @@ public class LoginView extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("EMG Tracking System");
 
-        systemTime.setText("dd-mm-yyyy , hh:mm:ss");
 
         gambarEMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         gambarEMG.setText("[Logo Tempat Gambar]");

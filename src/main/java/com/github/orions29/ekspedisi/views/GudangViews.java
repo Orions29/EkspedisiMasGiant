@@ -1,5 +1,6 @@
 package com.github.orions29.ekspedisi.views;
 
+import com.github.orions29.ekspedisi.controller.LoginController;
 import com.github.orions29.ekspedisi.model.entity.User;
 
 import javax.swing.*;
@@ -222,10 +223,35 @@ public class GudangViews extends javax.swing.JFrame {
         });
     }
 
-    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Berhasil Logout dari sistem gudang.");
-        // Buka kembali form Login (Silakan sesuaikan dengan nama class Login-mu)
-        // new LoginViews().setVisible(true);
+    private void btnLogoutActionPerformed(
+            java.awt.event.ActionEvent evt
+    ) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Berhasil Logout dari sistem gudang."
+        );
+
+        javax.swing.JFrame frame =
+                new javax.swing.JFrame(
+                        "EMG Tracking System - Login"
+                );
+
+        LoginView loginView =
+                new LoginView();
+
+        new LoginController(loginView);
+
+        frame.setContentPane(loginView);
+
+        frame.setDefaultCloseOperation(
+                javax.swing.JFrame.EXIT_ON_CLOSE
+        );
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
         this.dispose();
     }
 

@@ -1,5 +1,5 @@
 package com.github.orions29.ekspedisi.views;
-
+import com.github.orions29.ekspedisi.controller.LoginController;
 import com.github.orions29.ekspedisi.model.entity.User;
 
 /**
@@ -57,6 +57,33 @@ public class OutletViews extends javax.swing.JFrame {
         logoutButton.setOpaque(true);
         logoutButton.setContentAreaFilled(true);
         logoutButton.setBorderPainted(false);
+    }
+
+    private void logoutButtonActionPerformed(
+            java.awt.event.ActionEvent evt
+    ) {
+
+        javax.swing.JFrame frame =
+                new javax.swing.JFrame(
+                        "EMG Tracking System - Login"
+                );
+
+        LoginView loginView =
+                new LoginView();
+
+        new LoginController(loginView);
+
+        frame.setContentPane(loginView);
+
+        frame.setDefaultCloseOperation(
+                javax.swing.JFrame.EXIT_ON_CLOSE
+        );
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        this.dispose();
     }
 
     /**
@@ -320,8 +347,30 @@ public class OutletViews extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Berhasil Logout dari sistem loket.");
+    private void btnLogoutActionPerformed(
+            java.awt.event.ActionEvent evt
+    ) {
+
+        javax.swing.JFrame frame =
+                new javax.swing.JFrame(
+                        "EMG Tracking System - Login"
+                );
+
+        LoginView loginView =
+                new LoginView();
+
+        new LoginController(loginView);
+
+        frame.setContentPane(loginView);
+
+        frame.setDefaultCloseOperation(
+                javax.swing.JFrame.EXIT_ON_CLOSE
+        );
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
         this.dispose();
     }
 
@@ -336,15 +385,6 @@ public class OutletViews extends javax.swing.JFrame {
         double weight = (Double) beratInput.getValue();
         double volume = (Double) volumeInput.getValue();
 
-        if (senderName.isEmpty() || originCity.isEmpty() || receiverName.isEmpty() || destinationCity.isEmpty() || destinationAddress.isEmpty() || typePaket.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Mohon lengkapi seluruh data identitas, alamat, dan tipe paket!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if (weight <= 0.0 || volume <= 0.0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Berat dan Volume paket tidak boleh 0!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
 
         /* TODO: PANGGIL PAKET DAO & TRACKING DAO DI SINI
            1. Generate Resi via GeneratorUtil

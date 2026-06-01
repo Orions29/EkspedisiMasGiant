@@ -1,53 +1,190 @@
 package com.github.orions29.ekspedisi.controller;
+
+import com.github.orions29.ekspedisi.model.dao.PaketDAO;
+import com.github.orions29.ekspedisi.model.dao.PaketDAOMariaDb;
+import com.github.orions29.ekspedisi.model.dao.TrackingDAO;
+import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
+import com.github.orions29.ekspedisi.model.entity.Paket;
+import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
+import com.github.orions29.ekspedisi.model.entity.User;
+import com.github.orions29.ekspedisi.utils.GeneratorId;
 import com.github.orions29.ekspedisi.views.OutletViews;
 import javax.swing.*;
 
 public class OutletController {
+
     private OutletViews view;
 
-    public OutletController(OutletViews view){
+    private User loggedInUser;
+
+    private PaketDAO paketDAO;
+    private TrackingDAO trackingDAO;
+
+    public OutletController(
+            OutletViews view,
+            User loggedInUser
+    ) {
+
         this.view = view;
+        this.loggedInUser = loggedInUser;
+
+        this.paketDAO =
+                new PaketDAOMariaDb();
+
+        this.trackingDAO =
+                new TrackingDAOMariaDb();
+
         initController();
     }
 
     private void initController(){
+
         view.getInputPaketButton()
                 .addActionListener(e -> {
+
                     handleInputPaket();
                 });
     }
 
     private void handleInputPaket(){
-        String senderName = view.getNamaPengirimInput().getText().trim();
-        String receiverName = view.getNamaPenerimaInput().getText().trim();
-        String destinationCity = view.getDestinasiPaketInput().getText().trim();
-        String destinationAddress = view.getAlamatTujuanInput().getText().trim();
-        String paketType = view.getTipePaketInput().getText().trim();
-        double weight = (Double) view.getBeratInput().getValue();
-        double volume = (Double) view.getVolumeInput().getValue();
+
+        String senderName =
+                view.getNamaPengirimInput()
+                        .getText()
+                        .trim();
+
+        String originCity =
+                loggedInUser.getLocation();
+
+        String receiverName =
+                view.getNamaPenerimaInput()
+                        .getText()
+                        .trim();
+
+        String destinationCity =
+                view.getDestinasiPaketInput()
+                        .getText()
+                        .trim();
+
+        String destinationAddress =
+                view.getAlamatTujuanInput()
+                        .getText()
+                        .trim();
+
+        String typePaket =
+                view.getTipePaketInput()
+                        .getText()
+                        .trim();
+
+        double weight =
+                (Double) view.getBeratInput()
+                        .getValue();
+
+        double volume =
+                (Double) view.getVolumeInput()
+                        .getValue();
 
         if (senderName.isEmpty()
-        || receiverName.isEmpty()
-        || destinationCity.isEmpty()
-        || destinationAddress.isEmpty()
-        || paketType.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Semua data wajib diisi!");
+                || receiverName.isEmpty()
+                || destinationCity.isEmpty()
+                || destinationAddress.isEmpty()
+                || typePaket.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Semua data wajib diisi!"
+            );
+
             return;
         }
 
         if (weight <= 0 || volume <= 0){
-            JOptionPane.showMessageDialog(null, "Berat dan Volume harus lebih dari 0!");
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Berat dan Volume harus lebih dari 0!"
+            );
+
             return;
         }
 
-        String pesan = "Data Paket berhasil diproses!\n\n"
-                + "Pengirim: " + senderName + "\n"
-                + "Penerima: " + receiverName + "\n"
-                + "Tujuan: " + destinationCity + "\n"
-                + "Tipe Paket: " + paketType + "\n"
-                + "Berat: " + weight + "kg\n"
-                + "Volume: " + volume + "Cm3";
+        try {
 
-        JOptionPane.showMessageDialog(null, pesan);
+            // Generate Resi
+            String resiId =
+                    GeneratorId.generateResi();
+
+            // Buat object Paket
+            Paket paket =
+                    new Paket(
+                            resiId,
+                            senderName,
+                            originCity,
+                            receiverName,
+                            destinationCity,
+                            destinationAddress,
+                            weight,
+                            volume,
+                            typePaket
+                    );
+
+            // Insert paket ke database
+            boolean paketInserted =
+                    paketDAO.insertPaket(paket);
+
+            if (!paketInserted) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Gagal menyimpan paket!"
+                );
+
+                return;
+            }
+
+            // Tracking awal
+            ShipmentLog log =
+                    new ShipmentLog(
+                            resiId,
+                            loggedInUser.getLocation(),
+                            "Diterima di Loket",
+                            loggedInUser.getId()
+                    );
+
+            // Insert tracking log
+            // Insert tracking log
+            boolean trackingInserted =
+                    trackingDAO.insertLog(log);
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "TRACKING INSERTED = "
+                            + trackingInserted
+            );
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Paket berhasil disimpan!\n\n"
+                            + "Nomor Resi : "
+                            + resiId
+            );
+
+            // Reset form
+            view.getNamaPengirimInput().setText("");
+            view.getNamaPenerimaInput().setText("");
+            view.getDestinasiPaketInput().setText("");
+            view.getAlamatTujuanInput().setText("");
+            view.getTipePaketInput().setText("");
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Terjadi kesalahan!\n"
+                            + ex.getMessage()
+            );
+        }
     }
 }

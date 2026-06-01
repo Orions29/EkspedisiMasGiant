@@ -1,4 +1,6 @@
 package com.github.orions29.ekspedisi.views;
+import com.github.orions29.ekspedisi.controller.LoginController;
+import com.github.orions29.ekspedisi.model.entity.User;
 
 /**
  * Project: EkspedisiMasGiant
@@ -20,12 +22,18 @@ package com.github.orions29.ekspedisi.views;
  */
 public class KurirViews extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(KurirViews.class.getName());
+    private User user;
 
     /**
      * Creates new form KurirViews
      */
     public KurirViews() {
         initComponents();
+    }
+    public KurirViews(User user) {
+        this.user = user;
+        initComponents();
+        jLabel3.setText(user.getUsername());
     }
 
     /**
@@ -119,8 +127,31 @@ public class KurirViews extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void logoutButtonActionPerformed(
+            java.awt.event.ActionEvent evt
+    ) {
+
+        javax.swing.JFrame frame =
+                new javax.swing.JFrame(
+                        "EMG Tracking System - Login"
+                );
+
+        LoginView loginView =
+                new LoginView();
+
+        new LoginController(loginView);
+
+        frame.setContentPane(loginView);
+
+        frame.setDefaultCloseOperation(
+                javax.swing.JFrame.EXIT_ON_CLOSE
+        );
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        this.dispose();
     }
 
     private void resiPaketInActionPerformed(java.awt.event.ActionEvent evt) {
