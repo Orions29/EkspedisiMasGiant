@@ -9,7 +9,7 @@ import java.util.List;
  * Project: EkspedisiMasGiant
  * Package: com.github.orions29.ekspedisi.utils
  * <p>
- * Class buat ngetest apakah nanti ini bisa jalan
+ * Class buat ngetest apakah sambungan ke database ini ok ok aja bisa jalan
  * </p>
  *
  * <hr>
@@ -35,6 +35,7 @@ public class DAOtester {
         System.out.println(">> TEST 1: USER DAO <<");
 
 //        Akses DAO User
+//        Narik Wong Gudang
         System.out.println("Tarik User (G-2001) : " + userDao.getUserById("G-2001"));
 
 //        Auth User

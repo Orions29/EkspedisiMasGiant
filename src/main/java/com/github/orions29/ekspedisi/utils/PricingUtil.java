@@ -1,5 +1,8 @@
 package com.github.orions29.ekspedisi.utils;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * Project: EkspedisiMasGiant
  * Package: com.github.orions29.ekspedisi.utils
@@ -21,35 +24,45 @@ public class PricingUtil {
 
     /**
      *
-     * <h3>Hitung Charge Berat</h3>
-     * <p> </p>
+     * <h3>Hitung Charge Berat Paket</h3>
+     * <p>
+     * Volume akan dibagi 6000 untuk mendapatkan berat volume per kilo, Ini secara imajiner ya.
+     * Berat volume imajiner kemudian akan dibandingkan dengan berat asli paket.
+     * Jika berat asli lebih besar maka akan diambil, jika tidak maka akan diambil berat volume.
+     * <p>
+     * ini logika bisnis dari internet entah asal dari mana.
+     * </p>
      *
-     *
+     * @param actualWeight - Berat Asli Paket
+     * @param volumeCm3    - Volume Paket dalam cm3 / centimeter kubik
+     * @return {@link double} - Hasil Perhitungan Charge
      * @author Orions29
      * @since 1 Jun 2026
-     * @param actualWeight - Berat Asli Paket
-     * @param volumeCm3 - Volume Paket
-     * @return {@link double} - Hasil Perhitungan Charge
-     *     */
+     *
+     */
     public static double hitungChargeBerat(double actualWeight, double volumeCm3) {
+//        Volume dijadikan kilogram imajiner / estimasi
         double beratVolume = volumeCm3 / PEMBAGI_VOLUME;
+//        Dibandingin sama kilogram aseli
         double chargeByWeight = Math.max(actualWeight, beratVolume);
-
+// gweh orangnya kapitalis HAHAHAH BULATKAN KE TERBESARRRR HAHA DASAR MISKINNNNNNNNNNNNNN
         return Math.ceil(chargeByWeight);
     }
 
     /**
      *
-     * <h3> Hitung Harga Asli</h3>
-     * <p> </p>
+     * <h3> Hitung Harga Akhir</h3>
+     * <p>
+     * Perhitungan harga asli. Dipisah biar bisa leluasa ganti logic bisnis hitung chargenya
+     * </p>
      *
-     *
+     * @param actualWeight - Berat Aseli paket
+     * @param volumeCm3    - Dimensi Paket
+     * @return {@link double} - Hasil Perhitungan Akhir (non Rupiah)
      * @author Orions29
      * @since 1 Jun 2026
-     * @param actualWeight - Berat Aseli paket
-     * @param volumeCm3 - Dimensi Paket
-     * @return {@link double} - Hasil Perhitungan Akhir (non Rupiah)
-     *     */
+     *
+     */
     public static double hitungHarga(double actualWeight, double volumeCm3) {
         double chargeByWeight = hitungChargeBerat(actualWeight, volumeCm3);
 
@@ -58,16 +71,23 @@ public class PricingUtil {
 
     /**
      *
-     * <h3></h3>
-     * <p> </p>
+     * <h3>Format Rupiah</h3>
+     * <p>
+     * Ngeformat Biar Rupiah ada
+     * </p>
      *
+     * note: Gweh gatau cara kerjanya gimana penting bisa.
      *
+     * @param nominal Deskripsi fungsi parameter ini
+     * @return {@link String}  Penjelasan mengenai data yang dikembalikan
      * @author Orions29
      * @since 1 Jun 2026
-     * @param nominal $END$ - Deskripsi fungsi parameter ini
-     * @return {@link String} - Penjelasan mengenai data yang dikembalikan
-     *     */
+     *
+     */
     public static String formatRupiah(double nominal) {
-        return String.format("%,.2f", nominal).replace(',', 'X').replace('.', ',').replace('X', '.');
+        Locale localeID = Locale.of("id", "ID");
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(localeID);
+
+        return formatter.format(nominal);
     }
 }
