@@ -6,7 +6,7 @@ import com.github.orions29.ekspedisi.model.entity.User;
  * Project: EkspedisiMasGiant
  * Package: com.github.orions29.ekspedisi.model.dao
  * <p>
- * Deskripsi fungsional dari file ini.
+ * Model Table dari User
  * </p>
  *
  * <hr>
@@ -26,13 +26,13 @@ public interface UserDAO {
      * <h3>Authentikasi User di DB</h3>
      * <p> </p>
      *
-     *
+     * @param username - Username User
+     * @param password - Hash Password user
+     * @return {@link User} - Objek User
      * @author Orions29
      * @since 30 May 2026
-     * @param username  - Username User
-     * @param password  - Hash Password user
-     * @return {@link User} - Objek User
-     * */
+     *
+     */
     User authenticate(String username, String password);
 
     /**
@@ -40,12 +40,12 @@ public interface UserDAO {
      * <h3>Ambil Info User dari DB</h3>
      * <p> </p>
      *
-     *
+     * @param userId - User ID
+     * @return {@link User} - Objek User
      * @author Orions29
      * @since 30 May 2026
-     * @param userId  - User ID
-     * @return {@link User} - Objek User
-     *     */
+     *
+     */
     User getUserById(String userId);
 
 
@@ -56,12 +56,12 @@ public interface UserDAO {
      * <h3>Menambah User</h3>
      * <p> Menambahkan User kedalam sistem </p>
      *
-     *
+     * @param user - Objek user yang ingin diganti
+     * @return {@link boolean} - Sukses atau tidaknya user ditambhakn
      * @author Orions29
      * @since 30 May 2026
-     * @param user  - Objek user yang ingin diganti
-     * @return {@link boolean} - Sukses atau tidaknya user ditambhakn
-     *     */
+     *
+     */
     boolean insertUser(User user);
 
     /**
@@ -69,11 +69,24 @@ public interface UserDAO {
      * <h3>Update Info User</h3>
      * <p> </p>
      *
-     *
+     * @param user - Deskripsi fungsi parameter ini
+     * @return {@link boolean} - Sukses atau tidaknya user ditambahkan
      * @author Orions29
      * @since 30 May 2026
-     * @param user  - Deskripsi fungsi parameter ini
-     * @return {@link boolean} - Sukses atau tidaknya user ditambahkan
-     *     */
+     *
+     */
     boolean updateUser(User user);
+
+    /**
+     *
+     * <h3>Delete User From Database</h3>
+     * <p> Menghapus User dari Database</p>
+     *
+     * @param userId $END$ - Deskripsi fungsi parameter ini
+     * @return {@link boolean} - Penjelasan mengenai data yang dikembalikan
+     * @author Orions29
+     * @since 1 Jun 2026
+     *
+     */
+    boolean deleteUser(String userId);
 }
