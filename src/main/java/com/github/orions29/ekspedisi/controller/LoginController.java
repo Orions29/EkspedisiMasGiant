@@ -122,7 +122,7 @@ public class LoginController {
                 LoketViews loketViews =
                         new LoketViews(user); // bikin dashboard loket dan mengirim data user login
 
-                new LoketController(
+                new OutletController(
                         loketViews,
                         user
                 );
