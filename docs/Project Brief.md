@@ -2,7 +2,6 @@
 
 ## Project Besar Erlan and Roi
 
-
 # 1. Class Diagram 🏗️
 
 ## Model (Roi)
@@ -33,19 +32,30 @@ Controller Login dan Semua yang berhubungan dengan views didapetkan dari sini. S
   - [x] Kurirviews
   - [x] GudangViews
   - [ ] Adminviews
+- [ ] Recheck Models
+  - [ ] DAO Paket
+  - [ ] DAO Tracking
+  - [ ] DAO User
 - [ ] Testing Views
 - [ ] Check Recheck Views
-
+- [ ] Optimasi BoilerPlate Login Calling
 
 # Ketentuan Nggarap Project Sing Nggenah
 
 kalau Mau ngepush bikin branch dulu buat per dev.
 kalau mau ngemerge WAJIB PR.
 
-# TO-DO
+
+---
+
+# TO-DO (Buat di PBO Teori)
 
 ## 1. Bikin QR Reader
 
 ## 2. Bikin Validitor User ID
 
-## 3. Bikin Penugasan Delegate Kurir (Opsional)
+## 3. Bikin Validitor User ID
+
+## 4. Bikin Validitor User ID
+
+## 5. Bikin Penugasan Delegate Kurir (Opsional)

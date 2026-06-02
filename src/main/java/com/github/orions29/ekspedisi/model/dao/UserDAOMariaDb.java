@@ -35,10 +35,10 @@ public class UserDAOMariaDb implements UserDAO {
 
     @Override
     public User authenticate(String username, String passwordHash) {
-        String sql = "SELECT id, username, password_hash, role, location FROM users WHERE username = ? AND password_hash = ?";
+        String querySql = "SELECT id, username, password_hash, role, location FROM users WHERE username = BINARY ? AND password_hash = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
             stmt.setString(1, username);
             stmt.setString(2, passwordHash);
