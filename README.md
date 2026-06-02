@@ -2,7 +2,7 @@
 
 _Rio Meidi Ataurrahman  / 123240175_
 
-_Erlan Rizki / 1232409173_
+_Erlan Rifqi / 123240173_
 
 ---
 
