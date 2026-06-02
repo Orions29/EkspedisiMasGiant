@@ -5,6 +5,9 @@ import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.views.KurirViews;
+
+import java.util.List;
+
 import javax.swing.*;
 
 /**
@@ -55,7 +58,7 @@ public class KurirController {
 
 
     // method buat konekin semua komponen UI sama logic controller, menggunakan event listener
-    private void initController(){
+    private void initController() {
 
         view.getSubmitPaket()
                 .addActionListener(e -> {
@@ -68,20 +71,24 @@ public class KurirController {
 
                     handlePaketSelesai();
                 });
+
+        view.getCekPaketButton().addActionListener(e -> {
+            handleCekMuatan();
+        });
     }
 
 
     // memproses update status paket ketika paket dibawa kurir
     // Status : "Diserahkan ke kurir"
     // method ini akan membuat log baru buat disimpen di db
-    private void handleDeliveryUpdate(){
+    private void handleDeliveryUpdate() {
 
         String resi =
                 view.getResiPaketIn()
                         .getText()
                         .trim();
 
-        if (resi.isEmpty()){
+        if (resi.isEmpty()) {
 
             JOptionPane.showMessageDialog(
                     null,
@@ -102,7 +109,7 @@ public class KurirController {
         boolean success =
                 trackingDAO.insertLog(logBaru);
 
-        if(success) {
+        if (success) {
 
             JOptionPane.showMessageDialog(
                     null,
@@ -126,7 +133,7 @@ public class KurirController {
 
     // method untuk mengubah status paket menjadi diterima oleh penerima
     // status yang dicatat: "diterima oleh penerima"
-    private void handlePaketSelesai(){
+    private void handlePaketSelesai() {
 
         // ngambil resi dari input field
         String resi =
@@ -135,7 +142,7 @@ public class KurirController {
                         .trim();
 
         // validasi agar resi tidak kosong
-        if(resi.isEmpty()){
+        if (resi.isEmpty()) {
 
             JOptionPane.showMessageDialog(
                     null,
@@ -160,7 +167,7 @@ public class KurirController {
                 trackingDAO.insertLog(logBaru);
 
         // success handler
-        if(success){
+        if (success) {
 
             JOptionPane.showMessageDialog(
                     null,
@@ -177,5 +184,37 @@ public class KurirController {
                     "Gagal update status paket!"
             );
         }
+    }
+
+    private void handleCekMuatan() {
+
+        // 1. Tarik data murni dari MariaDB berdasarkan DNA Kurir
+        List<String> daftarResi = trackingDAO.getResiByLatestStatusAndUser("Dibawa Kurir", loggedInUser.getId());
+
+        // 2. Bersihkan layar radar sebelum mencetak data baru
+        view.getListPaketArea().setText("");
+
+        // 3. Validasi Amunisi (Kalau lagi nggak bawa paket)
+        if (daftarResi.isEmpty()) {
+            view.getListPaketArea().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab! ☕");
+            return;
+        }
+
+        // 4. Rakit Tampilan UI Radar
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== DAFTAR MUATAN SAAT INI ===\n");
+        sb.append("Total Paket: ").append(daftarResi.size()).append(" item\n\n");
+
+        int nomor = 1;
+        for (String resi : daftarResi) {
+            sb.append(nomor).append(". ").append(resi).append("\n");
+            nomor++;
+        }
+
+        // 5. Tembakkan ke Kanvas View
+        view.getListPaketArea().setText(sb.toString());
+
+        // 6. Kunci scrollbar agar selalu mulai dari paling atas
+        view.getListPaketArea().setCaretPosition(0);
     }
 }
