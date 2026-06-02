@@ -5,6 +5,7 @@ import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.views.KurirViews;
+import com.github.orions29.ekspedisi.views.LoginView;
 
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class KurirController {
     private void handleLogoutEvent() {
         SwingUtilities.invokeLater(() -> {
             JFrame loginFrame = new JFrame("EMG Tracking System - Login");
-            com.github.orions29.ekspedisi.views.LoginView loginView = new com.github.orions29.ekspedisi.views.LoginView();
+            LoginView loginView = new LoginView();
 
             new LoginController(loginView);
 
@@ -199,7 +200,7 @@ public class KurirController {
                     .setText("");
 
         } else {
-            // failed handler
+            // failed handlerw
             JOptionPane.showMessageDialog(
                     null,
                     "Gagal update status paket!"
@@ -207,35 +208,38 @@ public class KurirController {
         }
     }
 
+    /**
+     *
+     * <h3>Cek Muatan Kurir</h3>
+     * <p> Daftar Paket yang masih dibawa kurir</p>
+     *
+     * @author Orions29
+     * @since 2 Jun 2026
+     *
+     */
     private void handleCekMuatan() {
-
-        // 1. Tarik data murni dari MariaDB berdasarkan DNA Kurir
         List<String> daftarResi = trackingDAO.getResiByLatestStatusAndUser("Dibawa Kurir", loggedInUser.getId());
-
-        // 2. Bersihkan layar radar sebelum mencetak data baru
         view.getListPaketArea().setText("");
 
-        // 3. Validasi Amunisi (Kalau lagi nggak bawa paket)
+//        Error handling kalau kosong
         if (daftarResi.isEmpty()) {
             view.getListPaketArea().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab! ☕");
             return;
         }
 
-        // 4. Rakit Tampilan UI Radar
-        StringBuilder sb = new StringBuilder();
-        sb.append("=== DAFTAR MUATAN SAAT INI ===\n");
-        sb.append("Total Paket: ").append(daftarResi.size()).append(" item\n\n");
+        StringBuilder daftarPaketTxt = new StringBuilder();
+        daftarPaketTxt.append("<= DAFTAR MUATAN =>\n");
+        daftarPaketTxt.append("Total Paket: ").append(daftarResi.size()).append(" item\n\n");
 
         int nomor = 1;
         for (String resi : daftarResi) {
-            sb.append(nomor).append(". ").append(resi).append("\n");
+            daftarPaketTxt.append(nomor).append(". ").append(resi).append("\n");
             nomor++;
         }
 
-        // 5. Tembakkan ke Kanvas View
-        view.getListPaketArea().setText(sb.toString());
+        view.getListPaketArea().setText(daftarPaketTxt.toString());
 
-        // 6. Kunci scrollbar agar selalu mulai dari paling atas
+//        biar paling atas atau apalah
         view.getListPaketArea().setCaretPosition(0);
     }
 }

@@ -23,16 +23,15 @@ public class KurirViews extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(KurirViews.class.getName());
     private User user;
 
-    public KurirViews() {
-        initComponents();
-    }
-
     public KurirViews(User user) {
+//        Error handling illegal akses ngelangkahi loginviews
         if (user == null) {
-            throw new IllegalArgumentException("Fatal: Akses ilegal! Jendela kurir wajib menerima data User yang valid.");
+            throw new IllegalArgumentException("[Illegal Access] - Akses Illlegal, No No Login Dulu ya ");
         }
         this.user = user;
         initComponents();
+
+//        Update Kurir Yang Logged IN
         jLabel3.setText(user.getUsername() + " (" + user.getId() + ")");
     }
 
@@ -80,11 +79,7 @@ public class KurirViews extends javax.swing.JFrame {
 
         resiPaketIn.setFont(new java.awt.Font("Consolas", 1, 14));
 
-        submitPaket.setBackground(new java.awt.Color(0, 102, 153));
-        submitPaket.setForeground(new java.awt.Color(255, 255, 255));
         submitPaket.setText("Bawa Paket");
-        submitPaket.setOpaque(true);
-        submitPaket.setBorderPainted(false);
 
         paketSelesaiButton.setBackground(new java.awt.Color(0, 153, 51));
         paketSelesaiButton.setFont(new java.awt.Font("Segoe UI", 1, 12));
@@ -93,7 +88,6 @@ public class KurirViews extends javax.swing.JFrame {
         paketSelesaiButton.setOpaque(true);
         paketSelesaiButton.setBorderPainted(false);
 
-        // Styling Tombol Baru
         cekPaketButton.setBackground(new java.awt.Color(255, 153, 0));
         cekPaketButton.setFont(new java.awt.Font("Segoe UI", 1, 12));
         cekPaketButton.setForeground(new java.awt.Color(0, 0, 0));

@@ -5,6 +5,7 @@ import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.views.GudangViews;
+import com.github.orions29.ekspedisi.views.LoginView;
 
 import javax.swing.*;
 
@@ -61,6 +62,27 @@ public class GudangController {
 
                     handleMassTransitUpdate();
                 });
+
+        view.getBtnLogout().addActionListener(e -> {
+            handleLogoutEvent();
+        });
+    }
+
+    private void handleLogoutEvent() {
+        SwingUtilities.invokeLater(() -> {
+            JFrame loginFrame = new JFrame("EMG Tracking System - Login");
+            LoginView loginView = new LoginView();
+
+            new LoginController(loginView);
+
+            loginFrame.setContentPane(loginView);
+            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            loginFrame.pack();
+            loginFrame.setLocationRelativeTo(null);
+            loginFrame.setVisible(true);
+        });
+
+        view.dispose();
     }
 
     public void handleMassTransitUpdate() {

@@ -1,5 +1,8 @@
 package com.github.orions29.ekspedisi.views;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,7 +35,7 @@ public class LoginView extends javax.swing.JPanel {
         passwordInput.setText("");
 
 //        Logo Mas Gian
-        java.io.File fileGambar = new java.io.File("assets/img/logo_asli.png");
+        File fileGambar = new File("assets/img/logo_asli.png");
 //        Error Handling Gambar
         if (fileGambar.exists()) {
             javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(fileGambar.getAbsolutePath());
@@ -47,11 +50,7 @@ public class LoginView extends javax.swing.JPanel {
             System.out.println("Gagal memuat gambar, File tidak ditemukan di: " + fileGambar.getAbsolutePath());
         }
 
-        java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
-        if (parentWindow != null) {
-            parentWindow.pack();
-            parentWindow.setLocationRelativeTo(null);
-        }
+        keyboardScanner();
     }
 
     /**
@@ -196,6 +195,26 @@ public class LoginView extends javax.swing.JPanel {
     private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameInputActionPerformed
+
+    /**
+     *
+     * <h3>Scanner Untuk Pencet Enter</h3>
+     * <p> ENter key untuk cek resi</p>
+     *
+     * @author Orions29
+     * @since 2 Jun 2026
+     *
+     */
+    private void keyboardScanner() {
+        passwordInput.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    loginButton.doClick();
+                }
+            }
+        });
+    }
 
     /**
      *
