@@ -122,8 +122,8 @@ public class LoginController {
                 LoketViews loketViews =
                         new LoketViews(user); // bikin dashboard loket dan mengirim data user login
 
-                new OutletController(
-                        loketViews, // connect view dengan controller
+                new LoketController(
+                        loketViews,
                         user
                 );
 

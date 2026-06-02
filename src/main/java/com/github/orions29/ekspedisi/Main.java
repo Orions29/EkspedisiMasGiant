@@ -32,7 +32,7 @@ public class Main {
     static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(Main.class);
 //        Jalanin Project Init Recheck
-//        ProjectInit.projectCheck();
+        ProjectInit.projectCheck();
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

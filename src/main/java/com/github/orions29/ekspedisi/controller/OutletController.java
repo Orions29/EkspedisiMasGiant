@@ -12,6 +12,7 @@ import com.github.orions29.ekspedisi.utils.PricingUtil;
 import com.github.orions29.ekspedisi.views.LoketViews;
 import javax.swing.*;
 
+
 /**
  * Controller buat ngelola proses input paket dari petugas loket ekspedisi
  *
@@ -43,9 +44,7 @@ public class OutletController {
     private PaketDAO paketDAO;
     private TrackingDAO trackingDAO;
 
-
-    // menerima data user login, inisialisasi DAO, jalanin semua event listener
-    public OutletController( // constructor utama outletcontroller
+    public OutletController(
             LoketViews view,
             User loggedInUser
     ) {
