@@ -10,6 +10,13 @@ repositories {
     mavenCentral()
 }
 
+// Biar Bisa Jalan di Semua Mesin
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
@@ -29,6 +36,18 @@ dependencies {
 // Database
     // Source: https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
     implementation("org.mariadb.jdbc:mariadb-java-client:3.5.8")
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes(
+            "Main-Class" to "com.github.orions29.ekspedisi.Main"
+        )
+    }
+
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 application {

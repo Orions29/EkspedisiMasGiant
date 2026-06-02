@@ -30,12 +30,13 @@ public class LoketViews extends javax.swing.JFrame {
 
         initComponents();
 
+//        User yang Login
         jLabel3.setText(loggedInUser.getUsername() + " (" + loggedInUser.getId() + ")");
         jLabel1.setText("Panel Outlet Ekspedisi - " + (loggedInUser.getLocation() != null ? loggedInUser.getLocation() : "Pusat"));
 
         kotaPengirimInput.setText(loggedInUser.getLocation() != null ? loggedInUser.getLocation() : "Pusat HQ");
         kotaPengirimInput.setEditable(false);
-
+// Di Nolkan semua spinnernya
         beratInput.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 99999.99d, 0.5d));
         volumeInput.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 99999.99d, 10.0d));
 

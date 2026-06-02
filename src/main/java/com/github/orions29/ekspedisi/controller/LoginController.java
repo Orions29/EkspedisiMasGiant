@@ -9,15 +9,15 @@ import com.github.orions29.ekspedisi.views.*;
 import javax.swing.*;
 
 /**
- *Controller untuk autentikasi user
+ * Controller untuk autentikasi user
  *
  * <p>
- *     Bertugas menangani proses login
- *     validasi username/password,
- *     routing role berdasarkan role user
- *     navigasi ke dashboar sesuai role
- *     </p>
-*/
+ * Bertugas menangani proses login
+ * validasi username/password,
+ * routing role berdasarkan role user
+ * navigasi ke dashboar sesuai role
+ * </p>
+ */
 public class LoginController {
 
     private LoginView view;
@@ -107,6 +107,7 @@ public class LoginController {
 
     /**
      * Routing dashboard berdasarkan role usernya apa
+     *
      * @param user user hasil autentikasi database
      */
     private void routeByRole(User user) {
@@ -114,7 +115,7 @@ public class LoginController {
         String role =
                 user.getRole(); // ngambil role  user
 
-        switch(role.toLowerCase()) {
+        switch (role.toLowerCase()) {
 
             case "loket": // role user loket maka akan diarahkan ke dashboard outlet
 
@@ -126,6 +127,7 @@ public class LoginController {
                         user
                 );
 
+                loketViews.setTitle("EMG Tracking System - Loket");
                 loketViews.setLocationRelativeTo(null); // window middle
                 loketViews.setVisible(true); // nampilin dashboard loket/outlet
 
@@ -145,6 +147,7 @@ public class LoginController {
                         user
                 );
 
+                gudangViews.setTitle("EMG Tracking System - Gudang");
                 gudangViews.setLocationRelativeTo(null); // posisi layar ditengah
                 gudangViews.setVisible(true); // menampilkan halaman gudang
 
@@ -164,6 +167,7 @@ public class LoginController {
                         user
                 );
 
+                kurirViews.setTitle("EMG Tracking System - Kurir");
                 kurirViews.setLocationRelativeTo(null); // set layar ditengah
                 kurirViews.setVisible(true); // menampilkan halaman kurir
 
@@ -173,8 +177,9 @@ public class LoginController {
 
                 break;
 
+// TODO Admin roi
             case "admin":   // jika role admin maka akan diarahkan ke dashboard admin (under maintenance)
-                            // disimpan untuk PBO materi
+                // disimpan untuk PBO materi
                 JOptionPane.showMessageDialog(
                         null,
                         "Login admin berhasil!"

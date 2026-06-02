@@ -1,8 +1,10 @@
 package com.github.orions29.ekspedisi.views;
-import com.github.orions29.ekspedisi.controller.GudangController;
+
 import com.github.orions29.ekspedisi.controller.LoginController;
-import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 
@@ -29,9 +31,8 @@ import java.awt.event.KeyEvent;
  */
 public class GudangViews extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GudangViews.class.getName());
+    private Logger logger = LoggerFactory.getLogger(GudangViews.class);
 
-    // Kapsul identitas mutlak dari pekerja yang berhasil login
     private User loggedInUser;
 
     /**
@@ -47,7 +48,7 @@ public class GudangViews extends javax.swing.JFrame {
         this.loggedInUser = user;
 
         initComponents();
-        setupScannerListener();
+        keyboardScanner();
     }
 
     @SuppressWarnings("unchecked")
@@ -87,9 +88,7 @@ public class GudangViews extends javax.swing.JFrame {
 
         labelLokasi.setText("Bertugas di: " + (loggedInUser.getLocation() != null ? loggedInUser.getLocation() : "Lokasi Tidak Diketahui"));
 
-
         btnLogout.setText("Logout");
-        btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         panelOperasi.setBorder(javax.swing.BorderFactory.createTitledBorder("Operasi Scan Paket"));
 
@@ -110,7 +109,6 @@ public class GudangViews extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnUpdate.setText("Update Status Logistik [ENTER]");
-        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
 
         javax.swing.GroupLayout panelOperasiLayout = new javax.swing.GroupLayout(panelOperasi);
         panelOperasi.setLayout(panelOperasiLayout);
@@ -209,11 +207,19 @@ public class GudangViews extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                                 .addContainerGap())
         );
-
         pack();
     }
 
-    private void setupScannerListener() {
+    /**
+     *
+     * <h3>Scanner Untuk Pencet Enter</h3>
+     * <p> ENter key untuk cek resi</p>
+     *
+     * @author Orions29
+     * @since 2 Jun 2026
+     *
+     */
+    private void keyboardScanner() {
         txtResi.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -224,49 +230,11 @@ public class GudangViews extends javax.swing.JFrame {
         });
     }
 
-    private void btnLogoutActionPerformed(
-            java.awt.event.ActionEvent evt
-    ) {
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Berhasil Logout dari sistem gudang."
-        );
-
-        javax.swing.JFrame frame =
-                new javax.swing.JFrame(
-                        "EMG Tracking System - Login"
-                );
-
-        LoginView loginView =
-                new LoginView();
-
-        new LoginController(loginView);
-
-        frame.setContentPane(loginView);
-
-        frame.setDefaultCloseOperation(
-                javax.swing.JFrame.EXIT_ON_CLOSE
-        );
-
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        this.dispose();
-    }
-
-    private void btnUpdateActionPerformed(
-            java.awt.event.ActionEvent evt
-    ) {
-    }
-
     // Sebenarnya Buat Ngetest Doang Tp entah jangan ubah ubah bestie.
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -277,6 +245,10 @@ public class GudangViews extends javax.swing.JFrame {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
+    }
+
+    public JButton getBtnLogout() {
+        return btnLogout;
     }
 
     public javax.swing.JButton getBtnUpdate() {

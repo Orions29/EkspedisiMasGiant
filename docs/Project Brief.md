@@ -27,11 +27,11 @@ Controller Login dan Semua yang berhubungan dengan views didapetkan dari sini. S
 # Views (Roi)
 
 ### TODO
-- [ ] Dokumentasiin Semua Views
+- [x] Dokumentasiin Semua Views
   - [x] LoginViews
-  - [ ] LoketViews
-  - [ ] Kurirviews
-  - [ ] GudangViews
+  - [x] LoketViews
+  - [x] Kurirviews
+  - [x] GudangViews
   - [ ] Adminviews
 - [ ] Testing Views
 - [ ] Check Recheck Views
