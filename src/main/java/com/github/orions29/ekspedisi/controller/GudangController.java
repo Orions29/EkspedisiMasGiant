@@ -5,6 +5,7 @@ import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.views.GudangViews;
+
 import javax.swing.*;
 
 /**
@@ -64,83 +65,42 @@ public class GudangController {
 
     public void handleMassTransitUpdate() {
 
-        String resiId =
-                view.getTxtResi()
-                        .getText()
-                        .trim();
+        String resiId = view.getTxtResi().getText().trim();
+        String selectedStatus = view.getComboStatus().getSelectedItem().toString();
 
-        String selectedStatus =
-                view.getComboStatus()
-                        .getSelectedItem()
-                        .toString();
-
-        if(resiId.isEmpty()) { // error handling buat inputan kosong
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Tembak barcode atau masukkan nomor resi dulu!"
-            );
-
+        if (resiId.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Scan barcode atau masukkan nomor resi dulu!");
             return;
         }
 
-        ShipmentLog logBaru = // bikin log baru buat update status tracking
-                new ShipmentLog(
-                        resiId,
-                        loggedInUser.getLocation(),
-                        selectedStatus,
-                        loggedInUser.getId()
-                );
+        ShipmentLog logBaru = new ShipmentLog(
+                resiId,
+                loggedInUser.getLocation(),
+                selectedStatus,
+                loggedInUser.getId()
+        );
 
-        boolean success =
-                trackingDAO.insertLog(logBaru);
+//        Rodokkan ke DB
+        boolean isSakses = trackingDAO.insertLog(logBaru);
 
-        if(success) {
+//        TImestamp
+        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String logMessage;
 
-            JOptionPane.showMessageDialog( // pop up sukses update status
-                    null,
-                    "Status paket berhasil diperbarui!"
-            );
-
-            // console real time
-            String timestamp =
-                    java.time.LocalDateTime.now()
-                            .format(
-                                    java.time.format.DateTimeFormatter
-                                            .ofPattern("HH:mm:ss")
-                            );
-
-            String logMessage = // console log message
-                    String.format(
-                            "[%s] SUCCESS: Resi %s -> [%s] @ %s\n",
-                            timestamp,
-                            resiId,
-                            selectedStatus,
-                            loggedInUser.getLocation()
-                    );
-
-            view.getTxtConsole()
-                    .append(logMessage); //  munculin real time update
-
-            view.getTxtConsole()
-                    .setCaretPosition(
-                            view.getTxtConsole()
-                                    .getDocument()
-                                    .getLength()
-                    );
-
-            view.getTxtResi()
-                    .setText("");
-
-            view.getTxtResi()
-                    .requestFocus();
-
-        } else { // error handligng jika gagal memperbarui staus paket
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Gagal memperbarui status paket!"
-            );
+//        Error Handling Sukses or Failed
+        if (isSakses) {
+            logMessage = String.format("[%s] SUCCESS: Resi %s => [%s] @ %s\n",
+                    timestamp, resiId, selectedStatus, loggedInUser.getLocation());
+        } else {
+            logMessage = String.format("[%s] FAILED : Resi %s => Gagal ditambahkan ke Database!\n",
+                    timestamp, resiId);
+            JOptionPane.showMessageDialog(null, "Error Db: Gagal memperbarui status paket ke database.\n Cek Resi Valid atau Tidak \n Jika masih error Kasih Tau Yang Maha Admin", "Error Database", JOptionPane.ERROR_MESSAGE);
         }
+
+        view.getTxtConsole().append(logMessage);
+        view.getTxtConsole().setCaretPosition(view.getTxtConsole().getDocument().getLength());
+//        Ibarat kata CLS
+        view.getTxtResi().setText("");
+        view.getTxtResi().requestFocus();
     }
 }

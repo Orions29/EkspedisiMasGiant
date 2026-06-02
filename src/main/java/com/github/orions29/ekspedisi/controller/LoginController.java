@@ -45,6 +45,7 @@ public class LoginController {
         view.getTrackButton().addActionListener(e -> {
 
             TrackingViews.main(null);
+//            SwingUtilities.getWindowAncestor(view).dispose();
         });
     }
 

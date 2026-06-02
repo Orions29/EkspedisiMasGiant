@@ -259,47 +259,9 @@ public class GudangViews extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(
             java.awt.event.ActionEvent evt
     ) {
-
-        String resiId =
-                txtResi.getText().trim();
-
-        String selectedStatus =
-                (String) comboStatus.getSelectedItem();
-
-        String lokasiOtomatis =
-                loggedInUser.getLocation();
-
-        if (resiId.isEmpty()) {
-            return;
-        }
-
-        // Simulasi Console
-        String timestamp =
-                java.time.LocalDateTime.now()
-                        .format(
-                                java.time.format.DateTimeFormatter
-                                        .ofPattern("HH:mm:ss")
-                        );
-
-        String logMessage =
-                String.format(
-                        "[%s] SUCCESS: Resi %s -> [%s] @ %s\n",
-                        timestamp,
-                        resiId,
-                        selectedStatus,
-                        lokasiOtomatis
-                );
-
-        txtConsole.append(logMessage);
-        txtConsole.setCaretPosition(
-                txtConsole.getDocument().getLength()
-        );
-
-        txtResi.setText("");
-        txtResi.requestFocus();
     }
 
-    // Di produksi, UI ini dipanggil dari LoginViews.
+    // Sebenarnya Buat Ngetest Doang Tp entah jangan ubah ubah bestie.
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

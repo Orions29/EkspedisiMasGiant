@@ -28,7 +28,7 @@ Controller Login dan Semua yang berhubungan dengan views didapetkan dari sini. S
 
 ### TODO
 - [ ] Dokumentasiin Semua Views
-  - [ ] LoginViews
+  - [x] LoginViews
   - [ ] LoketViews
   - [ ] Kurirviews
   - [ ] GudangViews
