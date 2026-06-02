@@ -53,7 +53,6 @@ public class LoginController {
      * Buat proses login user ke database
      * hashing password dan autentikasi
      */
-
     private void handleLoginEvent() {
 
         String username =
@@ -110,7 +109,6 @@ public class LoginController {
      * Routing dashboard berdasarkan role usernya apa
      * @param user user hasil autentikasi database
      */
-
     private void routeByRole(User user) {
 
         String role =
@@ -123,7 +121,7 @@ public class LoginController {
                 LoketViews loketViews =
                         new LoketViews(user); // bikin dashboard loket dan mengirim data user login
 
-                new OutletController(
+                new LoketController(
                         loketViews,
                         user
                 );

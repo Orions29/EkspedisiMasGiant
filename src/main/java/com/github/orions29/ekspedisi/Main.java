@@ -42,6 +42,8 @@ public class Main {
             System.err.println("[VIEWS ERROR] - Gagal estetik cahhhhhhhhhhhhhhhhhh lookAndFeel");
         }
 
+        
+// Pake Invokelater untuk membuat GUI di thread yang berbeda
         javax.swing.SwingUtilities.invokeLater(() -> {
             javax.swing.JFrame frame = new javax.swing.JFrame("EMG Tracking System - Login");
             LoginView loginView = new LoginView();

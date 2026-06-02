@@ -74,7 +74,6 @@ public class KurirViews extends javax.swing.JFrame {
         logoutButton.setText("Logout");
         logoutButton.setOpaque(true);
         logoutButton.setBorderPainted(false);
-        logoutButton.addActionListener(this::logoutButtonActionPerformed);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14));
         jLabel4.setText("Scan Resi / Input Manual");
@@ -175,18 +174,10 @@ public class KurirViews extends javax.swing.JFrame {
         pack();
     }
 
-    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        javax.swing.JFrame frame = new javax.swing.JFrame("EMG Tracking System - Login");
-        LoginView loginView = new LoginView();
-        new LoginController(loginView);
-        frame.setContentPane(loginView);
-        frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        this.dispose();
-    }
 
+    public javax.swing.JButton getLogoutButton() {
+        return logoutButton;
+    }
 
     public javax.swing.JButton getSubmitPaket() {
         return submitPaket;

@@ -75,6 +75,27 @@ public class KurirController {
         view.getCekPaketButton().addActionListener(e -> {
             handleCekMuatan();
         });
+
+        view.getLogoutButton().addActionListener(e -> {
+            handleLogoutEvent();
+        });
+    }
+
+    private void handleLogoutEvent() {
+        SwingUtilities.invokeLater(() -> {
+            JFrame loginFrame = new JFrame("EMG Tracking System - Login");
+            com.github.orions29.ekspedisi.views.LoginView loginView = new com.github.orions29.ekspedisi.views.LoginView();
+
+            new LoginController(loginView);
+
+            loginFrame.setContentPane(loginView);
+            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            loginFrame.pack();
+            loginFrame.setLocationRelativeTo(null);
+            loginFrame.setVisible(true);
+        });
+
+        view.dispose();
     }
 
 

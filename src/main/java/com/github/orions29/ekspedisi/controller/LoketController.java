@@ -10,6 +10,7 @@ import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.utils.GeneratorId;
 import com.github.orions29.ekspedisi.utils.PricingUtil;
 import com.github.orions29.ekspedisi.views.LoketViews;
+
 import javax.swing.*;
 
 
@@ -35,7 +36,7 @@ import javax.swing.*;
  *
  */
 
-public class OutletController {
+public class LoketController {
 
     private LoketViews view;
 
@@ -44,7 +45,7 @@ public class OutletController {
     private PaketDAO paketDAO;
     private TrackingDAO trackingDAO;
 
-    public OutletController(
+    public LoketController(
             LoketViews view,
             User loggedInUser
     ) {
@@ -61,7 +62,7 @@ public class OutletController {
         initController();
     }
 
-    private void initController(){ // inisiasi seluruh event listener
+    private void initController() { // inisiasi seluruh event listener
 
         view.getInputPaketButton()
                 .addActionListener(e -> {
@@ -80,9 +81,31 @@ public class OutletController {
 
                     updateEstimasiHarga();
                 });
+
+        view.getLogoutButton().addActionListener(e -> {
+            handleLogoutEvent();
+        });
     }
 
-    private void handleInputPaket(){
+    private void handleLogoutEvent() {
+        SwingUtilities.invokeLater(() -> {
+            JFrame loginFrame = new JFrame("EMG Tracking System - Login");
+            com.github.orions29.ekspedisi.views.LoginView loginView = new com.github.orions29.ekspedisi.views.LoginView();
+
+
+            new com.github.orions29.ekspedisi.controller.LoginController(loginView);
+
+            loginFrame.setContentPane(loginView);
+            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            loginFrame.pack();
+            loginFrame.setLocationRelativeTo(null);
+            loginFrame.setVisible(true);
+        });
+
+        view.dispose();
+    }
+
+    private void handleInputPaket() {
         // ngambil seluruh inputan identitas pengirim dan penerima dari form pengiriman
         String senderName =
                 view.getNamaPengirimInput()
@@ -135,7 +158,7 @@ public class OutletController {
             return;
         }
 
-        if (weight <= 0 || volume <= 0){ // error handling jika berat dan volume tidak diisi
+        if (weight <= 0 || volume <= 0) { // error handling jika berat dan volume tidak diisi
 
             JOptionPane.showMessageDialog(
                     null,
