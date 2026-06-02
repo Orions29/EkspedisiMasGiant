@@ -79,14 +79,14 @@ public class PricingUtil {
      * note: Gweh gatau cara kerjanya gimana penting bisa.
      *
      * @param nominal Deskripsi fungsi parameter ini
-     * @return {@link String}  Penjelasan mengenai data yang dikembalikan
+     * @return {@link String}  Mengembalikan format rupiah tanpa Ex: '20.000,00'
      * @author Orions29
      * @since 1 Jun 2026
      *
      */
     public static String formatRupiah(double nominal) {
         Locale localeID = Locale.of("id", "ID");
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(localeID);
+        NumberFormat formatter = NumberFormat.getNumberInstance(localeID);
 
         return formatter.format(nominal);
     }

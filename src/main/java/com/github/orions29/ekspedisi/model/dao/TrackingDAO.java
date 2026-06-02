@@ -8,7 +8,7 @@ import java.util.List;
  * Project: EkspedisiMasGiant
  * Package: com.github.orions29.ekspedisi.model.dao
  * <p>
- * Deskripsi fungsional dari file ini.
+ * Interface DAO untuk Tracking
  * </p>
  *
  * <hr>
@@ -29,12 +29,12 @@ public interface TrackingDAO {
      * <h3>Nambah log pada paket</h3>
      * <p> </p>
      *
-     *
-     * @author Orions29
-     * @since 30 May 2026
      * @param log $END$ - Deskripsi fungsi parameter ini
      * @return {@link boolean} - Penjelasan mengenai data yang dikembalikan
-     *     */
+     * @author Orions29
+     * @since 30 May 2026
+     *
+     */
     boolean insertLog(ShipmentLog log);
 
     /**
@@ -42,11 +42,25 @@ public interface TrackingDAO {
      * <h3>Get Shipment Log by Resi</h3>
      * <p> </p>
      *
-     *
-     * @author Orions29
-     * @since 30 May 2026
      * @param resiId - Resi ID Paket
      * @return {@link List<ShipmentLog>} - Seluruh List Shipment Log
-     * */
+     * @author Orions29
+     * @since 30 May 2026
+     *
+     */
     List<ShipmentLog> getShipmentLogByResi(String resiId);
+
+    /**
+     *
+     * <h3>Mengambil Paket yang Masih Dipegang Kurir Tertentu</h3>
+     * <p> </p>
+     *
+     * @param targetStatus $END$ - Status yang ingin dicari
+     * @param userId       - UserID Kurir
+     * @return {@link List<String>} - List Paket yang masih di pegang Kurir
+     * @author Orions29
+     * @since 2 Jun 2026
+     *
+     */
+    List<String> getResiByLatestStatusAndUser(String targetStatus, String userId);
 }

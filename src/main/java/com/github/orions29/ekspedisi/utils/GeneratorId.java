@@ -49,12 +49,12 @@ public class GeneratorId {
      *
      * <h3>Pembuat user ID</h3>
      * <p>
-     * Mencetak ID Pekerja berdasarkan Role.
-     * Format: [InisialRole]-[Random 4 Karakter]
-     * Contoh: K-F72A (Kurir), L-90BC (Loket), G-11X2 (Gudang)
+     * Mencetak ID Pekerja berdasarkan Role.<br>
+     * Format: [InisialRole]-[Random 4 Karakter]<br>
+     * Contoh: K-XXXX (Kurir), L-1234 (Loket), G-abcd (Gudang)
      * </p>
      *
-     * @param role - Role user
+     * @param role Role user
      * @return {@link String} - UserId yang sudah dibuat
      * @author Orions29
      * @since 30 May 2026

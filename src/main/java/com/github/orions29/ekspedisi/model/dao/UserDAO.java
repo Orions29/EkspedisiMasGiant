@@ -28,7 +28,7 @@ public interface UserDAO {
      *
      * @param username - Username User
      * @param password - Hash Password user
-     * @return {@link User} - Objek User
+     * @return {@link User} - Objek User Jika berhasil dan null jika gagal
      * @author Orions29
      * @since 30 May 2026
      *
@@ -41,7 +41,7 @@ public interface UserDAO {
      * <p> </p>
      *
      * @param userId - User ID
-     * @return {@link User} - Objek User
+     * @return {@link User} - Objek User jika berhasil dan null jika gagal
      * @author Orions29
      * @since 30 May 2026
      *
@@ -57,7 +57,7 @@ public interface UserDAO {
      * <p> Menambahkan User kedalam sistem </p>
      *
      * @param user - Objek user yang ingin diganti
-     * @return {@link boolean} - Sukses atau tidaknya user ditambhakn
+     * @return {@link boolean} - Sukses atau tidaknya user ditambahkan
      * @author Orions29
      * @since 30 May 2026
      *

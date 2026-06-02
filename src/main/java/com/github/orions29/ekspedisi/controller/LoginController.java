@@ -1,11 +1,23 @@
 package com.github.orions29.ekspedisi.controller;
+
 import com.github.orions29.ekspedisi.model.dao.UserDAO;
 import com.github.orions29.ekspedisi.model.dao.UserDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.utils.HashUtil;
 import com.github.orions29.ekspedisi.views.*;
+
 import javax.swing.*;
 
+/**
+ *Controller untuk autentikasi user
+ *
+ * <p>
+ *     Bertugas menangani proses login
+ *     validasi username/password,
+ *     routing role berdasarkan role user
+ *     navigasi ke dashboar sesuai role
+ *     </p>
+*/
 public class LoginController {
 
     private LoginView view;
@@ -19,6 +31,10 @@ public class LoginController {
         initController();
     }
 
+    /**
+     * Inisialisasi seluruh event listener
+     */
+
     private void initController() {
 
         view.getLoginButton().addActionListener(e -> {
@@ -29,26 +45,31 @@ public class LoginController {
         view.getTrackButton().addActionListener(e -> {
 
             TrackingViews.main(null);
+//            SwingUtilities.getWindowAncestor(view).dispose();
         });
     }
 
+    /**
+     * Buat proses login user ke database
+     * hashing password dan autentikasi
+     */
     private void handleLoginEvent() {
 
         String username =
-                view.getUsernameInput()
-                        .getText()
-                        .trim();
+                view.getUsernameInput() // ngambil inputan user dari view
+                        .getText() // ngambil isi textnya
+                        .trim(); // buang spasi berlebih di awal/akhir
 
         String password =
-                String.valueOf(
-                        view.getPasswordInput()
-                                .getPassword()
+                String.valueOf( // mengubah char menjadi string agar bisa diproses untuk login/hashing
+                        view.getPasswordInput() // ngambil komponen password field
+                                .getPassword() // mengembalikan char [] beriis password user
                 );
 
-        if(username.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
 
             JOptionPane.showMessageDialog(
-                    null,
+                    null, // error handling usn dan pw kosong
                     "Username dan Password wajib diisi!"
             );
 
@@ -66,7 +87,7 @@ public class LoginController {
                         hashedPassword
                 );
 
-        if(user != null) {
+        if (user != null) {
 
             JOptionPane.showMessageDialog(
                     null,
@@ -75,7 +96,7 @@ public class LoginController {
 
             routeByRole(user);
 
-        } else {
+        } else { // error jika usn/pw salah
 
             JOptionPane.showMessageDialog(
                     null,
@@ -84,72 +105,76 @@ public class LoginController {
         }
     }
 
+    /**
+     * Routing dashboard berdasarkan role usernya apa
+     * @param user user hasil autentikasi database
+     */
     private void routeByRole(User user) {
 
         String role =
-                user.getRole();
+                user.getRole(); // ngambil role  user
 
         switch(role.toLowerCase()) {
 
-            case "loket":
+            case "loket": // role user loket maka akan diarahkan ke dashboard outlet
 
                 LoketViews loketViews =
-                        new LoketViews(user);
+                        new LoketViews(user); // bikin dashboard loket dan mengirim data user login
 
-                new OutletController(
+                new LoketController(
                         loketViews,
                         user
                 );
 
-                loketViews.setLocationRelativeTo(null);
-                loketViews.setVisible(true);
+                loketViews.setLocationRelativeTo(null); // window middle
+                loketViews.setVisible(true); // nampilin dashboard loket/outlet
 
                 SwingUtilities
-                        .getWindowAncestor(view)
+                        .getWindowAncestor(view) // menutup windows sebelumnya
                         .dispose();
 
                 break;
 
-            case "gudang":
+            case "gudang":  // role user gudang maka akan diarahkan ke dashboard gudang
 
                 GudangViews gudangViews =
-                        new GudangViews(user);
+                        new GudangViews(user); // bikin tampilan buat role gudang
 
-                new GudangController(
+                new GudangController( // connect view dengan controller
                         gudangViews,
                         user
                 );
 
-                gudangViews.setLocationRelativeTo(null);
-                gudangViews.setVisible(true);
+                gudangViews.setLocationRelativeTo(null); // posisi layar ditengah
+                gudangViews.setVisible(true); // menampilkan halaman gudang
 
-                SwingUtilities
+                SwingUtilities      // close window yang sblmnya
                         .getWindowAncestor(view)
                         .dispose();
 
                 break;
 
-            case "kurir":
+            case "kurir":   // role user kurir maka akan diarahkan ke dashboard kurir
 
                 KurirViews kurirViews =
-                        new KurirViews(user);
+                        new KurirViews(user); // bikin tampilan buat role kurir
 
-                new KurirController(
+                new KurirController(    // connect view dengan controller
                         kurirViews,
                         user
                 );
 
-                kurirViews.setLocationRelativeTo(null);
-                kurirViews.setVisible(true);
+                kurirViews.setLocationRelativeTo(null); // set layar ditengah
+                kurirViews.setVisible(true); // menampilkan halaman kurir
 
-                SwingUtilities
+                SwingUtilities      // close window sebelumnya
                         .getWindowAncestor(view)
                         .dispose();
 
                 break;
 
-            case "admin":
-
+            case "admin":   // jika role admin maka akan diarahkan ke dashboard admin (under maintenance)
+                            // disimpan untuk PBO materi
                 JOptionPane.showMessageDialog(
                         null,
                         "Login admin berhasil!"
@@ -157,8 +182,7 @@ public class LoginController {
 
                 break;
 
-            default:
-
+            default:            // jika role tidak sesuai maka akan muncul error log
                 JOptionPane.showMessageDialog(
                         null,
                         "Role tidak dikenali, anomali ta iki!"

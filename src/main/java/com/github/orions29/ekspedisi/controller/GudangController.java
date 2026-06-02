@@ -8,6 +8,29 @@ import com.github.orions29.ekspedisi.views.GudangViews;
 
 import javax.swing.*;
 
+/**
+ * Controller buat ngelola proses scanning
+ * dan update status paket di fasilitas gudang
+ *
+ * <p>
+ * Tugasnya:
+ * validasi nomor resi paket,
+ * ngambilan status logistik dari ComboBox,
+ * pencatatan tracking paket ke database,
+ * nampilin aktivitas gudang secara realtime
+ * </p>
+ *
+ * <p>
+ * Controller ini connect in GudangViews
+ * dengan TrackingDAO sebagai jembatan
+ * antara antarmuka user dan database tracking
+ * </p>
+ *
+ * @author Erlan
+ */
+
+// constructor utama GudangController
+// nerima instance view gudang, nerima data user yang lagi login, inisialisasi DAO, aktifin semua event listener
 public class GudangController {
 
     private GudangViews view;
@@ -28,6 +51,9 @@ public class GudangController {
         initController();
     }
 
+
+    // ngehubungin seluruh komponen UI
+    // event: tombol update status, input enter pada field resi, realtime scanning gudang
     private void initController() {
 
         view.getBtnUpdate()
@@ -39,83 +65,42 @@ public class GudangController {
 
     public void handleMassTransitUpdate() {
 
-        String resiId =
-                view.getTxtResi()
-                        .getText()
-                        .trim();
+        String resiId = view.getTxtResi().getText().trim();
+        String selectedStatus = view.getComboStatus().getSelectedItem().toString();
 
-        String selectedStatus =
-                view.getComboStatus()
-                        .getSelectedItem()
-                        .toString();
-
-        if(resiId.isEmpty()) {
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Tembak barcode atau masukkan nomor resi dulu!"
-            );
-
+        if (resiId.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Scan barcode atau masukkan nomor resi dulu!");
             return;
         }
 
-        ShipmentLog logBaru =
-                new ShipmentLog(
-                        resiId,
-                        loggedInUser.getLocation(),
-                        selectedStatus,
-                        loggedInUser.getId()
-                );
+        ShipmentLog logBaru = new ShipmentLog(
+                resiId,
+                loggedInUser.getLocation(),
+                selectedStatus,
+                loggedInUser.getId()
+        );
 
-        boolean success =
-                trackingDAO.insertLog(logBaru);
+//        Rodokkan ke DB
+        boolean isSakses = trackingDAO.insertLog(logBaru);
 
-        if(success) {
+//        TImestamp
+        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String logMessage;
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Status paket berhasil diperbarui!"
-            );
-
-            // Console realtime
-            String timestamp =
-                    java.time.LocalDateTime.now()
-                            .format(
-                                    java.time.format.DateTimeFormatter
-                                            .ofPattern("HH:mm:ss")
-                            );
-
-            String logMessage =
-                    String.format(
-                            "[%s] SUCCESS: Resi %s -> [%s] @ %s\n",
-                            timestamp,
-                            resiId,
-                            selectedStatus,
-                            loggedInUser.getLocation()
-                    );
-
-            view.getTxtConsole()
-                    .append(logMessage);
-
-            view.getTxtConsole()
-                    .setCaretPosition(
-                            view.getTxtConsole()
-                                    .getDocument()
-                                    .getLength()
-                    );
-
-            view.getTxtResi()
-                    .setText("");
-
-            view.getTxtResi()
-                    .requestFocus();
-
+//        Error Handling Sukses or Failed
+        if (isSakses) {
+            logMessage = String.format("[%s] SUCCESS: Resi %s => [%s] @ %s\n",
+                    timestamp, resiId, selectedStatus, loggedInUser.getLocation());
         } else {
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Gagal memperbarui status paket!"
-            );
+            logMessage = String.format("[%s] FAILED : Resi %s => Gagal ditambahkan ke Database!\n",
+                    timestamp, resiId);
+            JOptionPane.showMessageDialog(null, "Error Db: Gagal memperbarui status paket ke database.\n Cek Resi Valid atau Tidak \n Jika masih error Kasih Tau Yang Maha Admin", "Error Database", JOptionPane.ERROR_MESSAGE);
         }
+
+        view.getTxtConsole().append(logMessage);
+        view.getTxtConsole().setCaretPosition(view.getTxtConsole().getDocument().getLength());
+//        Ibarat kata CLS
+        view.getTxtResi().setText("");
+        view.getTxtResi().requestFocus();
     }
 }

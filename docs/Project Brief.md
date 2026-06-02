@@ -20,15 +20,15 @@ Semua kebutuhan IO datbase masuk sini. semua Kebutuhan CRUD didapetkan dari DAO.
 Controller Login dan Semua yang berhubungan dengan views didapetkan dari sini. Seluruh kebutuhan IO database masuk ke DAO.
 
 ### TODO
-- [ ] Dokumentasiin Semua Controller
-- [ ] Testing Controller
-- [ ] Check Recheck Views
+- [X] Dokumentasiin Semua Controller
+- [X] Testing Controller
+- [X] Check Recheck Views
 
 # Views (Roi)
 
 ### TODO
 - [ ] Dokumentasiin Semua Views
-  - [ ] LoginViews
+  - [x] LoginViews
   - [ ] LoketViews
   - [ ] Kurirviews
   - [ ] GudangViews

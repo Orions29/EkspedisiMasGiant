@@ -38,10 +38,10 @@ public class TrackingDAOMariaDb implements TrackingDAO {
     @Override
     public boolean insertLog(ShipmentLog log) {
         // Timestamp diurus langsung oleh DEFAULT CURRENT_TIMESTAMP di MariaDB
-        String sql = "INSERT INTO tracking_logs (resi_id, user_id, status, location) VALUES (?, ?, ?, ?)";
+        String querySql = "INSERT INTO tracking_logs (resi_id, user_id, status, location) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
             stmt.setString(1, log.getResiId());
             stmt.setString(2, log.getUserId());
@@ -69,12 +69,12 @@ public class TrackingDAOMariaDb implements TrackingDAO {
 
     @Override
     public List<ShipmentLog> getShipmentLogByResi(String resiId) {
-        String sql = "SELECT log_id, resi_id, user_id, status, location, timestamp " + "FROM tracking_logs WHERE resi_id = ? ORDER BY timestamp ASC";
+        String querySql = "SELECT log_id, resi_id, user_id, status, location, timestamp " + "FROM tracking_logs WHERE resi_id = ? ORDER BY timestamp ASC";
 
         List<ShipmentLog> logHistory = new ArrayList<>();
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
             stmt.setString(1, resiId);
 
@@ -97,5 +97,38 @@ public class TrackingDAOMariaDb implements TrackingDAO {
         }
 
         return logHistory;
+    }
+
+    @Override
+    public List<String> getResiByLatestStatusAndUser(String targetStatus, String userId) {
+        List<String> listResi = new ArrayList<>();
+
+        String querySql = "SELECT t1.resi_id " +
+                "FROM tracking_logs t1 " +
+                "INNER JOIN (" +
+                "    SELECT resi_id, MAX(log_id) as max_id " +
+                "    FROM tracking_logs " +
+                "    GROUP BY resi_id" +
+                ") t2 ON t1.log_id = t2.max_id " +
+                "WHERE t1.status = ? AND t1.user_id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(querySql)) {
+
+            pstmt.setString(1, targetStatus);
+            pstmt.setString(2, userId);
+
+            try (java.sql.ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    listResi.add(rs.getString("resi_id"));
+                }
+            }
+
+        } catch (java.sql.SQLException e) {
+            System.err.println("[QUERY ERROR] -  Error saat Menarik Paket Kurir");
+            e.printStackTrace();
+        }
+
+        return listResi;
     }
 }

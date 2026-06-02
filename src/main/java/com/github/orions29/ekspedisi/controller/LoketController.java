@@ -10,9 +10,33 @@ import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.utils.GeneratorId;
 import com.github.orions29.ekspedisi.utils.PricingUtil;
 import com.github.orions29.ekspedisi.views.LoketViews;
+
 import javax.swing.*;
 
-public class OutletController {
+
+/**
+ * Controller buat ngelola proses input paket dari petugas loket ekspedisi
+ *
+ * <p>
+ * Bertugas menangani:
+ * validasi input data paket,
+ * generate nomor resi otomatis,
+ * penyimpanan data paket ke db,
+ * pencatatan tracking awal paket,
+ * reset form setelah data berhasil disimpan
+ * </p>
+ *
+ * <p>
+ * Controller ini jadi  penghubung utama
+ * antara OutletViews dengan layer DAO
+ * (PaketDAO dan TrackingDAO)
+ * </p>
+ *
+ * @author Erlan
+ *
+ */
+
+public class LoketController {
 
     private LoketViews view;
 
@@ -21,7 +45,7 @@ public class OutletController {
     private PaketDAO paketDAO;
     private TrackingDAO trackingDAO;
 
-    public OutletController(
+    public LoketController(
             LoketViews view,
             User loggedInUser
     ) {
@@ -38,7 +62,7 @@ public class OutletController {
         initController();
     }
 
-    private void initController(){
+    private void initController() { // inisiasi seluruh event listener
 
         view.getInputPaketButton()
                 .addActionListener(e -> {
@@ -57,12 +81,32 @@ public class OutletController {
 
                     updateEstimasiHarga();
                 });
+
+        view.getLogoutButton().addActionListener(e -> {
+            handleLogoutEvent();
+        });
     }
 
+    private void handleLogoutEvent() {
+        SwingUtilities.invokeLater(() -> {
+            JFrame loginFrame = new JFrame("EMG Tracking System - Login");
+            com.github.orions29.ekspedisi.views.LoginView loginView = new com.github.orions29.ekspedisi.views.LoginView();
 
 
-    private void handleInputPaket(){
+            new com.github.orions29.ekspedisi.controller.LoginController(loginView);
 
+            loginFrame.setContentPane(loginView);
+            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            loginFrame.pack();
+            loginFrame.setLocationRelativeTo(null);
+            loginFrame.setVisible(true);
+        });
+
+        view.dispose();
+    }
+
+    private void handleInputPaket() {
+        // ngambil seluruh inputan identitas pengirim dan penerima dari form pengiriman
         String senderName =
                 view.getNamaPengirimInput()
                         .getText()
@@ -91,6 +135,7 @@ public class OutletController {
                         .getText()
                         .trim();
 
+        // ngambil data berat dan volume paket dari JSpinner
         double weight =
                 (Double) view.getBeratInput()
                         .getValue();
@@ -99,7 +144,7 @@ public class OutletController {
                 (Double) view.getVolumeInput()
                         .getValue();
 
-        if (senderName.isEmpty()
+        if (senderName.isEmpty() // error handling inputan kosong
                 || receiverName.isEmpty()
                 || destinationCity.isEmpty()
                 || destinationAddress.isEmpty()
@@ -113,7 +158,7 @@ public class OutletController {
             return;
         }
 
-        if (weight <= 0 || volume <= 0){
+        if (weight <= 0 || volume <= 0) { // error handling jika berat dan volume tidak diisi
 
             JOptionPane.showMessageDialog(
                     null,
@@ -125,11 +170,11 @@ public class OutletController {
 
         try {
 
-            // Generate Resi
+            // generate resi otomatis
             String resiId =
                     GeneratorId.generateResi();
 
-            // Buat object Paket
+            // buat object paket baru
             Paket paket =
                     new Paket(
                             resiId,
@@ -143,7 +188,7 @@ public class OutletController {
                             typePaket
                     );
 
-            // Insert paket ke database
+            // insert paket ke database
             boolean paketInserted =
                     paketDAO.insertPaket(paket);
 
@@ -156,7 +201,7 @@ public class OutletController {
 
                 return;
             }
-            // Tracking awal
+            // buat log tracking awal dengan status "diterima di loket"
             ShipmentLog log =
                     new ShipmentLog(
                             resiId,
@@ -165,7 +210,7 @@ public class OutletController {
                             loggedInUser.getId()
                     );
 
-            // Insert tracking log
+            // simpen log tracking ke db
             trackingDAO.insertLog(log);
 
             String pesanSukses = String.format("Data Paket berhasil disimpan ke database MariaDB!\n\n"
@@ -183,7 +228,7 @@ public class OutletController {
                     pesanSukses
             );
 
-            // Reset form
+            // reset form pengisian
             view.getNamaPengirimInput().setText("");
             view.getNamaPenerimaInput().setText("");
             view.getDestinasiPaketInput().setText("");
@@ -207,6 +252,10 @@ public class OutletController {
         }
     }
 
+
+    // method buat ngitung estimasi harga paket secara otomatis berdasarkan berat dan volume
+    // ngambil nilai berat dan volume dari form, hitung pake PricingUtil
+    // dipanggil tiap ada perubahan berat dan volume
     private void updateEstimasiHarga() {
 
         double weight =
