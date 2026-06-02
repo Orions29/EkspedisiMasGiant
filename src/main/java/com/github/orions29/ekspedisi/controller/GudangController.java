@@ -5,9 +5,31 @@ import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.views.GudangViews;
-
 import javax.swing.*;
 
+/**
+ * Controller buat ngelola proses scanning
+ * dan update status paket di fasilitas gudang
+ *
+ * <p>
+ * Tugasnya:
+ * validasi nomor resi paket,
+ * ngambilan status logistik dari ComboBox,
+ * pencatatan tracking paket ke database,
+ * nampilin aktivitas gudang secara realtime
+ * </p>
+ *
+ * <p>
+ * Controller ini connect in GudangViews
+ * dengan TrackingDAO sebagai jembatan
+ * antara antarmuka user dan database tracking
+ * </p>
+ *
+ * @author Erlan
+ */
+
+// constructor utama GudangController
+// nerima instance view gudang, nerima data user yang lagi login, inisialisasi DAO, aktifin semua event listener
 public class GudangController {
 
     private GudangViews view;
@@ -28,6 +50,9 @@ public class GudangController {
         initController();
     }
 
+
+    // ngehubungin seluruh komponen UI
+    // event: tombol update status, input enter pada field resi, realtime scanning gudang
     private void initController() {
 
         view.getBtnUpdate()
@@ -49,7 +74,7 @@ public class GudangController {
                         .getSelectedItem()
                         .toString();
 
-        if(resiId.isEmpty()) {
+        if(resiId.isEmpty()) { // error handling buat inputan kosong
 
             JOptionPane.showMessageDialog(
                     null,
@@ -59,7 +84,7 @@ public class GudangController {
             return;
         }
 
-        ShipmentLog logBaru =
+        ShipmentLog logBaru = // bikin log baru buat update status tracking
                 new ShipmentLog(
                         resiId,
                         loggedInUser.getLocation(),
@@ -72,12 +97,12 @@ public class GudangController {
 
         if(success) {
 
-            JOptionPane.showMessageDialog(
+            JOptionPane.showMessageDialog( // pop up sukses update status
                     null,
                     "Status paket berhasil diperbarui!"
             );
 
-            // Console realtime
+            // console real time
             String timestamp =
                     java.time.LocalDateTime.now()
                             .format(
@@ -85,7 +110,7 @@ public class GudangController {
                                             .ofPattern("HH:mm:ss")
                             );
 
-            String logMessage =
+            String logMessage = // console log message
                     String.format(
                             "[%s] SUCCESS: Resi %s -> [%s] @ %s\n",
                             timestamp,
@@ -95,7 +120,7 @@ public class GudangController {
                     );
 
             view.getTxtConsole()
-                    .append(logMessage);
+                    .append(logMessage); //  munculin real time update
 
             view.getTxtConsole()
                     .setCaretPosition(
@@ -110,7 +135,7 @@ public class GudangController {
             view.getTxtResi()
                     .requestFocus();
 
-        } else {
+        } else { // error handligng jika gagal memperbarui staus paket
 
             JOptionPane.showMessageDialog(
                     null,
