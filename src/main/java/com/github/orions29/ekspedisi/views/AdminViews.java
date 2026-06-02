@@ -27,6 +27,10 @@ public class AdminViews extends javax.swing.JFrame {
     private final User loggedInAdmin;
     private final UserDAO userDao;
 
+    /**
+     * Constructor untuk membuat instance AdminViews.
+     * @param admin
+     */
     public AdminViews(User admin) {
         if (admin == null || !"admin".equalsIgnoreCase(admin.getRole())) {
             throw new IllegalArgumentException("Akses Ilegal: Khusus Administrator.");
@@ -360,6 +364,16 @@ public class AdminViews extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * <h3>[KHUSUS TESTING] - Tampilan Dummy</h3>
+     * <p> </p>
+     *
+     *
+     * @author Orions29
+     * @since 1 Jun 2026
+     * @param args - Deskripsi fungsi parameter ini
+     * */
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

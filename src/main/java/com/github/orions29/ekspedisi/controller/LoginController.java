@@ -93,16 +93,16 @@ public class LoginController {
 
             case "loket":
 
-                OutletViews outletViews =
-                        new OutletViews(user);
+                LoketViews loketViews =
+                        new LoketViews(user);
 
                 new OutletController(
-                        outletViews,
+                        loketViews,
                         user
                 );
 
-                outletViews.setLocationRelativeTo(null);
-                outletViews.setVisible(true);
+                loketViews.setLocationRelativeTo(null);
+                loketViews.setVisible(true);
 
                 SwingUtilities
                         .getWindowAncestor(view)

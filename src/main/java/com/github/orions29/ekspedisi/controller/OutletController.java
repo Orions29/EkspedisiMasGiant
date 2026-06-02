@@ -9,12 +9,12 @@ import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.utils.GeneratorId;
 import com.github.orions29.ekspedisi.utils.PricingUtil;
-import com.github.orions29.ekspedisi.views.OutletViews;
+import com.github.orions29.ekspedisi.views.LoketViews;
 import javax.swing.*;
 
 public class OutletController {
 
-    private OutletViews view;
+    private LoketViews view;
 
     private User loggedInUser;
 
@@ -22,7 +22,7 @@ public class OutletController {
     private TrackingDAO trackingDAO;
 
     public OutletController(
-            OutletViews view,
+            LoketViews view,
             User loggedInUser
     ) {
 
@@ -168,12 +168,19 @@ public class OutletController {
             // Insert tracking log
             trackingDAO.insertLog(log);
 
+            String pesanSukses = String.format("Data Paket berhasil disimpan ke database MariaDB!\n\n"
+                            + "Nomor Resi: %s\n"
+                            + "Pengirim: %s (%s)\n"
+                            + "Penerima: %s (%s)\n"
+                            + "Berat: %.2f kg\n"
+                            + "Volume: %.2f cm3\n"
+                            + "Tipe: %s\n\n"
+                            + "Lokasi Input: %s",
+                    resiId, senderName, originCity, receiverName, destinationCity, weight, volume, typePaket, loggedInUser.getLocation());
 
             JOptionPane.showMessageDialog(
                     null,
-                    "Paket berhasil disimpan!\n\n"
-                            + "Nomor Resi : "
-                            + resiId
+                    pesanSukses
             );
 
             // Reset form

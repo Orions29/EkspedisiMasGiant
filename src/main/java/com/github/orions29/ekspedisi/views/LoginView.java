@@ -29,22 +29,21 @@ public class LoginView extends javax.swing.JPanel {
         initComponents();
         startClock();
 
-        // 1. Bersihkan teks bawaan input agar kosong saat pertama kali dibuka
+//        Cleaning Semua Text Input awal
         usernameInput.setText("");
         passwordInput.setText("");
 
-        // 2. Ambil gambar dari folder assets di root project secara aman
+//        Logo Mas Gian
         java.io.File fileGambar = new java.io.File("assets/img/logo_asli.png");
 
         if (fileGambar.exists()) {
             javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(fileGambar.getAbsolutePath());
             java.awt.Image originalImage = originalIcon.getImage();
 
-            // Ubah resolusi gambar secara halus (Lebar: 220, Tinggi: 220)
             java.awt.Image resizedImage = originalImage.getScaledInstance(220, 220, java.awt.Image.SCALE_SMOOTH);
 
             gambarEMG.setIcon(new javax.swing.ImageIcon(resizedImage));
-            gambarEMG.setText(""); // Hapus teks placeholder
+//            gambarEMG.setText("");
         } else {
             System.out.println("Gagal memuat gambar! File tidak ditemukan di: " + fileGambar.getAbsolutePath());
         }

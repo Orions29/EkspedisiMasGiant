@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Bulan Mei 2026 pada 14.49
+-- Waktu pembuatan: 01 Jun 2026 pada 14.19
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.4.14
 
@@ -40,6 +40,15 @@ CREATE TABLE `paket` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `paket`
+--
+
+INSERT INTO `paket` (`resi_id`, `sender_name`, `origin_city`, `receiver_name`, `destination_city`, `destination_address`, `weight`, `volume`, `type_paket`, `created_at`) VALUES
+('RESI-20260601-2052-8C75', 'Budi', 'Loket Pusat Godean', 'heru', 'Yogyakarta', 'Jogja Bagian apalah itu', 30.00, 17.00, 'Baju Kotor', '2026-06-01 13:52:41'),
+('RESI-20260601-2059-065B', 'Budi Herryanto', 'Loket Pusat Godean', 'Heri Antonio', 'hahay', 'Inilah begitulah ini lah', 100.00, 2000.00, 'Baju Bekas', '2026-06-01 13:59:34'),
+('RESI-20260601-2110-D7B8', 'Haryani', 'Loket Pusat Godean', 'Budi Santoto', 'Godean', 'Ya sini lah ya', 8.00, 140.00, 'Baju Kotor', '2026-06-01 14:10:53');
+
 -- --------------------------------------------------------
 
 --
@@ -54,6 +63,19 @@ CREATE TABLE `tracking_logs` (
   `location` varchar(100) NOT NULL,
   `timestamp` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tracking_logs`
+--
+
+INSERT INTO `tracking_logs` (`log_id`, `resi_id`, `user_id`, `status`, `location`, `timestamp`) VALUES
+(1, 'RESI-20260601-2052-8C75', 'L-1002', 'Diterima di Loket', 'Loket Pusat Godean', '2026-06-01 20:52:41'),
+(2, 'RESI-20260601-2059-065B', 'L-1002', 'Diterima di Loket', 'Loket Pusat Godean', '2026-06-01 20:59:34'),
+(3, 'RESI-20260601-2110-D7B8', 'L-1002', 'Diterima di Loket', 'Loket Pusat Godean', '2026-06-01 21:10:53'),
+(4, 'RESI-20260601-2110-D7B8', 'K-3003', 'Dibawa Kurir', 'Godean', '2026-06-01 21:12:17'),
+(5, 'RESI-20260601-2110-D7B8', 'G-2002', 'Tiba di Fasilitas Sortir', 'DC Cakung', '2026-06-01 21:15:33'),
+(6, 'RESI-20260601-2110-D7B8', 'K-3003', 'Dibawa Kurir', 'Godean', '2026-06-01 21:16:04'),
+(7, 'RESI-20260601-2110-D7B8', 'K-3003', 'Paket sudah diterima oleh penerima', 'Paket Telah Diterima', '2026-06-01 21:16:07');
 
 -- --------------------------------------------------------
 
@@ -75,11 +97,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password_hash`, `role`, `location`, `created_at`) VALUES
-('G-2001', 'gudang_budi', 'bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca2', 'gudang', 'Gudang Sortir Godean', '2026-05-30 04:58:18'),
-('K-3001', 'kurir_anto', 'bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca3', 'kurir', NULL, '2026-05-30 04:58:18'),
-('K-3002', 'kurir_siti', 'bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca2', 'kurir', NULL, '2026-05-30 04:58:18'),
-('K-C9CD', 'kurir_tester', 'dummyhash123', 'gudang', 'Gudang Pusat Jakarta', '2026-05-30 14:48:41'),
-('L-1001', 'loket_rani', 'bee5688aea66a47460b19c76f8f199c6b9585eb726f8322b1429793863609ca2', 'loket', 'Loket Pusat Godean', '2026-05-30 04:58:18');
+('	\r\nA-1001', 'admintest', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'admin', 'Admin YK', '2026-05-31 17:27:47'),
+('G-2002', 'gudangtest', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'gudang', 'DC Cakung', '2026-05-31 17:28:22'),
+('K-3003', 'kurirtest', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'kurir', 'Godean', '2026-05-31 17:29:14'),
+('L-1002', 'lokettest', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'loket', 'Loket Pusat Godean', '2026-05-31 17:28:49');
 
 --
 -- Indexes for dumped tables
@@ -114,7 +135,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `tracking_logs`
 --
 ALTER TABLE `tracking_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

@@ -11,32 +11,33 @@ Semua kebutuhan IO datbase masuk sini. semua Kebutuhan CRUD didapetkan dari DAO.
 
 ### TODO
 
-1. Buat DAO Paket
-2. Testing DAO Paket
-3. Buat DAO Tracking
-4. Testing DAO Tracking
+- [ ] Dokumentasiin Semua Model
+- [ ] Testing Model
+- [ ] Check Recheck Model terutama DAO
 
 ## Controller (Erlan)
 
 Controller Login dan Semua yang berhubungan dengan views didapetkan dari sini. Seluruh kebutuhan IO database masuk ke DAO.
 
 ### TODO
+- [ ] Dokumentasiin Semua Controller
+- [ ] Testing Controller
+- [ ] Check Recheck Views
 
-## Views (Roi)
-
-belum dibuat
+# Views (Roi)
 
 ### TODO
+- [ ] Dokumentasiin Semua Views
+  - [ ] LoginViews
+  - [ ] LoketViews
+  - [ ] Kurirviews
+  - [ ] GudangViews
+  - [ ] Adminviews
+- [ ] Testing Views
+- [ ] Check Recheck Views
 
-1. Buat Tampilan Login
-2. Buat Tampilan Tracking Paket
-3. Buat Tampilan Outlet
-4. Buat Tampilan Kurir
-5. Buat tampilan gudang
 
-
-
-# Ketentuan Nggarap
+# Ketentuan Nggarap Project Sing Nggenah
 
 kalau Mau ngepush bikin branch dulu buat per dev.
 kalau mau ngemerge WAJIB PR.
@@ -48,5 +49,3 @@ kalau mau ngemerge WAJIB PR.
 ## 2. Bikin Validitor User ID
 
 ## 3. Bikin Penugasan Delegate Kurir (Opsional)
-
-## 4. Bikin 
