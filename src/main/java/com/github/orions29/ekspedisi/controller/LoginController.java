@@ -1,9 +1,11 @@
 package com.github.orions29.ekspedisi.controller;
+
 import com.github.orions29.ekspedisi.model.dao.UserDAO;
 import com.github.orions29.ekspedisi.model.dao.UserDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.utils.HashUtil;
 import com.github.orions29.ekspedisi.views.*;
+
 import javax.swing.*;
 
 /**
@@ -64,8 +66,7 @@ public class LoginController {
                                 .getPassword() // mengembalikan char [] beriis password user
                 );
 
-        // error handling input kosong
-        if(username.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
 
             JOptionPane.showMessageDialog(
                     null, // error handling usn dan pw kosong
@@ -86,7 +87,7 @@ public class LoginController {
                         hashedPassword
                 );
 
-        if(user != null) { // succes login
+        if (user != null) {
 
             JOptionPane.showMessageDialog(
                     null,

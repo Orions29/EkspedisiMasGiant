@@ -104,7 +104,7 @@ public class UserDAOMariaDb implements UserDAO {
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                logger.info("Rekrutmen Sukses! Pekerja baru [{}] (Role: {}) berhasil diinjeksi.", user.getUsername(), user.getRole());
+                logger.info("Insert User Sukses Pekerja baru [{}] (Role: {}) berhasil diinjeksi.", user.getUsername(), user.getRole());
                 return true;
             }
 
@@ -133,7 +133,7 @@ public class UserDAOMariaDb implements UserDAO {
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                logger.info("Update Sukses!, Data pekerja ID [{}] berhasil diperbarui.", user.getId());
+                logger.info("Update Sukses, Data pekerja ID [{}] berhasil diperbarui.", user.getId());
                 return true;
             } else {
                 logger.warn("[UPDATE FAILED] - Pekerja dengan ID [{}] fiktif atau tidak ditemukan di MariaDB.", user.getId());
