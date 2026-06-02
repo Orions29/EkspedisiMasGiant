@@ -98,7 +98,7 @@ public class LoginController {
                 LoketViews loketViews =
                         new LoketViews(user);
 
-                new OutletController(
+                new LoketController(
                         loketViews,
                         user
                 );

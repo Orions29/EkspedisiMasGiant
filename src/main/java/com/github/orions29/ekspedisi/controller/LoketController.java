@@ -12,7 +12,7 @@ import com.github.orions29.ekspedisi.utils.PricingUtil;
 import com.github.orions29.ekspedisi.views.LoketViews;
 import javax.swing.*;
 
-public class OutletController {
+public class LoketController {
 
     private LoketViews view;
 
@@ -21,7 +21,7 @@ public class OutletController {
     private PaketDAO paketDAO;
     private TrackingDAO trackingDAO;
 
-    public OutletController(
+    public LoketController(
             LoketViews view,
             User loggedInUser
     ) {
