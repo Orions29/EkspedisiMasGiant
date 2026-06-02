@@ -1,4 +1,5 @@
 package com.github.orions29.ekspedisi.views;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -6,7 +7,7 @@ import java.util.Date;
  * Project: EkspedisiMasGiant
  * Package: com.github.orions29.ekspedisi.views
  * <p>
- * Deskripsi fungsional dari file ini.
+ * Login View
  * </p>
  *
  * <hr>
@@ -22,9 +23,6 @@ import java.util.Date;
  */
 public class LoginView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form LoginViews
-     */
     public LoginView() {
         initComponents();
         startClock();
@@ -35,7 +33,7 @@ public class LoginView extends javax.swing.JPanel {
 
 //        Logo Mas Gian
         java.io.File fileGambar = new java.io.File("assets/img/logo_asli.png");
-
+//        Error Handling Gambar
         if (fileGambar.exists()) {
             javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(fileGambar.getAbsolutePath());
             java.awt.Image originalImage = originalIcon.getImage();
@@ -43,21 +41,31 @@ public class LoginView extends javax.swing.JPanel {
             java.awt.Image resizedImage = originalImage.getScaledInstance(220, 220, java.awt.Image.SCALE_SMOOTH);
 
             gambarEMG.setIcon(new javax.swing.ImageIcon(resizedImage));
-//            gambarEMG.setText("");
+//            Biar nama gambar ga msuk
+            gambarEMG.setText("");
         } else {
-            System.out.println("Gagal memuat gambar! File tidak ditemukan di: " + fileGambar.getAbsolutePath());
+            System.out.println("Gagal memuat gambar, File tidak ditemukan di: " + fileGambar.getAbsolutePath());
         }
 
-        // 3. Otomatis "Ngepack" mengkerutkan Frame luar agar pas dengan komponen
         java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
         if (parentWindow != null) {
             parentWindow.pack();
-            parentWindow.setLocationRelativeTo(null); // Jendela otomatis di tengah layar
+            parentWindow.setLocationRelativeTo(null);
         }
     }
 
+    /**
+     *
+     * <h3>Start Jam</h3>
+     * <p>
+     * pattern Waktu 'dd-MM-yyyy , HH:mm:ss'
+     * </p>
+     *
+     * @author Orions29
+     * @since 2 Jun 2026
+     *
+     */
     private void startClock() {
-
         javax.swing.Timer timer =
                 new javax.swing.Timer(
                         1000,
@@ -180,6 +188,8 @@ public class LoginView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
+    //    GA Kepake, Udah di buat event handler di Login Controller
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
     }//GEN-LAST:event_loginButtonActionPerformed
 
@@ -187,6 +197,19 @@ public class LoginView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameInputActionPerformed
 
+    /**
+     *
+     * <h3>Mock View LoginView</h3>
+     * <p>
+     * PENTING!
+     * hanya untuk testing.
+     * </p>
+     *
+     * @param args - Deskripsi fungsi parameter ini
+     * @author Orions29
+     * @since 2 Jun 2026
+     *
+     */
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override

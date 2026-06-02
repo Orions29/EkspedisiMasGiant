@@ -1,9 +1,11 @@
 package com.github.orions29.ekspedisi.controller;
+
 import com.github.orions29.ekspedisi.model.dao.UserDAO;
 import com.github.orions29.ekspedisi.model.dao.UserDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.utils.HashUtil;
 import com.github.orions29.ekspedisi.views.*;
+
 import javax.swing.*;
 
 public class LoginController {
@@ -45,7 +47,7 @@ public class LoginController {
                                 .getPassword()
                 );
 
-        if(username.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
 
             JOptionPane.showMessageDialog(
                     null,
@@ -66,7 +68,7 @@ public class LoginController {
                         hashedPassword
                 );
 
-        if(user != null) {
+        if (user != null) {
 
             JOptionPane.showMessageDialog(
                     null,
@@ -89,7 +91,7 @@ public class LoginController {
         String role =
                 user.getRole();
 
-        switch(role.toLowerCase()) {
+        switch (role.toLowerCase()) {
 
             case "loket":
 
