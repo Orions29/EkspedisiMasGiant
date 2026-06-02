@@ -1,12 +1,13 @@
 package com.github.orions29.ekspedisi;
 
-import com.github.orions29.ekspedisi.utils.DAOtester;
-import com.github.orions29.ekspedisi.utils.HashUtil;
+import com.github.orions29.ekspedisi.controller.LoginController;
 import com.github.orions29.ekspedisi.utils.ProjectInit;
 import com.github.orions29.ekspedisi.views.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
 
 
 /**
@@ -29,18 +30,28 @@ import org.slf4j.LoggerFactory;
  */
 public class Main {
     static void main(String[] args) {
-//        Project Checklist
-//        ProjectInit.projectCheck();
+        Logger logger = LoggerFactory.getLogger(Main.class);
+//        Jalanin Project Init Recheck
+        ProjectInit.projectCheck();
 
-//        Buat UI
-//        LoginView.main(args);
-//        OutletViews.main(args);
-//        KurirViews.main(args);
-//        GudangViews.main(args);
-//        TrackingViews.main(args);
-//        AdminViews.main(args);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            logger.warn("[VIEWS ERROR] - Gagal estetik lookAndFeel");
+            System.err.println("[VIEWS ERROR] - Gagal estetik cahhhhhhhhhhhhhhhhhh lookAndFeel");
+        }
 
-//        System.out.println(HashUtil.hashSHA256("123"));
-//        System.out.println(HashUtil.hashSHA256("123"));
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            javax.swing.JFrame frame = new javax.swing.JFrame("EMG Tracking System - Login");
+            LoginView loginView = new LoginView();
+
+            new LoginController(loginView);
+
+            frame.setContentPane(loginView);
+            frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 }

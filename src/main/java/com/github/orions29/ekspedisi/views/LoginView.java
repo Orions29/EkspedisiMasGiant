@@ -1,4 +1,6 @@
 package com.github.orions29.ekspedisi.views;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Project: EkspedisiMasGiant
@@ -25,23 +27,23 @@ public class LoginView extends javax.swing.JPanel {
      */
     public LoginView() {
         initComponents();
+        startClock();
 
-        // 1. Bersihkan teks bawaan input agar kosong saat pertama kali dibuka
+//        Cleaning Semua Text Input awal
         usernameInput.setText("");
         passwordInput.setText("");
 
-        // 2. Ambil gambar dari folder assets di root project secara aman
-        java.io.File fileGambar = new java.io.File("assets/img/logo_asli_250.png");
+//        Logo Mas Gian
+        java.io.File fileGambar = new java.io.File("assets/img/logo_asli.png");
 
         if (fileGambar.exists()) {
             javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(fileGambar.getAbsolutePath());
             java.awt.Image originalImage = originalIcon.getImage();
 
-            // Ubah resolusi gambar secara halus (Lebar: 220, Tinggi: 220)
             java.awt.Image resizedImage = originalImage.getScaledInstance(220, 220, java.awt.Image.SCALE_SMOOTH);
 
             gambarEMG.setIcon(new javax.swing.ImageIcon(resizedImage));
-            gambarEMG.setText(""); // Hapus teks placeholder
+//            gambarEMG.setText("");
         } else {
             System.out.println("Gagal memuat gambar! File tidak ditemukan di: " + fileGambar.getAbsolutePath());
         }
@@ -52,6 +54,27 @@ public class LoginView extends javax.swing.JPanel {
             parentWindow.pack();
             parentWindow.setLocationRelativeTo(null); // Jendela otomatis di tengah layar
         }
+    }
+
+    private void startClock() {
+
+        javax.swing.Timer timer =
+                new javax.swing.Timer(
+                        1000,
+                        e -> {
+
+                            SimpleDateFormat sdf =
+                                    new SimpleDateFormat(
+                                            "dd-MM-yyyy , HH:mm:ss"
+                                    );
+
+                            systemTime.setText(
+                                    sdf.format(new Date())
+                            );
+                        }
+                );
+
+        timer.start();
     }
 
     /**
@@ -100,7 +123,6 @@ public class LoginView extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("EMG Tracking System");
 
-        systemTime.setText("dd-mm-yyyy , hh:mm:ss");
 
         gambarEMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         gambarEMG.setText("[Logo Tempat Gambar]");
@@ -159,8 +181,6 @@ public class LoginView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO: Tambahkan logika autentikasi login Anda di sini
-        System.out.println("Tombol login ditekan!");
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
@@ -179,6 +199,22 @@ public class LoginView extends javax.swing.JPanel {
                 frame.setVisible(true);
             }
         });
+    }
+
+    public javax.swing.JButton getLoginButton() {
+        return loginButton;
+    }
+
+    public javax.swing.JButton getTrackButton() {
+        return trackButton;
+    }
+
+    public javax.swing.JTextField getUsernameInput() {
+        return usernameInput;
+    }
+
+    public javax.swing.JPasswordField getPasswordInput() {
+        return passwordInput;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
