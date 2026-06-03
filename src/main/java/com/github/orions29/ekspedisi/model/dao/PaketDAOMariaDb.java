@@ -52,7 +52,7 @@ public class PaketDAOMariaDb implements PaketDAO {
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                logger.info("[LOKET] Sukses! Resi [{}] berhasil dicetak ke database.", paket.getResiId());
+                logger.info("Sukses - Resi [{}] berhasil dicetak ke database.", paket.getResiId());
                 return true;
             }
 
