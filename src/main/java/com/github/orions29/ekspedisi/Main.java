@@ -44,7 +44,7 @@ public class Main {
 
 
 // Pake Invokelater untuk membuat GUI di thread yang berbeda
-        javax.swing.SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             javax.swing.JFrame frame = new javax.swing.JFrame("EMG Tracking System - Login");
             LoginView loginView = new LoginView();
 

@@ -15,8 +15,7 @@ import java.sql.SQLException;
  * Project: EkspedisiMasGiant
  * Package: com.github.orions29.ekspedisi.model.dao
  * <p>
- * Implementasi bare-metal DAO untuk entitas Paket ke MariaDB.
- * Mengunci transaksi penciptaan resi baru tanpa ORM.
+ * Implementasi DAO untuk Paket.
  * </p>
  *
  * <hr>
@@ -35,34 +34,32 @@ public class PaketDAOMariaDb implements PaketDAO {
 
     @Override
     public boolean insertPaket(Paket paket) {
-        // Tembakan mutlak 9 parameter ke MariaDB
-        String sql = "INSERT INTO paket (resi_id, sender_name, origin_city, receiver_name, destination_city, destination_address, weight, volume, type_paket) " +
+        String querySql = "INSERT INTO paket (resi_id, sender_name, origin_city, receiver_name, destination_city, destination_address, weight, volume, type_paket) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
-            // Binding data presisi dari RAM ke SQL
             stmt.setString(1, paket.getResiId());
             stmt.setString(2, paket.getSenderName());
             stmt.setString(3, paket.getOriginCity());
             stmt.setString(4, paket.getReceiverName());
             stmt.setString(5, paket.getDestinationCity());
             stmt.setString(6, paket.getDestinationAddress());
-            stmt.setDouble(7, paket.getWeight()); // Desimal map ke double
-            stmt.setDouble(8, paket.getVolume()); // Desimal map ke double
+            stmt.setDouble(7, paket.getWeight());
+            stmt.setDouble(8, paket.getVolume());
             stmt.setString(9, paket.getTypePaket());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                logger.info("[LOKET] Sukses! Resi [{}] berhasil dicetak ke database.", paket.getResiId());
+                logger.info("Sukses - Resi [{}] berhasil dicetak ke database.", paket.getResiId());
                 return true;
             }
 
         } catch (SQLException e) {
-            // Error 1062: Pencegahan mutlak jika Utility Generator menghasilkan nomor resi kembar (sangat langka tapi mungkin)
+            // Error 1062: Duplicate Entry
             if (e.getErrorCode() == 1062) {
-                logger.error("[INSERT FAILED] - Terjadi tabrakan! Resi [{}] sudah ada di database.", paket.getResiId());
+                logger.error("[INSERT FAILED] - Constraint Lock Resi Kembar [{}] sudah ada di database.", paket.getResiId());
             } else {
                 logger.error("[QUERY ERROR] - Gagal menyimpan data resi [{}]: {}", paket.getResiId(), e.getMessage());
             }
@@ -73,11 +70,11 @@ public class PaketDAOMariaDb implements PaketDAO {
     @Override
     public Paket getPaketByResi(String resiId) {
 
-        String sql = "SELECT resi_id, sender_name, origin_city, receiver_name, destination_city, destination_address, weight, volume, type_paket, created_at " +
+        String querySql = "SELECT resi_id, sender_name, origin_city, receiver_name, destination_city, destination_address, weight, volume, type_paket, created_at " +
                 "FROM paket WHERE resi_id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
             stmt.setString(1, resiId);
 

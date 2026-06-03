@@ -69,7 +69,7 @@ public class TrackingDAOMariaDb implements TrackingDAO {
 
     @Override
     public List<ShipmentLog> getShipmentLogByResi(String resiId) {
-        String querySql = "SELECT log_id, resi_id, user_id, status, location, timestamp " + "FROM tracking_logs WHERE resi_id = ? ORDER BY timestamp ASC";
+        String querySql = "SELECT log_id, resi_id, user_id, status, location, timestamp FROM tracking_logs WHERE resi_id = ? ORDER BY timestamp ASC";
 
         List<ShipmentLog> logHistory = new ArrayList<>();
 

@@ -16,7 +16,6 @@ import java.sql.SQLException;
  * Package: com.github.orions29.ekspedisi.model.dao
  * <p>
  * User DAO Implement untuk MariaDB dan MySQL.
- * Sudah mendukung injeksi lokasi mutlak.
  * </p>
  *
  * <hr>
@@ -35,7 +34,7 @@ public class UserDAOMariaDb implements UserDAO {
 
     @Override
     public User authenticate(String username, String passwordHash) {
-        String querySql = "SELECT id, username, password_hash, role, location FROM users WHERE username = BINARY ? AND password_hash = ?";
+        String querySql = "SELECT id, username, password_hash, role, location FROM users WHERE username = BINARY ? AND password_hash = BINARY ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(querySql)) {
@@ -65,10 +64,10 @@ public class UserDAOMariaDb implements UserDAO {
 
     @Override
     public User getUserById(String userId) {
-        String sql = "SELECT id, username, password_hash, role, location FROM users WHERE id = ?";
+        String querySql = "SELECT id, username, password_hash, role, location FROM users WHERE id = BINARY ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
             stmt.setString(1, userId);
 
@@ -91,16 +90,16 @@ public class UserDAOMariaDb implements UserDAO {
 
     @Override
     public boolean insertUser(User user) {
-        String sql = "INSERT INTO users (id, username, password_hash, role, location) VALUES (?, ?, ?, ?, ?)";
+        String querySql = "INSERT INTO users (id, username, password_hash, role, location) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
             stmt.setString(1, user.getId());
             stmt.setString(2, user.getUsername());
             stmt.setString(3, user.getPasswordHash());
             stmt.setString(4, user.getRole());
-            stmt.setString(5, user.getLocation()); // Injeksi lokasi baru
+            stmt.setString(5, user.getLocation());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -120,10 +119,10 @@ public class UserDAOMariaDb implements UserDAO {
 
     @Override
     public boolean updateUser(User user) {
-        String sql = "UPDATE users SET username = ?, password_hash = ?, role = ?, location = ? WHERE id = ?";
+        String querySql = "UPDATE users SET username = BINARY ?, password_hash = BINARY ?, role = ?, location = ? WHERE id = BINARY ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPasswordHash());
@@ -147,9 +146,9 @@ public class UserDAOMariaDb implements UserDAO {
 
     @Override
     public boolean deleteUser(String userId) {
-        String sql = "DELETE FROM users WHERE id = ?";
+        String querySql = "DELETE FROM users WHERE id = BINARY ?";
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(querySql)) {
 
             stmt.setString(1, userId);
             int rowsAffected = stmt.executeUpdate();
