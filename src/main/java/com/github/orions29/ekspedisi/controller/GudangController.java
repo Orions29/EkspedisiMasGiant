@@ -7,6 +7,9 @@ import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.views.GudangViews;
 import com.github.orions29.ekspedisi.views.LoginView;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.swing.*;
 
 /**
@@ -66,6 +69,10 @@ public class GudangController {
         view.getBtnLogout().addActionListener(e -> {
             handleLogoutEvent();
         });
+
+        view.getBtnCekPaketDiGudang().addActionListener(e -> {
+            handleCekPaket();
+        });
     }
 
     private void handleLogoutEvent() {
@@ -124,5 +131,35 @@ public class GudangController {
 //        Ibarat kata CLS
         view.getTxtResi().setText("");
         view.getTxtResi().requestFocus();
+    }
+
+    public void handleCekPaket() {
+//        List status yang akan tertampil
+        List<String> statusGudang = Arrays.asList(
+                "Tiba di Fasilitas Sortir",
+                "Sedang Disortir",
+                "Transit Gudang"
+        );
+
+//        Ngambil daftar resi yang statusnya ada di list statusGudang di or kan
+        List<String> daftarResi = trackingDAO.getResiByMultipleLatestStatuses(statusGudang, loggedInUser.getId());
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("<== DAFTAR PAKET ==>\n");
+        sb.append("Total Paket Menunggu Eksekusi: ").append(daftarResi.size()).append(" item\n\n");
+
+        if (daftarResi.isEmpty()) {
+            sb.append("[KOSONG]\nKerjaan beres Ngab");
+        } else {
+            int nomor = 1;
+            for (String resi : daftarResi) {
+                sb.append(nomor).append(". ").append(resi).append("\n");
+                nomor++;
+            }
+        }
+
+        // Tembakkan ke kanvas dan paksa scrollbar ke posisi paling atas
+        view.getTxtConsole().setText(sb.toString());
+        view.getTxtConsole().setCaretPosition(0);
     }
 }

@@ -183,7 +183,9 @@ public class LoginController {
                 adminViews.setTitle("EMR Tracking System - Admin");
                 adminViews.setLocationRelativeTo(null);
                 adminViews.setVisible(true);
-
+                SwingUtilities
+                        .getWindowAncestor(view)
+                        .dispose();
                 break;
 
             default:            // jika role tidak sesuai maka akan muncul error log

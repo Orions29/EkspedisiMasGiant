@@ -55,7 +55,7 @@ public interface TrackingDAO {
      * <h3>Mengambil Paket yang Masih Dipegang Kurir Tertentu</h3>
      * <p> </p>
      *
-     * @param targetStatus $END$ - Status yang ingin dicari
+     * @param targetStatus - Status yang ingin dicari
      * @param userId       - UserID Kurir
      * @return {@link List<String>} - List Paket yang masih di pegang Kurir
      * @author Orions29
@@ -63,4 +63,6 @@ public interface TrackingDAO {
      *
      */
     List<String> getResiByLatestStatusAndUser(String targetStatus, String userId);
+
+    List<String> getResiByMultipleLatestStatuses(List<String> targetStatuses, String userId);
 }

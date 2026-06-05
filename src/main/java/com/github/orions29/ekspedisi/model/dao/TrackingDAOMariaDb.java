@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -127,6 +128,52 @@ public class TrackingDAOMariaDb implements TrackingDAO {
         } catch (java.sql.SQLException e) {
             System.err.println("[QUERY ERROR] -  Error saat Menarik Paket Kurir");
             e.printStackTrace();
+        }
+
+        return listResi;
+    }
+
+    @Override
+    public List<String> getResiByMultipleLatestStatuses(List<String> targetStatuses, String userId) {
+        List<String> listResi = new ArrayList<>();
+
+        if (targetStatuses == null || targetStatuses.isEmpty()) {
+            return listResi;
+        }
+
+        String placeholders = String.join(",", Collections.nCopies(targetStatuses.size(), "?"));
+
+        String sql = "SELECT t1.resi_id , t1.status " +
+                     "FROM tracking_logs t1 " +
+                     "INNER JOIN (" +
+                     "    SELECT resi_id, MAX(log_id) as max_id " +
+                     "    FROM tracking_logs " +
+                     "    GROUP BY resi_id" +
+                     ") t2 ON t1.log_id = t2.max_id " +
+                     "WHERE t1.status IN (" + placeholders + ") AND t1.user_id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Looping dinamis untuk mengisi semua tanda tanya (?) dengan nama status
+            int index = 1;
+            for (String status : targetStatuses) {
+                pstmt.setString(index++, status);
+            }
+
+            // Kunci pengaman terakhir: ID Pekerja
+            pstmt.setString(index, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String dataMentah = String.format("%s - [%s]", rs.getString("resi_id"), rs.getString("status"));
+                    listResi.add(dataMentah);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("[QUERRY ERROR] Error: Gudang");
+            logger.error("[QUERRY ERROR] - Error: "+e.getMessage());
         }
 
         return listResi;
