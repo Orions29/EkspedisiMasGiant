@@ -362,6 +362,27 @@ public class AdminViews extends javax.swing.JFrame {
         }
     }
 
+
+    public JButton getBtnCari() {
+        return btnCari;
+    }
+
+    public JButton getBtnHapus() {
+        return btnHapus;
+    }
+
+    public JButton getBtnLogout() {
+        return btnLogout;
+    }
+
+    public JButton getBtnSimpan() {
+        return btnSimpan;
+    }
+
+    public JButton getBtnUpdate() {
+        return btnUpdate;
+    }
+
     /**
      *
      * <h3>[KHUSUS TESTING] - Tampilan Dummy</h3>

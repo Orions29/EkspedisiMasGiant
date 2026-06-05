@@ -57,6 +57,7 @@ public class Main {
 //            frame.setVisible(true);
 //        });
 
-        AdminViews.main(null);
+//        AdminViews.main(null);
+        GudangViews.main(null);
     }
 }

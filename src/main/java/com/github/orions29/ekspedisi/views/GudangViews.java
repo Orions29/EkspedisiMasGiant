@@ -79,6 +79,8 @@ public class GudangViews extends javax.swing.JFrame {
         txtConsole = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
 
+        btnCekPaketDiGudang = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EMR Tracking System - Fasilitas Gudang");
 
@@ -88,7 +90,6 @@ public class GudangViews extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12));
         jLabel2.setText("Petugas :");
 
-        // UI langsung merender data dari RAM (Tidak ada lagi hardcode!)
         labelUsername.setText(loggedInUser.getUsername() + " (" + loggedInUser.getId() + ")");
 
         labelLokasi.setFont(new java.awt.Font("Segoe UI", 2, 12));
@@ -122,6 +123,9 @@ public class GudangViews extends javax.swing.JFrame {
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnUpdate.setText("Update Status Logistik [ENTER]");
 
+        btnCekPaketDiGudang.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        btnCekPaketDiGudang.setText("Cek Paket Di Gudang");
+
         javax.swing.GroupLayout panelOperasiLayout = new javax.swing.GroupLayout(panelOperasi);
         panelOperasi.setLayout(panelOperasiLayout);
         panelOperasiLayout.setHorizontalGroup(
@@ -130,6 +134,7 @@ public class GudangViews extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnCekPaketDiGudang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(panelOperasiLayout.createSequentialGroup()
                                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(jLabel4)
@@ -161,7 +166,10 @@ public class GudangViews extends javax.swing.JFrame {
                                         .addComponent(comboStatus))
                                 .addGap(18, 18, 18)
                                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCekPaketDiGudang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        )
         );
 
         txtConsole.setEditable(false);
@@ -265,6 +273,10 @@ public class GudangViews extends javax.swing.JFrame {
         });
     }
 
+    public JButton getBtnCekPaketDiGudang() {
+        return btnCekPaketDiGudang;
+    }
+
     public JButton getBtnCamera() {
         return btnCamera;
     }
@@ -290,6 +302,7 @@ public class GudangViews extends javax.swing.JFrame {
     }
 
     // Variables declaration
+    private javax.swing.JButton btnCekPaketDiGudang;
     private javax.swing.JButton btnCamera;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnUpdate;

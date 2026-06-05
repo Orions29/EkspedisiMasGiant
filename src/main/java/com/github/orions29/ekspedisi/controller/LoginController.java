@@ -177,13 +177,12 @@ public class LoginController {
 
                 break;
 
-// TODO Admin roi
             case "admin":   // jika role admin maka akan diarahkan ke dashboard admin (under maintenance)
-                // disimpan untuk PBO materi
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Login admin berhasil!"
-                );
+                AdminViews adminViews = new AdminViews(user);
+                new AdminController(adminViews, user);
+                adminViews.setTitle("EMR Tracking System - Admin");
+                adminViews.setLocationRelativeTo(null);
+                adminViews.setVisible(true);
 
                 break;
 
