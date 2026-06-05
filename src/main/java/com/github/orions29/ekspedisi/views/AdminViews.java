@@ -29,6 +29,7 @@ public class AdminViews extends javax.swing.JFrame {
 
     /**
      * Constructor untuk membuat instance AdminViews.
+     *
      * @param admin
      */
     public AdminViews(User admin) {
@@ -103,13 +104,11 @@ public class AdminViews extends javax.swing.JFrame {
         lblAdminInfo.setText("admin_name (A-0000)");
 
         btnLogout.setText("Logout");
-        btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         panelForm.setBorder(javax.swing.BorderFactory.createTitledBorder("Manajemen Data Pekerja"));
 
         jLabelId.setText("ID Pekerja (Kosongkan jika tambah baru):");
         btnCari.setText("Cari Data");
-        btnCari.addActionListener(this::btnCariActionPerformed);
 
         jLabel2.setText("Role Pekerja:");
         comboRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Loket", "Gudang", "Kurir", "Admin"}));
@@ -120,15 +119,12 @@ public class AdminViews extends javax.swing.JFrame {
 
         btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnSimpan.setText("Simpan Baru");
-        btnSimpan.addActionListener(this::btnSimpanActionPerformed);
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnUpdate.setText("Update Data");
-        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
 
         btnHapus.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnHapus.setText("Hapus Pekerja");
-        btnHapus.addActionListener(this::btnHapusActionPerformed);
 
         javax.swing.GroupLayout panelFormLayout = new javax.swing.GroupLayout(panelForm);
         panelForm.setLayout(panelFormLayout);
@@ -261,6 +257,8 @@ public class AdminViews extends javax.swing.JFrame {
         comboRole.setSelectedIndex(0);
     }
 
+//    TODO Pindahkan ke Controller
+
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
         JOptionPane.showMessageDialog(this, "Logout dari Administrator System.");
         this.dispose();
@@ -369,16 +367,15 @@ public class AdminViews extends javax.swing.JFrame {
      * <h3>[KHUSUS TESTING] - Tampilan Dummy</h3>
      * <p> </p>
      *
-     *
+     * @param args - Deskripsi fungsi parameter ini
      * @author Orions29
      * @since 1 Jun 2026
-     * @param args - Deskripsi fungsi parameter ini
-     * */
+     *
+     */
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
 
         SwingUtilities.invokeLater(() -> {

@@ -110,19 +110,9 @@ public class LoginView extends javax.swing.JPanel {
         usernameLabel.setText("Username");
 
         loginButton.setText("Login");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
-            }
-        });
 
         trackButton.setText("Tracking Paket");
 
-        usernameInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameInputActionPerformed(evt);
-            }
-        });
 
         passwordLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         passwordLabel.setText("Password");
@@ -187,14 +177,6 @@ public class LoginView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
-    //    GA Kepake, Udah di buat event handler di Login Controller
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-    }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameInputActionPerformed
 
     /**
      *
