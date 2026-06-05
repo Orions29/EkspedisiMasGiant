@@ -219,11 +219,11 @@ public class KurirController {
      */
     private void handleCekMuatan() {
         List<String> daftarResi = trackingDAO.getResiByLatestStatusAndUser("Dibawa Kurir", loggedInUser.getId());
-        view.getListPaketArea().setText("");
+        view.getListPaketAreaButton().setText("");
 
 //        Error handling kalau kosong
         if (daftarResi.isEmpty()) {
-            view.getListPaketArea().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab! â˜•");
+            view.getListPaketAreaButton().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab! â˜•");
             return;
         }
 
@@ -237,9 +237,9 @@ public class KurirController {
             nomor++;
         }
 
-        view.getListPaketArea().setText(daftarPaketTxt.toString());
+        view.getListPaketAreaButton().setText(daftarPaketTxt.toString());
 
 //        biar paling atas atau apalah
-        view.getListPaketArea().setCaretPosition(0);
+        view.getListPaketAreaButton().setCaretPosition(0);
     }
 }

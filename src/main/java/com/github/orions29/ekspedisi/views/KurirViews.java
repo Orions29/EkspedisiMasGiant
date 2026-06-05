@@ -221,7 +221,7 @@ public class KurirViews extends javax.swing.JFrame {
         return txtResi;
     }
 
-    public javax.swing.JTextArea getListPaketArea() {
+    public javax.swing.JTextArea getListPaketAreaButton() {
         return listPaketArea;
     }
 

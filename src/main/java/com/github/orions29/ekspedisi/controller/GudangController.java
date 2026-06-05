@@ -148,6 +148,7 @@ public class GudangController {
         sb.append("<== DAFTAR PAKET ==>\n");
         sb.append("Total Paket Menunggu Eksekusi: ").append(daftarResi.size()).append(" item\n\n");
 
+//        Error handling kalau kosong
         if (daftarResi.isEmpty()) {
             sb.append("[KOSONG]\nKerjaan beres Ngab");
         } else {
@@ -158,7 +159,7 @@ public class GudangController {
             }
         }
 
-        // Tembakkan ke kanvas dan paksa scrollbar ke posisi paling atas
+        // Nembak ke kanvas dan paksa scrollbar ke posisi paling atas
         view.getTxtConsole().setText(sb.toString());
         view.getTxtConsole().setCaretPosition(0);
     }
