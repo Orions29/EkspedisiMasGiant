@@ -1,6 +1,5 @@
 package com.github.orions29.ekspedisi.views;
 
-import com.github.orions29.ekspedisi.controller.LoginController;
 import com.github.orions29.ekspedisi.model.entity.User;
 
 import javax.swing.*;
@@ -50,7 +49,7 @@ public class KurirViews extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         logoutButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        resiPaketIn = new javax.swing.JTextField();
+        txtResi = new javax.swing.JTextField();
         submitPaket = new javax.swing.JButton();
         paketSelesaiButton = new javax.swing.JButton();
 
@@ -58,6 +57,8 @@ public class KurirViews extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listPaketArea = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
+
+        btnCamera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,10 +75,15 @@ public class KurirViews extends javax.swing.JFrame {
         logoutButton.setOpaque(true);
         logoutButton.setBorderPainted(false);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 15));
         jLabel4.setText("Scan Resi / Input Manual");
 
-        resiPaketIn.setFont(new java.awt.Font("Consolas", 1, 14));
+        txtResi.setFont(new java.awt.Font("Consolas", 1, 14));
+
+        btnCamera.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        btnCamera.setText("SCAN");
+        btnCamera.setToolTipText("Scan Barcode via Kamera");
+        btnCamera.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         submitPaket.setText("Bawa Paket");
 
@@ -125,7 +131,11 @@ public class KurirViews extends javax.swing.JFrame {
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(jLabel3))
                                                         .addComponent(jLabel4)
-                                                        .addComponent(resiPaketIn, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(txtResi, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(btnCamera, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        )
                                                         .addComponent(jLabel5)
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addComponent(submitPaket)
@@ -152,7 +162,10 @@ public class KurirViews extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(resiPaketIn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                        .addComponent(txtResi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnCamera, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(submitPaket, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,6 +181,25 @@ public class KurirViews extends javax.swing.JFrame {
         pack();
     }
 
+    public static void main() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+        }
+
+        SwingUtilities.invokeLater(() -> {
+
+            // Simulasi Dummy User agar form tetap bisa dites lewat psvm main
+            User dummyUser = new User("K-1001", "Kurir_Heru", "hash", "kurir", "Jogja Barat");
+            KurirViews frame = new KurirViews(dummyUser);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+
+    public JButton getBtnCamera() {
+        return btnCamera;
+    }
 
     public javax.swing.JButton getLogoutButton() {
         return logoutButton;
@@ -185,8 +217,8 @@ public class KurirViews extends javax.swing.JFrame {
         return cekPaketButton;
     }
 
-    public javax.swing.JTextField getResiPaketIn() {
-        return resiPaketIn;
+    public javax.swing.JTextField getTxtResi() {
+        return txtResi;
     }
 
     public javax.swing.JTextArea getListPaketArea() {
@@ -194,6 +226,7 @@ public class KurirViews extends javax.swing.JFrame {
     }
 
     // Variables declaration
+    private javax.swing.JButton btnCamera;
     private javax.swing.JButton cekPaketButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -205,7 +238,7 @@ public class KurirViews extends javax.swing.JFrame {
     private javax.swing.JTextArea listPaketArea;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton paketSelesaiButton;
-    private javax.swing.JTextField resiPaketIn;
+    private javax.swing.JTextField txtResi;
     private javax.swing.JButton submitPaket;
     // End of variables declaration
 }

@@ -1,6 +1,5 @@
 package com.github.orions29.ekspedisi.views;
 
-import com.github.orions29.ekspedisi.controller.LoginController;
 import com.github.orions29.ekspedisi.model.entity.User;
 
 import org.slf4j.Logger;
@@ -70,6 +69,8 @@ public class GudangViews extends javax.swing.JFrame {
         panelOperasi = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         txtResi = new javax.swing.JTextField();
+        btnCamera = new javax.swing.JButton();
+
         jLabel5 = new javax.swing.JLabel();
         comboStatus = new javax.swing.JComboBox<>();
         btnUpdate = new javax.swing.JButton();
@@ -103,6 +104,11 @@ public class GudangViews extends javax.swing.JFrame {
 
         txtResi.setFont(new java.awt.Font("Consolas", 1, 16));
 
+        btnCamera.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        btnCamera.setText("SCAN");
+        btnCamera.setToolTipText("Scan Barcode via Kamera");
+        btnCamera.setMargin(new java.awt.Insets(2, 2, 2, 2));
+
         jLabel5.setText("Set Status Berikutnya:");
 
         comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{
@@ -127,7 +133,12 @@ public class GudangViews extends javax.swing.JFrame {
                                         .addGroup(panelOperasiLayout.createSequentialGroup()
                                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(jLabel4)
-                                                        .addComponent(txtResi, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(panelOperasiLayout.createSequentialGroup()
+                                                                .addComponent(txtResi, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(btnCamera, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        )
+                                                )
                                                 .addGap(18, 18, 18)
                                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(panelOperasiLayout.createSequentialGroup()
@@ -146,6 +157,7 @@ public class GudangViews extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtResi, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                        .addComponent(btnCamera, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                                         .addComponent(comboStatus))
                                 .addGap(18, 18, 18)
                                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,6 +265,10 @@ public class GudangViews extends javax.swing.JFrame {
         });
     }
 
+    public JButton getBtnCamera() {
+        return btnCamera;
+    }
+
     public JButton getBtnLogout() {
         return btnLogout;
     }
@@ -274,6 +290,7 @@ public class GudangViews extends javax.swing.JFrame {
     }
 
     // Variables declaration
+    private javax.swing.JButton btnCamera;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> comboStatus;

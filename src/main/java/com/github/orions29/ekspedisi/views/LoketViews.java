@@ -3,6 +3,8 @@ package com.github.orions29.ekspedisi.views;
 import com.github.orions29.ekspedisi.controller.LoginController;
 import com.github.orions29.ekspedisi.model.entity.User;
 
+import javax.swing.*;
+
 /**
  * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
@@ -300,6 +302,22 @@ public class LoketViews extends javax.swing.JFrame {
         );
 
         pack();
+    }
+
+    public static void main() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+        }
+
+        SwingUtilities.invokeLater(() -> {
+
+            // Simulasi Dummy User agar form tetap bisa dites lewat psvm main
+            User dummyUser = new User("L-2001", "loket_Herry", "hash", "gudang", "Fasilitas Sortir Godean");
+            LoketViews frame = new LoketViews(dummyUser);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 
     public javax.swing.JButton getLogoutButton() {

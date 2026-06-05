@@ -106,7 +106,7 @@ public class KurirController {
     private void handleDeliveryUpdate() {
 
         String resi =
-                view.getResiPaketIn()
+                view.getTxtResi()
                         .getText()
                         .trim();
 
@@ -140,7 +140,7 @@ public class KurirController {
                             + resi
             );
 
-            view.getResiPaketIn()
+            view.getTxtResi()
                     .setText("");
 
         } else { // error handling gagal update tracking
@@ -159,7 +159,7 @@ public class KurirController {
 
         // ngambil resi dari input field
         String resi =
-                view.getResiPaketIn()
+                view.getTxtResi()
                         .getText()
                         .trim();
 
@@ -196,7 +196,7 @@ public class KurirController {
                     "Paket berhasil diselesaikan!"
             );
 
-            view.getResiPaketIn()
+            view.getTxtResi()
                     .setText("");
 
         } else {
