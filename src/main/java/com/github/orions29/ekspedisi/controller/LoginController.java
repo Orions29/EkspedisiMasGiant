@@ -127,7 +127,7 @@ public class LoginController {
                         user
                 );
 
-                loketViews.setTitle("EMG Tracking System - Loket");
+                loketViews.setTitle("EMR Tracking System - Loket");
                 loketViews.setLocationRelativeTo(null); // window middle
                 loketViews.setVisible(true); // nampilin dashboard loket/outlet
 
@@ -147,7 +147,7 @@ public class LoginController {
                         user
                 );
 
-                gudangViews.setTitle("EMG Tracking System - Gudang");
+                gudangViews.setTitle("EMR Tracking System - Gudang");
                 gudangViews.setLocationRelativeTo(null); // posisi layar ditengah
                 gudangViews.setVisible(true); // menampilkan halaman gudang
 
@@ -167,7 +167,7 @@ public class LoginController {
                         user
                 );
 
-                kurirViews.setTitle("EMG Tracking System - Kurir");
+                kurirViews.setTitle("EMR Tracking System - Kurir");
                 kurirViews.setLocationRelativeTo(null); // set layar ditengah
                 kurirViews.setVisible(true); // menampilkan halaman kurir
 

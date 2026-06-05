@@ -3,7 +3,7 @@ package com.github.orions29.ekspedisi.model.entity;
 import java.time.LocalDateTime;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.model.entity
  * <p>
  * Model Entity Shipment Log

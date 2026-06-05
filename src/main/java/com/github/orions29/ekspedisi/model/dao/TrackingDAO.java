@@ -5,7 +5,7 @@ import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import java.util.List;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.model.dao
  * <p>
  * Interface DAO untuk Tracking

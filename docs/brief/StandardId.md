@@ -33,7 +33,7 @@ tabel `paket` dan *Foreign Key* absolut di tabel `tracking_logs`.
 **Format Mutlak:** `RESI-[yyyyMMdd]-[HHmm]-[4 Karakter Random UUID Uppercase]`
 
 **Komponen Pembentuk:**
-- `RESI-` : Prefix penanda dari sistem EkspedisiMasGiant.
+- `RESI-` : Prefix penanda dari sistem EkspedisiMasRoi.
 - `yyyyMMdd` : Stempel tanggal paket masuk (Contoh: 20260601).
 - `HHmm` : Stempel jam dan menit paket diinput (Contoh: 1430) INGAT 24 HOURS.
 - `XXXX` : Potongan UUID murni untuk mencegah tabrakan data.

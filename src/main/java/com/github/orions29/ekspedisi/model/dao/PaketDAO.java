@@ -3,7 +3,7 @@ package com.github.orions29.ekspedisi.model.dao;
 import com.github.orions29.ekspedisi.model.entity.Paket;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.model.dao
  * <p>
  * Deskripsi fungsional dari file ini.

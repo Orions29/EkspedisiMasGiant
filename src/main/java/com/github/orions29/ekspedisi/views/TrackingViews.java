@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
  * <p>
  * Halaman pelacakan resi untuk publik yang datang ke Loket or Gudang
@@ -70,7 +70,7 @@ public class TrackingViews extends javax.swing.JFrame {
         txtRiwayat = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("EMG Tracking System - Lacak Paket");
+        setTitle("EMR Tracking System - Lacak Paket");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

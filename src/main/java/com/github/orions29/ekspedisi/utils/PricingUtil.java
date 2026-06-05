@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.utils
  * <p>
  * Mesin kalkulasi tarif logistik (Tarif Tunggal / Flat-Rate).

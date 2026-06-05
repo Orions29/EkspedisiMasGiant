@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.utils
  * <p>
  * Berfungsi melakukan checklist project ini

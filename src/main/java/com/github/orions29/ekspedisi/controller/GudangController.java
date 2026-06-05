@@ -70,7 +70,7 @@ public class GudangController {
 
     private void handleLogoutEvent() {
         SwingUtilities.invokeLater(() -> {
-            JFrame loginFrame = new JFrame("EMG Tracking System - Login");
+            JFrame loginFrame = new JFrame("EMR Tracking System - Login");
             LoginView loginView = new LoginView();
 
             new LoginController(loginView);

@@ -12,7 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
  * <p>
  * Antarmuka untuk Staf Gudang dengan injeksi DNA User absolut.
@@ -79,7 +79,7 @@ public class GudangViews extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("EMG Tracking System - Fasilitas Gudang");
+        setTitle("EMR Tracking System - Fasilitas Gudang");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18));
         jLabel1.setText("Panel Gudang Ekspedisi");

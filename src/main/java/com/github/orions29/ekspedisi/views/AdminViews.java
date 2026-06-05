@@ -9,7 +9,7 @@ import com.github.orions29.ekspedisi.utils.HashUtil;
 import javax.swing.*;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
  * <p>
  * Panel kontrol Admin dengan kapabilitas Tuhan boyyyyy.
@@ -94,7 +94,7 @@ public class AdminViews extends javax.swing.JFrame {
         txtConsole = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("EMG System - Administrator");
+        setTitle("EMR System - Administrator");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18));
         jLabel1.setText("Panel Administrator");

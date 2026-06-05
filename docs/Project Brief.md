@@ -1,8 +1,8 @@
-# Ekspedisi Mas Giant
+# Ekspedisi Mas Roi
 
-## Project Besar Erlan and Roi
+## Project Besar Erlan, Roi, and Gian
 
-# 1. Class Diagram 🏗️
+# 1. Class Diagram ðŸ—ï¸
 
 ## Model (Roi)
 

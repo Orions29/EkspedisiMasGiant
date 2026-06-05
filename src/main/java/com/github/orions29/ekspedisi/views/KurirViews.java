@@ -6,7 +6,7 @@ import com.github.orions29.ekspedisi.model.entity.User;
 import javax.swing.*;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
  * <p>
  * Panel Kurir dengan Radar Daftar Paket.

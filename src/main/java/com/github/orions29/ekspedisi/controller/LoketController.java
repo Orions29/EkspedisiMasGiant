@@ -89,7 +89,7 @@ public class LoketController {
 
     private void handleLogoutEvent() {
         SwingUtilities.invokeLater(() -> {
-            JFrame loginFrame = new JFrame("EMG Tracking System - Login");
+            JFrame loginFrame = new JFrame("EMR Tracking System - Login");
             com.github.orions29.ekspedisi.views.LoginView loginView = new com.github.orions29.ekspedisi.views.LoginView();
 
 
@@ -213,14 +213,18 @@ public class LoketController {
             // simpen log tracking ke db
             trackingDAO.insertLog(log);
 
+            // Generate QR Code dari resi
+            com.github.orions29.ekspedisi.utils.QrGeneratorUtil.generateQrCode(resiId);
+
             String pesanSukses = String.format("Data Paket berhasil disimpan ke database MariaDB!\n\n"
                             + "Nomor Resi: %s\n"
                             + "Pengirim: %s (%s)\n"
                             + "Penerima: %s (%s)\n"
                             + "Berat: %.2f kg\n"
                             + "Volume: %.2f cm3\n"
-                            + "Tipe: %s\n\n"
-                            + "Lokasi Input: %s",
+                            + "Tipe: %s\n"
+                            + "Lokasi Input: %s\n\n"
+                            + "QR Code disimpan di: /qr_result",
                     resiId, senderName, originCity, receiverName, destinationCity, weight, volume, typePaket, loggedInUser.getLocation());
 
             JOptionPane.showMessageDialog(

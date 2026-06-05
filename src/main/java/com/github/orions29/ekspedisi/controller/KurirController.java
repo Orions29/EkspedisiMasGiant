@@ -84,7 +84,7 @@ public class KurirController {
 
     private void handleLogoutEvent() {
         SwingUtilities.invokeLater(() -> {
-            JFrame loginFrame = new JFrame("EMG Tracking System - Login");
+            JFrame loginFrame = new JFrame("EMR Tracking System - Login");
             LoginView loginView = new LoginView();
 
             new LoginController(loginView);
@@ -223,7 +223,7 @@ public class KurirController {
 
 //        Error handling kalau kosong
         if (daftarResi.isEmpty()) {
-            view.getListPaketArea().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab! ☕");
+            view.getListPaketArea().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab! â˜•");
             return;
         }
 
