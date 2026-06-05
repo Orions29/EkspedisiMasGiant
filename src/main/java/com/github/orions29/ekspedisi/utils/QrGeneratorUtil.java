@@ -8,6 +8,9 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -36,7 +39,7 @@ public class QrGeneratorUtil {
 
     private static final Logger log = LoggerFactory.getLogger(QrGeneratorUtil.class);
 
-    private static final String QR_DIRECTORY = "qr_result";
+    private static final String QR_DIRECTORY = "database/qr_result";
 
     public static void generateQrCode(String resiId) {
         try {
@@ -54,7 +57,44 @@ public class QrGeneratorUtil {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(resiId, BarcodeFormat.QR_CODE, 300, 300);
 
-            MatrixToImageWriter.writeToPath(bitMatrix, "PNG", pathFile);
+            // Konversi BitMatrix ke BufferedImage
+            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+            // Siapkan kanvas baru dengan tambahan ruang di bawah untuk teks
+            int qrWidth = qrImage.getWidth();
+            int qrHeight = qrImage.getHeight();
+            int textSpace = 40;
+            BufferedImage combinedImage = new BufferedImage(qrWidth, qrHeight + textSpace, BufferedImage.TYPE_INT_RGB);
+
+            Graphics2D g = combinedImage.createGraphics();
+            
+            // Aktifkan Anti-Aliasing agar font/teks menjadi lebih halus (tidak bergerigi)
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            
+            // Set background putih
+            g.setColor(Color.WHITE);
+            g.fillRect(0, 0, qrWidth, qrHeight + textSpace);
+
+            // Gambar QR Code
+            g.drawImage(qrImage, 0, 0, null);
+
+            // Set font dan warna untuk teks resi
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Serif", Font.BOLD, 18)); // Font yang jelas untuk kode
+
+            // Hitung posisi tengah untuk teks
+            FontMetrics fm = g.getFontMetrics();
+            int textWidth = fm.stringWidth(resiId);
+            int textX = (qrWidth - textWidth) / 2;
+            int textY = qrHeight + ((textSpace - fm.getHeight()) / 2);
+
+            // Gambar teks di bawah QR Code
+            g.drawString(resiId, textX, textY);
+            g.dispose();
+
+            // Tulis gambar ke file
+            ImageIO.write(combinedImage, "PNG", pathFile.toFile());
 
             log.info("QR Code untuk resi {} berhasil di-generate.", resiId);
 

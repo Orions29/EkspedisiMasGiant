@@ -224,7 +224,7 @@ public class LoketController {
                             + "Volume: %.2f cm3\n"
                             + "Tipe: %s\n"
                             + "Lokasi Input: %s\n\n"
-                            + "QR Code disimpan di: /qr_result",
+                            + "QR Code disimpan di: /database/qr_result",
                     resiId, senderName, originCity, receiverName, destinationCity, weight, volume, typePaket, loggedInUser.getLocation());
 
             JOptionPane.showMessageDialog(
