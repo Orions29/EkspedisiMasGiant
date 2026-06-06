@@ -40,6 +40,10 @@ dependencies {
 // QR Code Generator (ZXing)
     implementation("com.google.zxing:core:3.5.3")
     implementation("com.google.zxing:javase:3.5.3")
+    
+// Webcam Capture
+    implementation("com.github.sarxos:webcam-capture:0.3.12")
+    implementation("com.github.sarxos:webcam-capture-driver-openimaj:0.3.12")
 }
 
 tasks.withType<Jar> {
@@ -56,6 +60,8 @@ tasks.withType<Jar> {
 
 application {
     mainClass.set("com.github.orions29.ekspedisi.Main")
+    // Diperlukan agar BridJ (OpenImajDriver) bisa load native library
+    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
 }
 
 
