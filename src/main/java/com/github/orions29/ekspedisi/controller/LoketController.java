@@ -5,11 +5,14 @@ import com.github.orions29.ekspedisi.model.dao.PaketDAOMariaDb;
 import com.github.orions29.ekspedisi.model.dao.TrackingDAO;
 import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.Paket;
+import com.github.orions29.ekspedisi.model.entity.PaketDTO;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.utils.GeneratorId;
 import com.github.orions29.ekspedisi.utils.PricingUtil;
 import com.github.orions29.ekspedisi.views.LoketViews;
+
+import java.util.List;
 
 import javax.swing.*;
 
@@ -64,6 +67,10 @@ public class LoketController {
 
     private void initController() { // inisiasi seluruh event listener
 
+        view.getCheckPaketButton().addActionListener(e -> {
+            handleCheckPaket();
+        });
+
         view.getInputPaketButton()
                 .addActionListener(e -> {
 
@@ -85,6 +92,7 @@ public class LoketController {
         view.getLogoutButton().addActionListener(e -> {
             handleLogoutEvent();
         });
+
     }
 
     private void handleLogoutEvent() {
@@ -279,6 +287,51 @@ public class LoketController {
         view.getHargaLabel().setText(
                 PricingUtil.formatRupiah(harga)
         );
+    }
+
+
+    /**
+     *
+     * <h3>Menampilkan Paket Yang Masih Di Loket</h3>
+     * <p>
+     * Menampilkan Paket yang masih ada di loket dan belum diambil Si Kurir
+     * </p>
+     *
+     * @author Orions29
+     * @since 6 Jun 2026
+     *
+     */
+    private void handleCheckPaket() {
+
+        List<PaketDTO> daftarResi = trackingDAO.getAllPaketByStatus("Diterima di Loket", loggedInUser.getId());
+        view.getTxtListPaketLoket().setText("");
+
+//        Error handling kalau kosong
+        if (daftarResi.isEmpty()) {
+            view.getTxtListPaketLoket().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab!");
+            return;
+        }
+
+        StringBuilder daftarPaketTxt = new StringBuilder();
+        daftarPaketTxt.append("<= Daftar Paket Yang Masih Di Loket ini =>\n");
+        daftarPaketTxt.append("Total Paket: ").append(daftarResi.size()).append(" item\n");
+        daftarPaketTxt.append("Format RESI-Kode-Resi - Status - [Kota Tujuan]\n\n");
+
+        int nomor = 1;
+        for (PaketDTO paket : daftarResi) {
+            daftarPaketTxt.append(nomor)
+                    .append(". ")
+                    .append(paket.resi())
+                    .append(" - ")
+                    .append(paket.status())
+                    .append(" - [").append(paket.destinationCity()).append("]\n");
+            nomor++;
+        }
+
+        view.getTxtListPaketLoket().setText(daftarPaketTxt.toString());
+
+//        biar paling atas atau apalah
+        view.getTxtListPaketLoket().setCaretPosition(0);
     }
 
 }

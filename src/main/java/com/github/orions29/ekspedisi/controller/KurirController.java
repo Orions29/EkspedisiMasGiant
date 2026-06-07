@@ -2,6 +2,7 @@ package com.github.orions29.ekspedisi.controller;
 
 import com.github.orions29.ekspedisi.model.dao.TrackingDAO;
 import com.github.orions29.ekspedisi.model.dao.TrackingDAOMariaDb;
+import com.github.orions29.ekspedisi.model.entity.PaketDTO;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 import com.github.orions29.ekspedisi.model.entity.User;
 import com.github.orions29.ekspedisi.views.KurirViews;
@@ -104,10 +105,10 @@ public class KurirController {
     }
 
     private void handleCameraScan() {
-        com.github.orions29.ekspedisi.views.CameraScannerDialog dialog = 
+        com.github.orions29.ekspedisi.views.CameraScannerDialog dialog =
             new com.github.orions29.ekspedisi.views.CameraScannerDialog(view);
         dialog.setVisible(true);
-        
+
         String scannedResi = dialog.getScannedResult();
         if (scannedResi != null && !scannedResi.trim().isEmpty()) {
             view.getTxtResi().setText(scannedResi);
@@ -233,22 +234,24 @@ public class KurirController {
      *
      */
     private void handleCekMuatan() {
-        List<String> daftarResi = trackingDAO.getResiByLatestStatusAndUser("Dibawa Kurir", loggedInUser.getId());
+        List<PaketDTO> daftarResi = trackingDAO.getAllPaketByStatus("Dibawa Kurir", loggedInUser.getId());
+//        Map<String,String> daftarResi = trackingDAO.getResiByLatestStatusAndUser("Dibawa Kurir", loggedInUser.getId());
         view.getListPaketAreaButton().setText("");
 
 //        Error handling kalau kosong
         if (daftarResi.isEmpty()) {
-            view.getListPaketAreaButton().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab! â˜•");
+            view.getListPaketAreaButton().setText("[KOSONG]\n\nTidak ada paket yang sedang kamu bawa saat ini.\nSantai dulu ngab!");
             return;
         }
 
         StringBuilder daftarPaketTxt = new StringBuilder();
         daftarPaketTxt.append("<= DAFTAR MUATAN =>\n");
-        daftarPaketTxt.append("Total Paket: ").append(daftarResi.size()).append(" item\n\n");
+        daftarPaketTxt.append("Total Paket: ").append(daftarResi.size()).append(" item\n");
+        daftarPaketTxt.append("Format RESI-Kode-Resi - [Kota Tujuan]\n\n");
 
         int nomor = 1;
-        for (String resi : daftarResi) {
-            daftarPaketTxt.append(nomor).append(". ").append(resi).append("\n");
+        for (PaketDTO paket : daftarResi) {
+            daftarPaketTxt.append(nomor).append(". ").append(paket.resi()).append(" - [").append(paket.destinationCity()).append("]\n");
             nomor++;
         }
 

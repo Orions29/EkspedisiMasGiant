@@ -1,5 +1,6 @@
 package com.github.orions29.ekspedisi.model.dao;
 
+import com.github.orions29.ekspedisi.model.entity.PaketDTO;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 
 import java.util.List;
@@ -52,17 +53,45 @@ public interface TrackingDAO {
 
     /**
      *
-     * <h3>Mengambil Paket yang Masih Dipegang Kurir Tertentu</h3>
+     * <h3>Mengambil List Paket yang Masih Dipegang oleh User ID, (Multiple Filter)</h3>
      * <p> </p>
      *
-     * @param targetStatus - Status yang ingin dicari
-     * @param userId       - UserID Kurir
-     * @return {@link List<String>} - List Paket yang masih di pegang Kurir
+     * @param targetStatuses $END$ - Status Target  yang ingin dicari
+     * @param userId         $END$ - paket yang masih dipegang oleh user siapa
+     * @return {@link List<String>} - Dikembalikan dalam bentuk List Paket DTO
      * @author Orions29
-     * @since 2 Jun 2026
+     * @since 6 Jun 2026
      *
      */
-    List<String> getResiByLatestStatusAndUser(String targetStatus, String userId);
+    List<PaketDTO> getResiByMultipleLatestStatuses(List<String> targetStatuses, String userId);
 
-    List<String> getResiByMultipleLatestStatuses(List<String> targetStatuses, String userId);
+    /**
+     *
+     * <h3>Mengambil List Paket yang Masih Dipegang oleh User ID, (Single Filter)</h3>
+     * <p> </p>
+     *
+     * @param targetStatus - StatusTarget  yang ingin dicari
+     * @param userId       - paket yang masih dipegang oleh user siapa
+     * @return {@link List<PaketDTO>} - Dikembalikan dalam bentuk List Paket DTO
+     * @author Orions29
+     * @since 6 Jun 2026
+     *
+     */
+    List<PaketDTO> getAllPaketByStatus(String targetStatus, String userId);
+
+
+    /**
+     *
+     * <h3>Mengambil Status Paket Terakhir</h3>
+     * <p> </p>
+     *
+     * @param resiId - Resi ID Paket yang mau dicek
+     * @return {@link String} - Status Paket Terakhir
+     * @author Orions29
+     * @since 7 Jun 2026
+     *
+     */
+    String getLatestPaketStatusByResi(String resiId);
+
+
 }
