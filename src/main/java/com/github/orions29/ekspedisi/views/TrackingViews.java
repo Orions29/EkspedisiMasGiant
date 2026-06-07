@@ -41,7 +41,7 @@ public class TrackingViews extends javax.swing.JFrame {
 
         initComponents();
         setupEnterListener();
-
+        setupCameraListener();
     }
 
     /**
@@ -218,6 +218,23 @@ public class TrackingViews extends javax.swing.JFrame {
                 }
             }
         });
+    }
+
+    private void setupCameraListener() {
+        btnCamera.addActionListener(e -> {
+            handleCameraScan();
+        });
+    }
+
+    private void handleCameraScan() {
+        com.github.orions29.ekspedisi.views.CameraScannerDialog dialog = 
+            new com.github.orions29.ekspedisi.views.CameraScannerDialog(this);
+        dialog.setVisible(true);
+        
+        String scannedResi = dialog.getScannedResult();
+        if (scannedResi != null && !scannedResi.trim().isEmpty()) {
+            txtResi.setText(scannedResi);
+        }
     }
 
     private void btnTrackActionPerformed(java.awt.event.ActionEvent evt) {

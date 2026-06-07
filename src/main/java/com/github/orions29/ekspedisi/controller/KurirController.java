@@ -80,6 +80,10 @@ public class KurirController {
         view.getLogoutButton().addActionListener(e -> {
             handleLogoutEvent();
         });
+
+        view.getBtnCamera().addActionListener(e -> {
+            handleCameraScan();
+        });
     }
 
     private void handleLogoutEvent() {
@@ -97,6 +101,17 @@ public class KurirController {
         });
 
         view.dispose();
+    }
+
+    private void handleCameraScan() {
+        com.github.orions29.ekspedisi.views.CameraScannerDialog dialog = 
+            new com.github.orions29.ekspedisi.views.CameraScannerDialog(view);
+        dialog.setVisible(true);
+        
+        String scannedResi = dialog.getScannedResult();
+        if (scannedResi != null && !scannedResi.trim().isEmpty()) {
+            view.getTxtResi().setText(scannedResi);
+        }
     }
 
 
