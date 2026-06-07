@@ -11,7 +11,7 @@ import javax.swing.*;
 
 
 /**
- * Project: Ekspedisi Mas Giannt
+ * Project: Ekspedisi Mas Roi
  * Package: com.github.orions29.eskpedisi
  * <p>
  * Deskripsi fungsional dari file ini.
@@ -31,7 +31,6 @@ public class Main {
         Logger logger = LoggerFactory.getLogger(Main.class);
 //        Jalanin Project Init Recheck
         ProjectInit.projectCheck();
-
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
