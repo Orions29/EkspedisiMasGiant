@@ -45,7 +45,7 @@ public class KurirController {
 
     private final Set<String> ALLOWED_PICKUP_STATUSES = Set.of(
             "Transit Gudang",
-            "Diterima Di Loket"
+            "Diterima di Loket"
     );
 
     public KurirController(
