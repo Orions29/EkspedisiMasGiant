@@ -62,8 +62,8 @@ public class ProjectInit {
                     cf,
                     "access",
                     "tcp",
-                    "--hostname", "db.gaf.my.id",
-                    "--url", "localhost:3306"
+                    "--hostname", SecretLoader.get("CF_HOSTNAME"),
+                    "--url", SecretLoader.get("DB_HOST")+":"+SecretLoader.get("DB_PORT")
             );
 
             Process prc = pb.start();
