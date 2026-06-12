@@ -3,13 +3,11 @@ package com.github.orions29.ekspedisi.views;
 import com.github.orions29.ekspedisi.model.dao.UserDAO;
 import com.github.orions29.ekspedisi.model.dao.UserDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.User;
-import com.github.orions29.ekspedisi.utils.GeneratorId;
-import com.github.orions29.ekspedisi.utils.HashUtil;
 
 import javax.swing.*;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
  * <p>
  * Panel kontrol Admin dengan kapabilitas Tuhan boyyyyy.
@@ -29,6 +27,7 @@ public class AdminViews extends javax.swing.JFrame {
 
     /**
      * Constructor untuk membuat instance AdminViews.
+     *
      * @param admin
      */
     public AdminViews(User admin) {
@@ -94,7 +93,7 @@ public class AdminViews extends javax.swing.JFrame {
         txtConsole = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("EMG System - Administrator");
+        setTitle("EMR System - Administrator");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18));
         jLabel1.setText("Panel Administrator");
@@ -103,13 +102,11 @@ public class AdminViews extends javax.swing.JFrame {
         lblAdminInfo.setText("admin_name (A-0000)");
 
         btnLogout.setText("Logout");
-        btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         panelForm.setBorder(javax.swing.BorderFactory.createTitledBorder("Manajemen Data Pekerja"));
 
         jLabelId.setText("ID Pekerja (Kosongkan jika tambah baru):");
         btnCari.setText("Cari Data");
-        btnCari.addActionListener(this::btnCariActionPerformed);
 
         jLabel2.setText("Role Pekerja:");
         comboRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Loket", "Gudang", "Kurir", "Admin"}));
@@ -120,15 +117,12 @@ public class AdminViews extends javax.swing.JFrame {
 
         btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnSimpan.setText("Simpan Baru");
-        btnSimpan.addActionListener(this::btnSimpanActionPerformed);
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnUpdate.setText("Update Data");
-        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
 
         btnHapus.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnHapus.setText("Hapus Pekerja");
-        btnHapus.addActionListener(this::btnHapusActionPerformed);
 
         javax.swing.GroupLayout panelFormLayout = new javax.swing.GroupLayout(panelForm);
         panelForm.setLayout(panelFormLayout);
@@ -247,121 +241,48 @@ public class AdminViews extends javax.swing.JFrame {
         pack();
     }
 
-    private void logToConsole(String message) {
-        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
-        txtConsole.append(String.format("[%s] %s\n", timestamp, message));
-        txtConsole.setCaretPosition(txtConsole.getDocument().getLength());
+    public JButton getBtnCari() {
+        return btnCari;
     }
 
-    private void clearForm() {
-        txtUserId.setText("");
-        txtUsername.setText("");
-        txtPassword.setText("");
-        txtLokasi.setText("");
-        comboRole.setSelectedIndex(0);
+    public JButton getBtnHapus() {
+        return btnHapus;
     }
 
-    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Logout dari Administrator System.");
-        this.dispose();
+    public JButton getBtnLogout() {
+        return btnLogout;
     }
 
-    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {
-        String targetId = txtUserId.getText().trim();
-        if (targetId.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Masukkan ID Pekerja terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        User user = userDao.getUserById(targetId);
-        if (user != null) {
-            txtUsername.setText(user.getUsername());
-            txtLokasi.setText(user.getLocation() != null ? user.getLocation() : "");
-            comboRole.setSelectedItem(user.getRole().substring(0, 1).toUpperCase() + user.getRole().substring(1).toLowerCase());
-            txtPassword.setText("");
-            logToConsole("DATA DITEMUKAN: " + user.getId() + " | " + user.getUsername());
-        } else {
-            logToConsole("DATA TIDAK DITEMUKAN: ID " + targetId + " fiktif.");
-            JOptionPane.showMessageDialog(this, "Pekerja tidak ditemukan di database.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-        }
+    public JButton getBtnSimpan() {
+        return btnSimpan;
     }
 
-    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {
-        String role = comboRole.getSelectedItem().toString().toLowerCase();
-        String username = txtUsername.getText().trim();
-        String password = new String(txtPassword.getPassword()).trim();
-        String lokasi = txtLokasi.getText().trim();
-
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Username dan Password wajib diisi untuk data baru!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if (lokasi.isEmpty() && !role.equals("kurir")) {
-            JOptionPane.showMessageDialog(this, "Lokasi wajib diisi untuk staf Loket dan Gudang!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String idBaru = GeneratorId.generateUserId(role);
-        String hashPass = HashUtil.hashSHA256(password);
-        String finalLokasi = (lokasi.isEmpty() && role.equals("kurir")) ? null : lokasi;
-
-        User userBaru = new User(idBaru, username, hashPass, role, finalLokasi);
-
-        if (userDao.insertUser(userBaru)) {
-            logToConsole("INSERT SUKSES: " + idBaru + " | " + username);
-            clearForm();
-        } else {
-            logToConsole("INSERT GAGAL: Kemungkinan username sudah dipakai.");
-        }
+    public JButton getBtnUpdate() {
+        return btnUpdate;
     }
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {
-        String targetId = txtUserId.getText().trim();
-        if (targetId.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Cari ID Pekerja terlebih dahulu sebelum melakukan update.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String role = comboRole.getSelectedItem().toString().toLowerCase();
-        String username = txtUsername.getText().trim();
-        String password = new String(txtPassword.getPassword()).trim();
-        String lokasi = txtLokasi.getText().trim();
-
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong saat update. Silakan ketik ulang password.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String finalLokasi = (lokasi.isEmpty() && role.equals("kurir")) ? null : lokasi;
-        String hashPass = HashUtil.hashSHA256(password);
-
-        User updatedUser = new User(targetId, username, hashPass, role, finalLokasi);
-
-        if (userDao.updateUser(updatedUser)) {
-            logToConsole("UPDATE SUKSES: Data untuk ID " + targetId + " telah diperbarui.");
-            clearForm();
-        } else {
-            logToConsole("UPDATE GAGAL: Terjadi kesalahan pada database.");
-        }
+    public javax.swing.JTextField getTxtUserId() {
+        return txtUserId;
     }
 
-    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {
-        String targetId = txtUserId.getText().trim();
-        if (targetId.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Masukkan ID Pekerja yang ingin dihapus.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    public javax.swing.JTextField getTxtUsername() {
+        return txtUsername;
+    }
 
-        int konfirmasi = JOptionPane.showConfirmDialog(this, "Hapus pekerja " + targetId + " secara permanen?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
-        if (konfirmasi == JOptionPane.YES_OPTION) {
-            if (userDao.deleteUser(targetId)) {
-                logToConsole("DELETE SUKSES: Pekerja " + targetId + " dihapus permanen.");
-                clearForm();
-            } else {
-                logToConsole("DELETE GAGAL: ID tidak ditemukan atau terikat pada data logistik.");
-            }
-        }
+    public javax.swing.JPasswordField getTxtPassword() {
+        return txtPassword;
+    }
+
+    public javax.swing.JTextField getTxtLokasi() {
+        return txtLokasi;
+    }
+
+    public javax.swing.JComboBox<String> getComboRole() {
+        return comboRole;
+    }
+
+    public javax.swing.JTextArea getTxtConsole() {
+        return txtConsole;
     }
 
     /**
@@ -369,16 +290,15 @@ public class AdminViews extends javax.swing.JFrame {
      * <h3>[KHUSUS TESTING] - Tampilan Dummy</h3>
      * <p> </p>
      *
-     *
+     * @param args - Deskripsi fungsi parameter ini
      * @author Orions29
      * @since 1 Jun 2026
-     * @param args - Deskripsi fungsi parameter ini
-     * */
+     *
+     */
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
 
         SwingUtilities.invokeLater(() -> {

@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
  * <p>
  * Halaman pelacakan resi untuk publik yang datang ke Loket or Gudang
@@ -41,7 +41,7 @@ public class TrackingViews extends javax.swing.JFrame {
 
         initComponents();
         setupEnterListener();
-
+        setupCameraListener();
     }
 
     /**
@@ -68,9 +68,10 @@ public class TrackingViews extends javax.swing.JFrame {
         lblTypePaket = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtRiwayat = new javax.swing.JTextArea();
+        btnCamera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("EMG Tracking System - Lacak Paket");
+        setTitle("EMR Tracking System - Lacak Paket");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -79,6 +80,11 @@ public class TrackingViews extends javax.swing.JFrame {
         panelSearch.setBorder(javax.swing.BorderFactory.createTitledBorder("Masukkan Nomor Resi"));
 
         txtResi.setFont(new java.awt.Font("Segoe UI", 1, 14));
+
+        btnCamera.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        btnCamera.setText("SCAN");
+        btnCamera.setToolTipText("Scan Barcode via Kamera");
+        btnCamera.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         btnTrack.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnTrack.setText("Cari Paket");
@@ -92,6 +98,8 @@ public class TrackingViews extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(txtResi)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCamera, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnTrack, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
@@ -101,6 +109,7 @@ public class TrackingViews extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtResi, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                        .addComponent(btnCamera, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                                         .addComponent(btnTrack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -211,6 +220,23 @@ public class TrackingViews extends javax.swing.JFrame {
         });
     }
 
+    private void setupCameraListener() {
+        btnCamera.addActionListener(e -> {
+            handleCameraScan();
+        });
+    }
+
+    private void handleCameraScan() {
+        com.github.orions29.ekspedisi.views.CameraScannerDialog dialog = 
+            new com.github.orions29.ekspedisi.views.CameraScannerDialog(this);
+        dialog.setVisible(true);
+        
+        String scannedResi = dialog.getScannedResult();
+        if (scannedResi != null && !scannedResi.trim().isEmpty()) {
+            txtResi.setText(scannedResi);
+        }
+    }
+
     private void btnTrackActionPerformed(java.awt.event.ActionEvent evt) {
         String resiId = txtResi.getText().trim();
 
@@ -281,7 +307,12 @@ public class TrackingViews extends javax.swing.JFrame {
         });
     }
 
+    public JButton getBtnCamera() {
+        return btnCamera;
+    }
+
     // Variables declaration
+    private javax.swing.JButton btnCamera;
     private javax.swing.JButton btnTrack;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

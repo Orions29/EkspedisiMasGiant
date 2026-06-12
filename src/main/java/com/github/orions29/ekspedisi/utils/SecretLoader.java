@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import io.github.cdimascio.dotenv.Dotenv;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.utils
  * <p>
  * Untuk memuat ENV di root project

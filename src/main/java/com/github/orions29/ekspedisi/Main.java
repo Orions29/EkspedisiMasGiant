@@ -7,33 +7,30 @@ import com.github.orions29.ekspedisi.views.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 import javax.swing.*;
 
 
 /**
- * Project: Ekspedisi Mas Giannt
+ * Project: Ekspedisi Mas Roi
  * Package: com.github.orions29.eskpedisi
  * <p>
  * Deskripsi fungsional dari file ini.
  * </p>
  *
  * <hr>
- * <table border="0">
- * <tr><td><b>Author</b></td><td>: Orions29</td></tr>
- * <tr><td><b>Date</b></td><td>: 15 May 2026</td></tr>
- * <tr><td><b>Time</b></td><td>: 22:05</td></tr>
- * </table>
+ * <b>Author</b>: Orions29
+ * <b>Date</b>: 15 May 2026
+ * <b>Time</b>: 22:05
  * <hr>
  *
  * @author Orions29
  * @since 1.0
  */
 public class Main {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(Main.class);
-//        Jalanin Project Init Recheck
-        ProjectInit.projectCheck();
-
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -42,10 +39,13 @@ public class Main {
             System.err.println("[VIEWS ERROR] - Gagal estetik cahhhhhhhhhhhhhhhhhh lookAndFeel");
         }
 
+//        Jalanin Project Init Recheck
+//        Jalankan Project Check
+        ProjectInit.main(args);
 
-// Pake Invokelater untuk membuat GUI di thread yang berbeda
+        // Pake Invokelater untuk membuat GUI di thread yang berbeda
         SwingUtilities.invokeLater(() -> {
-            javax.swing.JFrame frame = new javax.swing.JFrame("EMG Tracking System - Login");
+            javax.swing.JFrame frame = new javax.swing.JFrame("EMR Tracking System - Login");
             LoginView loginView = new LoginView();
 
             new LoginController(loginView);

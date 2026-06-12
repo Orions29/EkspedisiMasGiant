@@ -2,11 +2,12 @@ package com.github.orions29.ekspedisi.utils;
 
 import com.github.orions29.ekspedisi.model.dao.*;
 import com.github.orions29.ekspedisi.model.entity.*;
+import com.github.orions29.ekspedisi.utils.business.GeneratorId;
 
 import java.util.List;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.utils
  * <p>
  * Class buat ngetest apakah sambungan ke database ini ok ok aja bisa jalan

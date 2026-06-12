@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
  * <p>
  * Login View
@@ -43,9 +43,9 @@ public class LoginView extends javax.swing.JPanel {
 
             java.awt.Image resizedImage = originalImage.getScaledInstance(220, 220, java.awt.Image.SCALE_SMOOTH);
 
-            gambarEMG.setIcon(new javax.swing.ImageIcon(resizedImage));
+            gambarEMR.setIcon(new javax.swing.ImageIcon(resizedImage));
 //            Biar nama gambar ga msuk
-            gambarEMG.setText("");
+            gambarEMR.setText("");
         } else {
             System.out.println("Gagal memuat gambar, File tidak ditemukan di: " + fileGambar.getAbsolutePath());
         }
@@ -102,7 +102,7 @@ public class LoginView extends javax.swing.JPanel {
         passwordLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         systemTime = new javax.swing.JLabel();
-        gambarEMG = new javax.swing.JLabel();
+        gambarEMR = new javax.swing.JLabel();
 
         jLabel4.setText("jLabel4");
 
@@ -110,29 +110,19 @@ public class LoginView extends javax.swing.JPanel {
         usernameLabel.setText("Username");
 
         loginButton.setText("Login");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
-            }
-        });
 
         trackButton.setText("Tracking Paket");
 
-        usernameInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameInputActionPerformed(evt);
-            }
-        });
 
         passwordLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         passwordLabel.setText("Password");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setText("EMG Tracking System");
+        jLabel3.setText("EMR Tracking System");
 
 
-        gambarEMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gambarEMG.setText("[Logo Tempat Gambar]");
+        gambarEMR.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gambarEMR.setText("[Logo Tempat Gambar]");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -140,7 +130,7 @@ public class LoginView extends javax.swing.JPanel {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(43, 43, 43)
-                                .addComponent(gambarEMG, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(gambarEMR, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(41, 41, 41)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
@@ -182,19 +172,11 @@ public class LoginView extends javax.swing.JPanel {
                                                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(trackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(gambarEMG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(gambarEMR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(63, 63, 63))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
-    //    GA Kepake, Udah di buat event handler di Login Controller
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-    }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameInputActionPerformed
 
     /**
      *
@@ -233,7 +215,7 @@ public class LoginView extends javax.swing.JPanel {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                javax.swing.JFrame frame = new javax.swing.JFrame("EMG Tracking System - Login");
+                javax.swing.JFrame frame = new javax.swing.JFrame("EMR Tracking System - Login");
                 frame.setContentPane(new LoginView());
                 frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
                 frame.pack();
@@ -260,7 +242,7 @@ public class LoginView extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel gambarEMG;
+    private javax.swing.JLabel gambarEMR;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JButton loginButton;

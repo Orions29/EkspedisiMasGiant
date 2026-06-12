@@ -1,6 +1,5 @@
 package com.github.orions29.ekspedisi.views;
 
-import com.github.orions29.ekspedisi.controller.LoginController;
 import com.github.orions29.ekspedisi.model.entity.User;
 
 import org.slf4j.Logger;
@@ -12,7 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.views
  * <p>
  * Antarmuka untuk Staf Gudang dengan injeksi DNA User absolut.
@@ -70,6 +69,8 @@ public class GudangViews extends javax.swing.JFrame {
         panelOperasi = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         txtResi = new javax.swing.JTextField();
+        btnCamera = new javax.swing.JButton();
+
         jLabel5 = new javax.swing.JLabel();
         comboStatus = new javax.swing.JComboBox<>();
         btnUpdate = new javax.swing.JButton();
@@ -78,8 +79,10 @@ public class GudangViews extends javax.swing.JFrame {
         txtConsole = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
 
+        btnCekPaketDiGudang = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("EMG Tracking System - Fasilitas Gudang");
+        setTitle("EMR Tracking System - Fasilitas Gudang");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18));
         jLabel1.setText("Panel Gudang Ekspedisi");
@@ -87,7 +90,6 @@ public class GudangViews extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12));
         jLabel2.setText("Petugas :");
 
-        // UI langsung merender data dari RAM (Tidak ada lagi hardcode!)
         labelUsername.setText(loggedInUser.getUsername() + " (" + loggedInUser.getId() + ")");
 
         labelLokasi.setFont(new java.awt.Font("Segoe UI", 2, 12));
@@ -103,18 +105,25 @@ public class GudangViews extends javax.swing.JFrame {
 
         txtResi.setFont(new java.awt.Font("Consolas", 1, 16));
 
+        btnCamera.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        btnCamera.setText("SCAN");
+        btnCamera.setToolTipText("Scan Barcode via Kamera");
+        btnCamera.setMargin(new java.awt.Insets(2, 2, 2, 2));
+
         jLabel5.setText("Set Status Berikutnya:");
 
         comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{
-                "Tiba di Fasilitas Sortir",
+                "Diterima Gudang",
                 "Sedang Disortir",
-                "Transit Gudang",
-                "Diserahkan ke Kurir"
+                "Transit Gudang"
         }));
 
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12));
         btnUpdate.setText("Update Status Logistik [ENTER]");
+
+        btnCekPaketDiGudang.setFont(new java.awt.Font("Segoe UI", 1, 12));
+        btnCekPaketDiGudang.setText("Cek Paket Di Gudang");
 
         javax.swing.GroupLayout panelOperasiLayout = new javax.swing.GroupLayout(panelOperasi);
         panelOperasi.setLayout(panelOperasiLayout);
@@ -124,10 +133,16 @@ public class GudangViews extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnCekPaketDiGudang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(panelOperasiLayout.createSequentialGroup()
                                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(jLabel4)
-                                                        .addComponent(txtResi, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(panelOperasiLayout.createSequentialGroup()
+                                                                .addComponent(txtResi, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(btnCamera, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        )
+                                                )
                                                 .addGap(18, 18, 18)
                                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(panelOperasiLayout.createSequentialGroup()
@@ -146,10 +161,14 @@ public class GudangViews extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelOperasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtResi, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                        .addComponent(btnCamera, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                                         .addComponent(comboStatus))
                                 .addGap(18, 18, 18)
                                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCekPaketDiGudang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        )
         );
 
         txtConsole.setEditable(false);
@@ -253,6 +272,14 @@ public class GudangViews extends javax.swing.JFrame {
         });
     }
 
+    public JButton getBtnCekPaketDiGudang() {
+        return btnCekPaketDiGudang;
+    }
+
+    public JButton getBtnCamera() {
+        return btnCamera;
+    }
+
     public JButton getBtnLogout() {
         return btnLogout;
     }
@@ -274,6 +301,8 @@ public class GudangViews extends javax.swing.JFrame {
     }
 
     // Variables declaration
+    private javax.swing.JButton btnCekPaketDiGudang;
+    private javax.swing.JButton btnCamera;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> comboStatus;

@@ -1,6 +1,7 @@
 package com.github.orions29.ekspedisi.model.dao;
 
 import com.github.orions29.ekspedisi.model.DatabaseConfig;
+import com.github.orions29.ekspedisi.model.entity.PaketDTO;
 import com.github.orions29.ekspedisi.model.entity.ShipmentLog;
 
 import org.slf4j.Logger;
@@ -10,11 +11,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
- * Project: EkspedisiMasGiant
+ * Project: EkspedisiMasRoi
  * Package: com.github.orions29.ekspedisi.model.dao
  * <p>
  * Implementasi bare-metal DAO untuk riwayat Tracking.
@@ -100,35 +100,111 @@ public class TrackingDAOMariaDb implements TrackingDAO {
     }
 
     @Override
-    public List<String> getResiByLatestStatusAndUser(String targetStatus, String userId) {
-        List<String> listResi = new ArrayList<>();
+    public List<PaketDTO> getResiByMultipleLatestStatuses(List<String> targetStatuses, String userId) {
+        List<PaketDTO> daftarResi = new ArrayList<>();
 
-        String querySql = "SELECT t1.resi_id " +
+
+        if (targetStatuses == null || targetStatuses.isEmpty()) {
+            return daftarResi;
+        }
+
+        String placeholders = String.join(",", Collections.nCopies(targetStatuses.size(), "?"));
+
+        String sql = "SELECT t1.resi_id, t1.status, p.receiver_name, p.destination_city " +
                 "FROM tracking_logs t1 " +
                 "INNER JOIN (" +
                 "    SELECT resi_id, MAX(log_id) as max_id " +
                 "    FROM tracking_logs " +
                 "    GROUP BY resi_id" +
                 ") t2 ON t1.log_id = t2.max_id " +
+                "INNER JOIN paket p ON t1.resi_id = p.resi_id " +
+                "WHERE t1.status IN (" + placeholders + ") AND t1.user_id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            int index = 1;
+            for (String status : targetStatuses) {
+                pstmt.setString(index++, status);
+            }
+
+            pstmt.setString(index, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    PaketDTO paket = new PaketDTO(
+                            rs.getString("resi_id"),
+                            rs.getString("status"),
+                            rs.getString("receiver_name"),
+                            rs.getString("destination_city")
+                    );
+                    daftarResi.add(paket);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("[QUERY ERROR] Fatal: Gagal Menarik Data Resi All (Multiple Status)");
+            logger.error("[QUERY ERROR] - Error: " + e.getMessage());
+        }
+
+        return daftarResi;
+    }
+
+    @Override
+    public List<PaketDTO> getAllPaketByStatus(String targetStatus, String userId) {
+        List<PaketDTO> daftarPaket = new ArrayList<>();
+
+        String sql = "SELECT t1.resi_id, t1.status, p.receiver_name, p.destination_city " +
+                "FROM tracking_logs t1 " +
+                "INNER JOIN (" +
+                "    SELECT resi_id, MAX(log_id) as max_id " +
+                "    FROM tracking_logs GROUP BY resi_id" +
+                ") t2 ON t1.log_id = t2.max_id " +
+                "INNER JOIN paket p ON t1.resi_id = p.resi_id " +
                 "WHERE t1.status = ? AND t1.user_id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(querySql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, targetStatus);
             pstmt.setString(2, userId);
 
-            try (java.sql.ResultSet rs = pstmt.executeQuery()) {
+            try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    listResi.add(rs.getString("resi_id"));
+                    PaketDTO paket = new PaketDTO(
+                            rs.getString("resi_id"),
+                            rs.getString("status"),
+                            rs.getString("receiver_name"),
+                            rs.getString("destination_city")
+                    );
+                    daftarPaket.add(paket);
                 }
             }
-
         } catch (java.sql.SQLException e) {
-            System.err.println("[QUERY ERROR] -  Error saat Menarik Paket Kurir");
-            e.printStackTrace();
+            System.err.println("[QUERRY ERROR] Error: Gagal Menarik Data Resi All");
+            logger.error("[QUERY ERROR] - Gagal menarik data paket: {}", e.getMessage());
         }
+        return daftarPaket;
+    }
 
-        return listResi;
+    @Override
+    public String getLatestPaketStatusByResi(String resiId) {
+        String querySql = "SELECT status FROM tracking_logs WHERE resi_id = ? ORDER BY timestamp DESC LIMIT 1";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(querySql)) {
+
+            pstmt.setString(1, resiId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getString("status");
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            System.err.println("[QUERRY ERROR] Error: Gagal Menarik Status Paket");
+            logger.error("[QUERY ERROR] - Gagal menarik Status paket: {}", e.getMessage());
+        }
+        return null;
     }
 }

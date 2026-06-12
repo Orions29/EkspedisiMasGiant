@@ -4,16 +4,16 @@ plugins {
 }
 
 group = "com.github.orions29.ekspedisi"
-version = "1.0-SNAPSHOT"
+version = "2.0.0"
 
 repositories {
     mavenCentral()
 }
 
-// Biar Bisa Jalan di Semua Mesin
-java {
+// Version Untuk di Build
+java{
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -36,22 +36,37 @@ dependencies {
 // Database
     // Source: https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
     implementation("org.mariadb.jdbc:mariadb-java-client:3.5.8")
+
+// QR Code Generator (ZXing)
+    implementation("com.google.zxing:core:3.5.3")
+    implementation("com.google.zxing:javase:3.5.3")
+
+// Webcam Capture
+    implementation("com.github.sarxos:webcam-capture:0.3.12")
+    implementation("com.github.sarxos:webcam-capture-driver-openimaj:0.3.12")
 }
 
-tasks.withType<Jar> {
-    manifest {
-        attributes(
-            "Main-Class" to "com.github.orions29.ekspedisi.Main"
-        )
+
+//Mengatur Dist task agar file .env otomatis masuk ke folder distribusi bawaan
+distributions {
+    main {
+        contents {
+            from(layout.projectDirectory) {
+                include(".env", "assets/**", "native/**")
+                // Memasukkannya ke dalam folder bin agar sejajar dengan script .bat
+                into("bin")
+
+            }
+        }
     }
-
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
+
+
 
 application {
     mainClass.set("com.github.orions29.ekspedisi.Main")
+    // Diperlukan agar BridJ (OpenImajDriver) bisa load native library
+    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
 }
 
 

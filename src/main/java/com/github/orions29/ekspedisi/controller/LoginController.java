@@ -3,8 +3,11 @@ package com.github.orions29.ekspedisi.controller;
 import com.github.orions29.ekspedisi.model.dao.UserDAO;
 import com.github.orions29.ekspedisi.model.dao.UserDAOMariaDb;
 import com.github.orions29.ekspedisi.model.entity.User;
-import com.github.orions29.ekspedisi.utils.HashUtil;
+import com.github.orions29.ekspedisi.utils.business.HashUtil;
 import com.github.orions29.ekspedisi.views.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 
@@ -20,6 +23,7 @@ import javax.swing.*;
  */
 public class LoginController {
 
+    private Logger logger = LoggerFactory.getLogger(LoginController.class);
     private LoginView view;
     private UserDAO userDAO;
 
@@ -115,6 +119,8 @@ public class LoginController {
         String role =
                 user.getRole(); // ngambil role  user
 
+        logger.info("USER LOGGED IN : [{}] - {}", user.getId(), user.getUsername());
+
         switch (role.toLowerCase()) {
 
             case "loket": // role user loket maka akan diarahkan ke dashboard outlet
@@ -127,7 +133,7 @@ public class LoginController {
                         user
                 );
 
-                loketViews.setTitle("EMG Tracking System - Loket");
+                loketViews.setTitle("EMR Tracking System - Loket");
                 loketViews.setLocationRelativeTo(null); // window middle
                 loketViews.setVisible(true); // nampilin dashboard loket/outlet
 
@@ -147,7 +153,7 @@ public class LoginController {
                         user
                 );
 
-                gudangViews.setTitle("EMG Tracking System - Gudang");
+                gudangViews.setTitle("EMR Tracking System - Gudang");
                 gudangViews.setLocationRelativeTo(null); // posisi layar ditengah
                 gudangViews.setVisible(true); // menampilkan halaman gudang
 
@@ -167,7 +173,7 @@ public class LoginController {
                         user
                 );
 
-                kurirViews.setTitle("EMG Tracking System - Kurir");
+                kurirViews.setTitle("EMR Tracking System - Operasional Kurir");
                 kurirViews.setLocationRelativeTo(null); // set layar ditengah
                 kurirViews.setVisible(true); // menampilkan halaman kurir
 
@@ -177,14 +183,15 @@ public class LoginController {
 
                 break;
 
-// TODO Admin roi
             case "admin":   // jika role admin maka akan diarahkan ke dashboard admin (under maintenance)
-                // disimpan untuk PBO materi
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Login admin berhasil!"
-                );
-
+                AdminViews adminViews = new AdminViews(user);
+                new AdminController(adminViews, user);
+                adminViews.setTitle("EMR Tracking System - Admin");
+                adminViews.setLocationRelativeTo(null);
+                adminViews.setVisible(true);
+                SwingUtilities
+                        .getWindowAncestor(view)
+                        .dispose();
                 break;
 
             default:            // jika role tidak sesuai maka akan muncul error log
