@@ -7,6 +7,8 @@ import com.github.orions29.ekspedisi.views.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 import javax.swing.*;
 
 
@@ -27,10 +29,8 @@ import javax.swing.*;
  * @since 1.0
  */
 public class Main {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(Main.class);
-//        Jalanin Project Init Recheck
-        ProjectInit.projectCheck();
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -39,8 +39,11 @@ public class Main {
             System.err.println("[VIEWS ERROR] - Gagal estetik cahhhhhhhhhhhhhhhhhh lookAndFeel");
         }
 
+//        Jalanin Project Init Recheck
+//        Jalankan Project Check
+        ProjectInit.main(args);
 
-// Pake Invokelater untuk membuat GUI di thread yang berbeda
+        // Pake Invokelater untuk membuat GUI di thread yang berbeda
         SwingUtilities.invokeLater(() -> {
             javax.swing.JFrame frame = new javax.swing.JFrame("EMR Tracking System - Login");
             LoginView loginView = new LoginView();
